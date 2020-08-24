@@ -62,3 +62,6 @@ source_parsers = {
 }
 
 source_suffix = ['.rst', '.md']
+
+# Setting the document root
+master_doc = "index"
