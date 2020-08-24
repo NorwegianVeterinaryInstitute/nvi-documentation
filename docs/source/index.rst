@@ -9,6 +9,7 @@ work with data analysis in various forms at the NVI.
    :titlesonly:
    :caption: Documentation overview
 
+   about
    license
 
 .. toctree::
