@@ -10,10 +10,8 @@ Note, in order to get and maintain access it is very important to
 register all scientific publications that are a result of use of Saga and other
 resources. Thus, please do the following:
 
-* [Please report the use of Sigma2 in Cristin, as described here]
-(https://www.sigma2.no/reporting-usage-through-cristin)
-* [Please include the following acknowledgement in your paper]
-(https://www.sigma2.no/acknowledgements)
+* [Please report the use of Sigma2 in Cristin, as described here](https://www.sigma2.no/reporting-usage-through-cristin)
+* [Please include the following acknowledgement in your paper](https://www.sigma2.no/acknowledgements)
 * Please report any papers, posters and other publications to the local admins.
 
 
