@@ -1,4 +1,4 @@
-# Tutorial on removing contamination from NGS sequence data
+# How to remove contamination from NGS sequence data
 
 ## Tutorial datasets
 The data for this tutorial can be found on Saga in the folder: 
