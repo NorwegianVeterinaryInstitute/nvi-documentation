@@ -28,6 +28,43 @@ For more on python virtual environments check here: * [Python virtual environmen
   
 In recent years using virtual environments has improved and now multiple system exists that helps users to manage virtual environments. On Saga we use the conda system, and see for more here: [Conda virtual environments](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). In order to use this it is needed to set-up the conda system so you can use it to run special software, such as the bifrost pipeline, or ncbi-genome-download.
 
+## How to set up conda for project nn9305K
+In order to access the installed conda environments within the conda project you need to modify a file located in your “home” area on Saga, e.g. the directory where you are when you log into Saga.
+
+Check if you have one of the following files in your login directory on Saga (/cluster/home/YOUR_USERNAME) :
+
+.bash_login or .bash_profile.
+
+The command to use is: ls -a
+
+When you have one of these files (and only one is needed !!!) , then open the file with nano to add the lines indicated in point 4, else go to point 3.
+When you do not have one of these files in your login directory, then copy the example file to your login directory. Make sure you are in your login directory on abel before running the following command:
+
+rsync /cluster/projects/nn9305k/samplefiles/bash_profile .bash_profile
+Then add the following lines when they are not present in the file with the command: `nano .bash_login
+
+  export PATH="/cluster/projects/nn9305k/src/miniconda/bin/:$PATH"
+	
+  . /cluster/projects/nn9305k/src/miniconda/etc/profile.d/conda.sh
+  
+save and close the file.
+log out of Saga and login again.
+To check if conda is present in memory type: conda info, that should give output on screen that starts with the line:
+
+    active environment : None The rest of that overview is a summary of the current settings for the conda environment.
+To see which conda environments are present type: conda env list.
+Loading the ncbidown environment to download genomes from the NCBI databases:
+
+ conda activate ncbidown  This should give you a prompt that starts with the following:  ```(ncbidown) ```.
+Deactivate the environment: conda deactivate.
+
+Now one last check, in some cases it is needed to activate your conda environment in a slightly different manner, so type now on the command line: source activate ncbidown.
+
+If this again activates the ncbidownenvironment, than your conda set-up was correct. You can deactivate this environment with either: source deactivate or conda deactivate.
+
+Now you are all set to use the different conda environments available on the nn9305k project.
+  
+  
 ## Obtaining multiple genomes from NCBI database
 
 ## Processing multiple datasets in parallel
