@@ -26,7 +26,7 @@ Note however, that when you load multiple different modules, it can happen that 
 
 For more on python virtual environments check here: * [Python virtual environments](https://realpython.com/python-virtual-environments-a-primer/)
   
-In recent years using virtual environments has improved and now multiple system exists that helps users to manage virtual environments. On Abel we use the conda system, and see for more here: Conda virtual environments. In order to use this it is needed to set-up the conda system so you can use it to run special software, such as the bifrost pipeline, or ncbi-genome-download.
+In recent years using virtual environments has improved and now multiple system exists that helps users to manage virtual environments. On Saga we use the conda system, and see for more here: [Conda virtual environments](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). In order to use this it is needed to set-up the conda system so you can use it to run special software, such as the bifrost pipeline, or ncbi-genome-download.
 
 ## Obtaining multiple genomes from NCBI database
 
