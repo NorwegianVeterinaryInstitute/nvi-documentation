@@ -96,6 +96,14 @@ that will create a prompt on your screen that looks something like this:
 This would download for all 482 genomes the genbank flatfiles (extension: *.gbff.gz). However, many of these genomes are not finished genomes. If you want to only have genomes that are complete and only in FASTA format (e.g. without any annotations), than use the following command:
 
 	ncbi-genome-download --format fasta --assembly-level complete --genus "Staphylococcus epidermidis" bacteria
+
+#### Downloading multiple species
+
+	It could be interesting to compare the pangenomes of Staphylococcus aureus with Staphylococcus epidermidis. Thus we need to download the genomes of both species. We can use the taxon ids for both species, which are found here:
+
+	ncbi-genome-download --taxid 1280,1282  --assembly-level complete bacteria
+
+For more examples please visit the page of the program [ncbi-genome-download](https://github.com/kblin/ncbi-genome-download)
 	
 ## Processing multiple datasets in parallel
 
