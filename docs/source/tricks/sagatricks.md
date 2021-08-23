@@ -210,3 +210,19 @@ Here are the example files in Saga:
 	/cluster/projects/nn9305k/samplefiles/ 
 	
 ## Sharing / downloading data with filesender2
+
+We have been working for some time with the biolinux virtualmachine on our Windows laptops. One thing that makes life a lot easier is when we can share files between the Windows host and the linux guest system.
+	
+In a lot of projects it is important to be able to share sequence data. The University of Oslo has a system in place that can help you share data between yourself and collaborators in the rest of the world. You find it at: https://filesender2.uio.no/. It is very easy to use and the filesize seems unlimited. What is not so easy to do is to get the data that was uploaded to filesender, downloaded straight to Abel.
+
+Here is my recipe for when people send me large sequence data and I want to use it on Abel.
+
+Login to filesender2 and send out a request for data, unclick the box to allow for more uploads per link (in case your collaborators fail to put everything in one tar file.
+	
+Collaborator uploads one or more files to the fileserver2 and you get a notification in your mailbox.
+In the notification mail that data is uploaded, Follow the link to the data for download in your webbrowser. It opens a page on the filesender webpage.
+Go to the file you want to download and “right” click the download box and copy the link address.
+In your Terminal, go to abel and the location where you want to store the data. Somewhere on /cluster/projects/nn9305k/:
+Then type in the terminal: wget -O myfile.data and paste the link address from 4 at the end but within quotations marks. like this: wget -O large_genome.gz "YOURLINK"
+Than the data is downloaded to a file with the filename given in 6.
+Note, that you can download multiple file in one go as a zip file by scrolling to the bottom of the file list and copy the link produced by the box: Download as single (.zip) file
