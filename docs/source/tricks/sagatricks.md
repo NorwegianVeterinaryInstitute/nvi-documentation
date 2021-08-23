@@ -166,8 +166,6 @@ Inside the Slurm script you define which datasets are analyzed for each job that
 
 With the variable $CURRENT_FILE you can then start for instance a job to run Fastqc
 
-Here is an example script: sbatch_array_example_script.slurm.
-
 ### 3. Use the Arrayrun command
 This latest command is used in a masterscript and it will start an X amount jobs using a workerscript to analyze a dataset. If functions in a similar way as the previous example, but the set-up is slightly different.
 
@@ -208,6 +206,7 @@ WORKER script:
 
 This set-up allows one to analyze an unknown amount of datasets. At least you do not have to determine it yourself.
 
-Here are the example files:
+Here are the example files in Saga: 
+	/cluster/projects/nn9305k/samplefiles/ 
 	
 ## Sharing / downloading data with filesender2
