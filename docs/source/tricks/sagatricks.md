@@ -43,15 +43,16 @@ When you do not have one of these files in your login directory, then copy the e
 rsync /cluster/projects/nn9305k/samplefiles/bash_profile .bash_profile
 Then add the following lines when they are not present in the file with the command: `nano .bash_login
 
-  export PATH="/cluster/projects/nn9305k/src/miniconda/bin/:$PATH"
+	export PATH="/cluster/projects/nn9305k/src/miniconda/bin/:$PATH"
 	
-  . /cluster/projects/nn9305k/src/miniconda/etc/profile.d/conda.sh
+	. /cluster/projects/nn9305k/src/miniconda/etc/profile.d/conda.sh
   
 save and close the file.
 log out of Saga and login again.
 To check if conda is present in memory type: conda info, that should give output on screen that starts with the line:
 
     active environment : None The rest of that overview is a summary of the current settings for the conda environment.
+	
 To see which conda environments are present type: conda env list.
 Loading the ncbidown environment to download genomes from the NCBI databases:
 
