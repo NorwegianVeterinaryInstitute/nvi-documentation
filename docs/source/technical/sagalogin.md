@@ -70,8 +70,8 @@ If you want to use putty
 * If you got the local priviledges you can install it on your PC
 * otherwise use the self-service for software
 * Hit the windows button on your keyboard (to the left of the spacebar) and type in ```putty```
-* Click on the presented icon on the start menu![Screenshot 2021-08-23 140112](https://user-images.githubusercontent.com/77984068/130443773-2f35c3af-267f-4d99-bbd8-22b31e4cabbf.png)
-* When PuTTY starts, type ```saga.sigma2.no``` in the textbox where it says "Host Name or IP address".![Screenshot 2021-08-23 140148](https://user-images.githubusercontent.com/77984068/130443797-ceb1a7db-526b-45b7-93d1-a1447e8085c9.png)
+* Click on the presented icon on the start menu ![Screenshot 2021-08-23 140112](https://user-images.githubusercontent.com/77984068/130443773-2f35c3af-267f-4d99-bbd8-22b31e4cabbf.png)
+* When PuTTY starts, type ```saga.sigma2.no``` in the textbox where it says "Host Name or IP address". ![Screenshot 2021-08-23 140148](https://user-images.githubusercontent.com/77984068/130443797-ceb1a7db-526b-45b7-93d1-a1447e8085c9.png)
 
 If you use `git bash`
 
@@ -82,7 +82,7 @@ If you use `git bash`
 If you want to use the Windows Subsystem for Linux
 * Have IT install it for you
 * Ask IT to also install the [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701)
-* Click on the Windows Terminal Icon![Screenshot 2021-08-23 140630](https://user-images.githubusercontent.com/77984068/130444354-13bb89ea-850d-4edb-83f1-f01a818a1e9e.png)
+* Click on the Windows Terminal Icon ![Screenshot 2021-08-23 140630](https://user-images.githubusercontent.com/77984068/130444354-13bb89ea-850d-4edb-83f1-f01a818a1e9e.png)
 * Type in the following command on the command line that appears:
   ```ssh saga.sigma2.no```
 
