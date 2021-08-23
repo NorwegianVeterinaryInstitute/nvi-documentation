@@ -67,7 +67,36 @@ Now you are all set to use the different conda environments available on the nn9
   
   
 ## Obtaining multiple genomes from NCBI database
+	
+Downloading one genome from the NCBI database is relatively easy and can be done with help of a webbrowser and the following webpages:
 
+* https://www.ncbi.nlm.nih.gov/genome/microbes/
+* https://www.ncbi.nlm.nih.gov/genome/browse#!/prokaryotes/
+
+However, in order to download multiple genome from the NCBI webpages takes more effort. See also the section above on Conda virtual environments. Conda needs to be set-up correctly for this to work.
+
+### How to download multiple genomes
+This page is based on the work of Kai Bling: https://github.com/kblin/ncbi-genome-download. We recommend that you visit his github repository for seeing an extended list of examples on how to download microbial genomes from the NCBI web page.
+
+Here we describe how you can use it on the abel cluster, when using the Veterinary Institute installation of the NCBI-genome-download scripts.
+
+In order to be able to download bacterial genomes to your directory of choice, you first need to start the conda environment that contains the scripts.
+
+#### Activating the environment
+	conda activate ncbidown
+
+that will create a prompt on your screen that looks something like this:
+
+	(nbcidown) thhaverk@login-0-0
+
+#### Downloading all Staphylococcus epidermidis genomes from refseq
+
+	ncbi-genome-download --genus "Staphylococcus epidermidis" bacteria
+
+This would download for all 482 genomes the genbank flatfiles (extension: *.gbff.gz). However, many of these genomes are not finished genomes. If you want to only have genomes that are complete and only in FASTA format (e.g. without any annotations), than use the following command:
+
+	ncbi-genome-download --format fasta --assembly-level complete --genus "Staphylococcus epidermidis" bacteria
+	
 ## Processing multiple datasets in parallel
 
 ## Sharing / downloading data with filesender2
