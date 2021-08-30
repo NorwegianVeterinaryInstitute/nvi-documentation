@@ -45,7 +45,7 @@ working experience on saga.
 
 The instructions are to be found in this file:
 
-`/cluster/projects/nn9305k/samplefiles/new_user.txt`
+```/cluster/projects/nn9305k/samplefiles/new_user.txt```
 
 Please do what is in that file, before doing anything else on the cluster.
 
@@ -58,17 +58,47 @@ window:
 
 * Use the program putty (not recommended)
 * Use the program called `git bash` (recommended)
+* Use the [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) (recommended for advanced users
 * Have a virtual machine (vm) on which you have linux, which has a terminal (other
   parts of this documentation contains information about this)
+* Install the NVI Linux installation to install Linux on your laptop (recommended for people who want to try Linux)
 
-This description is based on you using either `git bash` or a vm.
+If you want to use putty
 
-* Open git bash (or a terminal window)
+* Download putty from [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+* You are looking for the *64-bit x86* version
+* If you got the local priviledges you can install it on your PC
+* otherwise use the self-service for software
+* Hit the windows button on your keyboard (to the left of the spacebar) and type in ```putty```
+* Click on the presented icon on the start menu ![Screenshot 2021-08-23 140112](https://user-images.githubusercontent.com/77984068/130443773-2f35c3af-267f-4d99-bbd8-22b31e4cabbf.png)
+* When PuTTY starts, type ```saga.sigma2.no``` in the textbox where it says "Host Name or IP address". ![Screenshot 2021-08-23 140148](https://user-images.githubusercontent.com/77984068/130443797-ceb1a7db-526b-45b7-93d1-a1447e8085c9.png)
+
+If you use `git bash`
+
+* Open git bash
 * Type in the following command on the command line that appears:
-  `ssh saga.sigma2.no`
+  ```ssh saga.sigma2.no```
 
-You are now using a program that is called `ssh` to create a tunnel through
-the internet between your computer and Saga.
+If you want to use the Windows Subsystem for Linux
+* Have IT install it for you
+* Ask IT to also install the [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701)
+* Click on the Windows Terminal Icon ![Screenshot 2021-08-23 140630](https://user-images.githubusercontent.com/77984068/130444354-13bb89ea-850d-4edb-83f1-f01a818a1e9e.png)
+* Type in the following command on the command line that appears:
+  ```ssh saga.sigma2.no```
+
+If you want to use a Linux Virtual machine 
+* TBA
+
+If you want to use the NVI Linux
+* Contact IT to help you
+ 
+
+In all cases are now using a program that is called `ssh` to create a connection through
+the internet between your computer and Saga. This program is intended to emulate an old
+typewriter on a graphical environment. All the processing you will do in Saga is text.
 
 Once you have typed in your password, you will now be on Saga. Anything you type
 in on the command line now will happen on Saga.
+
+## If you are tired of typing your password
+There are ways to connect to saga without typing a password. You can read about that in the section for the [advanced ssh usage](Advanced_ssh_usage)
