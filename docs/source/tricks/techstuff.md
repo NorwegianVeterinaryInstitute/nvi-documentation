@@ -7,8 +7,6 @@
 
 ### Virtualbox biolinux tricks
 * [Changing your login shell](#Changing-your-login-shell)
-* [Sharing data via a shared folder](#Sharing-data-via-a-shared-folder)
-
 
 ## [Using screen](#using-screen) to avoid dropped connections
 
