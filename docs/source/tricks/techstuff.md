@@ -3,9 +3,7 @@
 ### Abel cluster command line tricks
 * [Using screen to avoid dropped connections](#Using-screen-to-avoid-dropped-connections)
 * [Conda virtual environments](#Conda-virtual-environments)
-* [Obtaining multiple genomes from NCBI database](#Obtaining-multiple-genomes-from-NCBI-database)
 * [Processing multiple datasets in parallel](#Processing-multiple-datasets-in-Parallel)
-* [Sharing / downloading data with filesender2](#Downloading-data-from-filesender2)
 
 ### Virtualbox biolinux tricks
 * [Installing Jupyter notebook and Rstudio](#Installing-Jupyter-notebook-and-Rstudio)
