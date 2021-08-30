@@ -17,3 +17,17 @@ Below you find instructions on how to set-up a shared folder that can be used to
 * Add your folder: `VM_shared_folder`, to the Folder Pathbox.
 * Click the `Auto-mount` and Make Permanent boxes.
 * Close the window by clicking `OK`. Your shared folder is now set-up on the host.
+* Start your Virtualmachine
+
+### Setting up the Virtualmachine
+* Make sure you are logged in as the system manager
+* open a terminal and type the following `cd /media`
+* In this folder you will find a folder starting with sf_ and than the folder name you used. In my case it is: `sf_VM_shared_folder`
+* This folder is accessible by the system manager only, so we need to add our own username on the biolinux to the group of people that can access this folder.
+* Type on the commandline:
+  `sudo adduser YOUR_USER_NAME vboxsf`
+* Now login with your user account and go the folder: `/media/sf_VM_shared_folder` and check that you can access the folder. The easiest way to test that sharing is working is to create a text document in this folder.
+* The final step is to make a symbolic link from your desktop to the shared folder. Go to your desktop folder while using the terminal, and then type:
+  `ln -s /media/sf_VM_shared_folder ./`
+
+Now you are all set. Happy sharing.
