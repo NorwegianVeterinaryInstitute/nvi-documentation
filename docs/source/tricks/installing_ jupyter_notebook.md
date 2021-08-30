@@ -3,9 +3,7 @@ Jupyter notebook is included in the Anaconda python package. To make things easi
 
 * Open a browser.
 
-* Go to this link:
-
-https://www.anaconda.com/download/#linux
+* Go to this link: https://www.anaconda.com/download/#linux
 
 * Click the green download button that is under the text “Python 3.6 version”
 
@@ -13,13 +11,7 @@ https://www.anaconda.com/download/#linux
 
 * Wait for it to download
 
-* Once the download is done, open a terminal and cd into the directory it was downloaded to, most likely ‘Downloads’. Use ls to ensure that you have a file named Anaconda3-5.0.1-Linux-x86_64.sh in that directory.
-
-type in `source Anaconda3-5.0.1-Linux-x86_64.sh` and hit enter.
-
-Note: for some people it will complain and not proceed. If so, try doing
-
-`bash Anaconda3-5.0.1-Linux-x86_64.sh` instead.
+* Once the download is done, open a terminal and cd into the directory it was downloaded to, most likely ‘Downloads’. Use ls to ensure that you have a file named Anaconda3-5.0.1-Linux-x86_64.sh in that directory type in `source Anaconda3-5.0.1-Linux-x86_64.sh` and hit enter. Note: for some people it will complain and not proceed. If so, try doing `bash Anaconda3-5.0.1-Linux-x86_64.sh` instead.
 
 * You will be asked to review a license agreement. You use the space bar to go through it. When you get to the end, accept the agreement by typing in “yes”.
 
