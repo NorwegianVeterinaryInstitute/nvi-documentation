@@ -13,13 +13,13 @@ However, in order to download multiple genome from the NCBI webpages takes more 
 
 In a lot of projects it is important to be able to share sequence data. The University of Oslo has a system in place that can help you share data between yourself and collaborators in the rest of the world. You find it at: [https://filesender2.uio.no/](https://filesender2.uio.no/). It is very easy to use and the filesize seems unlimited. What is not so easy to do is to get the data that was uploaded to filesender, downloaded straight to Saga. But you need Feide credentials to ues them.
 
-Here is my recipe for when people send me large sequence data and I want to use it on Abel.
+Here is my recipe for when people send me large sequence data and I want to use it on Saga.
 
 1. Login to filesender2 and send out a request for data, unclick the box to allow for more uploads per link (in case your collaborators fail to put everything in one tar file.
 2. Collaborator uploads one or more files to the fileserver2 and you get a notification in your mailbox.
 3. In the notification mail that data is uploaded, Follow the link to the data for download in your webbrowser. It opens a page on the filesender webpage. 
 4. Go to the file you want to download and "right" click the download box and copy the link address.
-5. In your Terminal, go to abel and the location where you want to store the data. Somewhere on `/projects/nn9305k/`:
+5. In your Terminal, go to abel and the location where you want to store the data. Somewhere on `/cluster/projects/nn9305k/`:
 6. Then type in the terminal: `wget -O myfile.data` and paste the link address from 4 at the end but within quotations marks. like this: ``` wget -O large_genome.gz "YOURLINK" ``` 
 7. Than the data is downloaded to a file with the filename given in 6.
 
