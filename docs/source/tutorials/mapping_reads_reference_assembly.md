@@ -2,18 +2,21 @@
 
 ## 1. What is read-mapping?
 
-Read mapping is aligning each of your reads to a/the matching locus on a longer sequence.
+Read mapping is "placing" your reads at a locus with a matching sequence in a longer sequence.
 This longer sequence can either be the isolate assembly, or an assembly of a related isolate (eg. a reference isolate for the group of isolate under study).
 
-You could think of read mapping as a simulation of local hybridization of your reads to the genome, at a loci where it fits well enough to hybridize. Usually few mismatches are allowed (think about the consequences). A portion of the reads may map to several loci in your genome (ie. in repeated regions).
+You could think of read mapping as a simulation of local hybridization of your reads to the genome, at a loci where it fits well enough to hybridize. Usually a few mismatches are allowed (think about the consequences), even if your reads have been "hard-clipped". Hard-clipping means that the ends of the reads are not part of the mapping and that those parts have been removed (or trimmed: eg. adapter removal with Trimmomatic). On the other hand, "Soft-clipping" allows to perform read mapping while ignoring (downweighting) the mismatches present at the endings of reads. This allows to map reads in the presence of adapters.
+
+
+A portion of the reads may map to several loci in your genome (ie. in repeated regions).
 
 Reads can be mapped as paired or single. If paired is used, then the matching regions are defined by the insert size and the length of each read
 
-![https://commons.wikimedia.org/wiki/File:Mapping_Reads.png](https://upload.wikimedia.org/wikipedia/commons/2/2e/Mapping_Reads.png)
-</br>
-</br>
 
-## 2. Why mapping reads
+![https://commons.wikimedia.org/wiki/File:Mapping_Reads.png](https://upload.wikimedia.org/wikipedia/commons/2/2e/Mapping_Reads.png)
+
+
+## 2. Reads mapping purposes
 
 Read mapping techniques are used for several purposes.
 Some examples:
@@ -31,7 +34,6 @@ Some examples:
 Assembly polishing softwares can eg. use variation in coverage, wrong read pairs orientation, discrepancy between expected insert size and actual insert size obtained from read mapping (ie. longer than expected) to improve assembly.
 
 3) To identify SNPs: some methods use reads mapping against a reference genome to identify and type variants/SNPs (e.g. [snippy](https://github.com/tseemann/snippy))
-</br>
 
 ## 3. Practical: mapping reads to the assembly obtained from the same reads.
 
@@ -48,10 +50,9 @@ To map reads, we use the [bwa mem] option from [bwa tools] software.
 
 NB: Convention: means `<change_me>`
 
-</br>
-<div style="background-color:silver">
+
 _**PRACTICAL EXERCISE:**_
-</br>
+
 In your `home` directory make a directory for today's work
 and a folder called `mapping` where you will **copy** the input files
 
@@ -62,6 +63,7 @@ cd mapping
 
 rsync -rauPW /cluster/projects/nn9305k/tutorial/20210412_mapping_visualization/mapping_practical/* .
 ```
+
 
 You can look at the file content e.g. (one reads-file, the assembly file):
 ```bash
@@ -94,15 +96,16 @@ bwa index <reference.fna>
 
 2) We map the reads (attribute the position of the reads according to the index) and sort the mapped reads by index position
 
-> NB: Here `-` means that the output of the pipe `|` is used as input in samtools. And `\` is used to indicate that your code (instructions) continues on the next line
+NB: Here `-` means that the output of the pipe `|` is used as input in samtools. And `\` is used to indicate that your code (instructions) continues on the next line
 
 - for paired reads (PE) or paired trimmed reads:
+
 ```bash
 bwa mem -t 4 <reference.fna> <in1:read1.fq.gz> <in2:read2.fq.gz> \
 | samtools sort -o <out:PE_mapped_sorted.bam> -
 ```
 
-- If you used trimmed reads (follow bellow) you also have unpaired reads (called S here) that we can map as such:
+- If you used trimmed reads (follow below) you also have unpaired reads (called S here) that we can map as such:
 
 ```bash
 bwa mem -t 4 <reference.fna> <in:S_reads.fq.gz> \
@@ -110,33 +113,31 @@ bwa mem -t 4 <reference.fna> <in:S_reads.fq.gz> \
 ```
 
 - You can merge merged the paired trimmed reads and S reads as such:
+
 ```bash
 samtools merge <out:all_merged.bam> <in1:S_mapped_sorted.bam> <in2:PE_mapped_sorted.bam>
 ```
 
 - Now we need to be sure merged reads are still sorted by index: we resort
+
 ```bash
 samtools sort -o <out:final_all_merged.bam> <in:all_merged.bam>
 ```
-<br>
 
 **OPTIONAL**
 
-NB: Some software like `Pilon` need and updated index after merging bam files). You do that by running:
+NB: Some software like `Pilon` need an updated index after merging bam files). You do that by running:
+
 ```bash
 samtools index <final_all_merged.bam>
 ```
-</div>
-</br>
 
-
-## 4. Understanding the mapping file format: the [sam/bam file format](https://samtools.github.io/hts-specs/SAMv1.pdf)
+## 4. Understanding the mapping file format: the [sam/bam file format]
 
 `.bam` files are in a compressed binary format. We need to transform the `.bam` (to a `.sam` file) to be able to see how mapped-reads are represented in the file.
 
 Also have a look at [Samtools article] and at [Samtools manual]
 
-<div style="background-color:silver">
 
 _**PRACTICAL EXERCISE:**_
 
@@ -150,29 +151,20 @@ Look at your `.sam` file using:
 ```bash
 less <filename.sam>
 ```
-</div>
 
-</br>
-
-## 5. Looking at how the reads maps against the reference/assembly with [Samtools](http://www.htslib.org/doc/samtools.html) `tview` module
+## 5. Looking at how the reads maps against the reference/assembly with [Samtools] `tview` module
 
 - looking at the reads pileup with SAMtools
   - use `-p <position>` if you want to see a specific position
   - type `?` to view the navigation help while samtools is running
   - type `q` to quit
 
-</br>
-
-<div style="background-color:silver">
 
 _**PRACTICAL EXERCISE:**_
 
 ```bash
 samtools tview  <final_all_merged.bam> --reference <assembly>
 ```
-</div>
-</br>
-
 
 ## Going further
 Suggested next lesson:  [Visualizing assembly and associated reads pileup with IGV](./Visualisation_assembly_reads_pileup_IGV.md)
@@ -188,3 +180,5 @@ You can also look here at the [Uio course] for more details or if you want to do
 [Samtools article]:https://academic.oup.com/bioinformatics/article/25/16/2078/204688
 
 [Samtools manual]:http://www.htslib.org/doc/samtools.html
+
+[Samtools](http://www.htslib.org/doc/samtools.html)
