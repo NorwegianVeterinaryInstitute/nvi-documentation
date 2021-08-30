@@ -6,7 +6,6 @@
 * [Processing multiple datasets in parallel](#Processing-multiple-datasets-in-Parallel)
 
 ### Virtualbox biolinux tricks
-* [Installing Jupyter notebook and Rstudio](#Installing-Jupyter-notebook-and-Rstudio)
 * [Changing your login shell](#Changing-your-login-shell)
 * [Sharing data via a shared folder](#Sharing-data-via-a-shared-folder)
 
