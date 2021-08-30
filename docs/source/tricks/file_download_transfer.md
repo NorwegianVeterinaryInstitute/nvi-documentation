@@ -11,7 +11,7 @@ However, in order to download multiple genome from the NCBI webpages takes more 
 
 ## Downloading data from filesender2
 
-In a lot of projects it is important to be able to share sequence data. The University of Oslo has a system in place that can help you share data between yourself and collaborators in the rest of the world. You find it at: [https://filesender2.uio.no/](https://filesender2.uio.no/). It is very easy to use and the filesize seems unlimited. What is not so easy to do is to get the data that was uploaded to filesender, downloaded straight to Abel.
+In a lot of projects it is important to be able to share sequence data. The University of Oslo has a system in place that can help you share data between yourself and collaborators in the rest of the world. You find it at: [https://filesender2.uio.no/](https://filesender2.uio.no/). It is very easy to use and the filesize seems unlimited. What is not so easy to do is to get the data that was uploaded to filesender, downloaded straight to Saga. But you need Feide credentials to ues them.
 
 Here is my recipe for when people send me large sequence data and I want to use it on Abel.
 
