@@ -71,7 +71,7 @@ How you structure your project is an important for reproducibility and portabili
 ## Recommended packages
 By far, the most important packages for a reproducible and portable project is [renv](https://rstudio.github.io/renv/articles/renv.html) and [here](https://here.r-lib.org/). For detailed information about these packages, click the above links.
 
-**renv**
+- **renv**
 The renv package brings dependency management to RStudio projects. This package ensures that all package versions are bundled inside the project itself - making sure that the same versions are used even when updating a package in your main R library. It generates a project library of packages inside the project, and new packages that are installed are only installed there. The workflow with this package is as follows:
 
 1.  Call [renv::init()](https://rstudio.github.io/renv/reference/init.html) to initialize a new project-local environment with a private R library,
@@ -88,7 +88,7 @@ install.packages("renv")
 renv::init()
 ```
 
-**here**
+- **here**
 The here package enables easy file referencing in project-oriented workflows. It is a package that contains functions that automatically build the path to the file you want to interact with. Here makes it easy to generate relative paths, which makes the project portable. When you want to read a data file, the following is usually written:
 ```r
 read_delim("path/to/datafile.txt", delim = "\t")
