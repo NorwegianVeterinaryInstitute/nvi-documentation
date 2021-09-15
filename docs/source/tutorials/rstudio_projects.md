@@ -1,7 +1,6 @@
 # Projects in RStudio
 - **Author:** Håkon Kaspersen
 
----
 ## Agenda
 - Go through what an R Project is, and how to start an use one
 - What is the folder structure?
