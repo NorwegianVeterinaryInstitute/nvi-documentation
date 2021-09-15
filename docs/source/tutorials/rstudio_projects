@@ -39,8 +39,8 @@ An R project is simply a folder on your computer that holds all the files releva
 
 ## Before you start
 Some considerations are necessary for optimal and safe use of RStudio projects. In general, *you should not be scared of cleaning out the RStudio global environment when working with Projects!* I cannot stress this enough. Your analysis should be reproducible to the point where you *always* start with nothing saved into memory. To be able to force yourself into this way of thinking, I highly recommend to change the following in the Global options in RStudio ("Tools" -> "Global Options"):
-
-![[Pasted image 20210915103911.png|500]]
+- Un-tick the "Restore .RData intro workspace at startup"
+- Set "Save workspace to .RData on exit" to "Never"
 
 By doing this, you force yourself to start with a clean slate every time you open the project again. Onward to a more reproducible way of thinking!
 - **Note**: This does not affect the saved files and scripts that live inside your project folder, only the data that RStudio has read into memory, i.e. what you see listed under the "Environment" pane in RStudio. 
@@ -62,10 +62,6 @@ After creating a new project, you can create scripts and run analyses!
 
 ## How to structure an RStudio project
 How you structure your project is an important for reproducibility and portability. Below is an example of a structure that is regularly used <sup>5</sup>.
-
-![Basic Structure|400](https://i1.wp.com/raw.githubusercontent.com/martinctc/blog/master/images/RPROJECT_2000dpi.png?w=578&ssl=1)
-
-We will go through each subdirectory below.
 - **Data**: This is the directory where the necessary data files are stored. How you structure this directory is up to you. Data is usually `.csv`, `.xlsx`, or other formats. 
 	- **VERY IMPORTANT ABOUT THE DATA DIRECTORY**: The data stored here should be regarded as source data, which means that *under no circumstance should you be overwriting or editing these files!* This is to ensure reproducibility and safety of the project as a whole.
 - **Scripts**: This is the directory where the generated scripts are stored, usually with the extension `.R` or `.Rmd`. How you structure this is up to you. In most cases I have single scripts that are meant to do one thing (i.e. `generate_figures.R`,`calculate_occurrence.R`). Sensible file names are recommended, so that other people may understand what the script does! Also, remember to always use relative paths (i.e. do not reference to paths outside the project folder location), this ensures portability. For more information see the description of the "here" package below.
