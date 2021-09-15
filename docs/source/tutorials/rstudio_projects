@@ -8,14 +8,11 @@
 - How to handle data inside an R project
 - Briefly go through which packages that are recommended and how they are used
 
-<br>
-
 ## Versions
 This description of Projects in RStudio is based on the following versions:
 - R version 4.0.5
 - RStudio version 1.4.1717
 
-<br>
 
 ## What is an R project?
 Have you ever wondered where your analysis "lives", and how to handle overlapping analyses and data? If so, an R project is the thing for you! I want you to consider the following:
@@ -40,8 +37,6 @@ R Projects is a great way to handle the issues that may arise when using a workf
 
 An R project is simply a folder on your computer that holds all the files relevant to that particular piece of work. Any scripts run inside an R Project assumes that the working directory is the project folder location, using relative paths. This makes it possible to move the whole project folder anywhere, and it can still be run. Another advantage is that you have full control of package versions and data, assuming you use the relevant packages to handle this. Let's assume you are analyzing data for a manuscript, where reproducibility is very important. By using an RStudio project, you can gather all necessary data in a `data` subfolder, and all necessary scripts in a `scripts` folder, using relative paths. When the paper is published, you can pack the whole project down and share it with anyone who wants to reproduce your analysis! In short, RStudio projects should be *reproducible*, *portable*, and *self-contained*<sup>4</sup>.
 
-<br>
-
 ## Before you start
 Some considerations are necessary for optimal and safe use of RStudio projects. In general, *you should not be scared of cleaning out the RStudio global environment when working with Projects!* I cannot stress this enough. Your analysis should be reproducible to the point where you *always* start with nothing saved into memory. To be able to force yourself into this way of thinking, I highly recommend to change the following in the Global options in RStudio ("Tools" -> "Global Options"):
 
@@ -51,7 +46,6 @@ By doing this, you force yourself to start with a clean slate every time you ope
 - **Note**: This does not affect the saved files and scripts that live inside your project folder, only the data that RStudio has read into memory, i.e. what you see listed under the "Environment" pane in RStudio. 
 - **Double-Note**: This changes the global setting, which will affect RStudio across all instances on your computer. If you wish to retain this function elsewhere, you may change these settings in "Project Options" instead after creating the project as described below.
 
-<br>
 
 ## How to start an RStudio Project
 To start a new RStudio project, open RStudio and click on "File" -> "New Project". A pop-up box will appear asking you if you want to generate a new directory for the project, if you want to use a pre-existing directory, or to checkout a project from version control history. Generally I would recommend to always start a new project on a clean slate, so pick the "New Directory" option. Next, the menu will ask what kind of project you would like to create. Here, the topmost option "New Project" will suffice for most instances, unless you are creating a package or a Shiny application. Next, you have to give the project a name, and give RStudio the path to where the Project will be stored. You may also choose to tick off "Create git repository" and "Use renv with this project", but more on that later.
@@ -65,7 +59,6 @@ After clicking "Create Project", the project will be generated and you will be m
 
 After creating a new project, you can create scripts and run analyses!
 
-<br>
 
 ## How to structure an RStudio project
 How you structure your project is an important for reproducibility and portability. Below is an example of a structure that is regularly used <sup>5</sup>.
@@ -79,7 +72,6 @@ We will go through each subdirectory below.
 	- **Functions**: This is the directory where self-made functions are stored and called from. This directory may not be necessary for all projects, especially if you only use functions that are defined in packages only.
 - **Output**: The output folder for generated data. This is where the results from the scripts is stored, be it figures, tables, or other file types.
 
-<br>
 
 ## Recommended packages
 By far, the most important packages for a reproducible and portable project is [renv](https://rstudio.github.io/renv/articles/renv.html) and [here](https://here.r-lib.org/). For detailed information about these packages, click the above links.
@@ -122,17 +114,13 @@ install.packages("here")
 library(here)
 ```
 
-<br>
 
 ## Packages to avoid
 So far, there is only one package that should be avoided when working with Projects in RStudio, the `pacman` package. Especially, the use of `pacman::p_load` is to be avoided. This is mainly because the function actually installs with `install.packages()` and loads the library with `library()` in one go. If you use it, it will cause issues with the `renv` management of package versions, because each time you run `p_load` it will install the newest version of the package in question, breaking the control of package versions. 
 
-<br>
-
 ## Version control
 Version control (e.g. *git*) is a way to ensure that your files are safe, and to track changes throughout the project's development. RStudio has built-in git functionality, but this may not be optimal for all users. I like to use git outside of RStudio (e.g. git bash), or use the built-in terminal that was implemented in the newer versions of RStudio. However you choose to proceed, using git is good practice, and it makes sure that your files are safe from deletion or accidental changes. More information about git version control and RStudio can be found [here](https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html). The use of git also allows for upload to f.ex. [GitHub](https://github.com/), where the code can be published.
 
-<br>
 
 ## Take-Home messages
 -   Create an RStudio project for each data analysis project
