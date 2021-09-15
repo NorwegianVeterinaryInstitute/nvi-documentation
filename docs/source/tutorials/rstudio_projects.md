@@ -125,7 +125,6 @@ Version control (e.g. *git*) is a way to ensure that your files are safe, and to
 -   Use the `here` and `renv` packages to help you out!
 -   Avoid using `pacman`
 
----
 
 ## Resources
 
