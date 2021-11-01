@@ -1,6 +1,6 @@
 # Nanopore sequence data tutorial
 
-This is a tutorial to do quality control of the Nanopore sequence data. The data we use at our institute is mainly minION sequence data gnerate for the assembly of bacterial genomes. This tutorial uses Guppy version 5 for basecalling, demultiplexing and quality score filtering.  The tutorial is run a HIGH PERFORMANCE COMPUTING system that uses a SLURM system for job allocation. If you have your own server, just skip the srun step, but make sure to have Guppy, Nanoplot and NanoFilt installed.
+This is a tutorial to do quality control of the Nanopore sequence data. The data we use at our institute is mainly minION sequence data generated for the assembly of bacterial genomes. This tutorial uses Guppy version 5 for basecalling, demultiplexing and quality score filtering.  The tutorial is run a HIGH PERFORMANCE COMPUTING system that uses a SLURM system for job allocation. If you have your own server, just skip the srun step, but make sure to have Guppy, Nanoplot and NanoFilt installed.
 
 _This tutorial is a work in progress, and will be updated in the coming periode, with assembly steps as well._
 
@@ -51,7 +51,7 @@ Now we need the information for Guppy, which selects the correct basecalling mod
 
 Let's try and see if we can run Guppy, without blocking each other access to the GPU nodes.
 
-first let's active a `screen`. We call this screen : NANOPORE, so it is easy to find back if our connection is gone, and we have to log on to the system again. It is also easy to use when you open new screens all the time.
+First let's active a `screen`. We call this screen : NANOPORE, so it is easy to find back if our connection is gone, and we have to log on to the system again. It is also easy to use when you open new screens all the time.
 
 ```
 screen -S NANOPORE
@@ -102,7 +102,7 @@ guppy_basecaller_log-2021-10-25_10-34-10.log
 guppy_basecaller_log-2021-10-25_10-31-13.log
 ```
 
-We can also run it with demutliplexing, and quality trimming
+We can also run it with demultiplexing, and quality trimming
 
 Some options from Guppy:
 
@@ -115,7 +115,7 @@ Some options from Guppy:
 --disable_pings: stop ping the nanopore server.
 ```
 
-So let us add the demultiplexing and reduce minimun quality score
+So let us add the demultiplexing and reduce minimum quality score
 
 ```
 guppy_basecaller --flowcell FLO-MIN106 --kit SQK-RBK004 \
@@ -152,7 +152,7 @@ NanoPlot --summary sequencing_summary.txt --loglength -o summary-plots-log-trans
 ```
 That generates a folder called:  "summary-plots-log-transformed"
 
-let's take a look at the files. If you are on a cluster, you should download the folder to your own personal computer.
+Let's take a look at the files. If you are on a cluster, you should download the folder to your own personal computer.
 
 You can also use Nanoplot on the fastq files that were produced. Lets do that for now on the fail and passed reads.
 
