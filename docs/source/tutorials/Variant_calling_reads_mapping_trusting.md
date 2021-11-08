@@ -1,5 +1,9 @@
 # Variant calling with reads mapping
 
+## !!How does variant calling work
+Insert small list of the steps involved.
+
+
 We will use _Listeria monocytogenes_ from the EURL proficiency test 2021 in this tutorial.
 
 Our objectives with this tutorial are to:
@@ -18,17 +22,17 @@ We evaluated the assembly quality with  `quast`, using the _L. monocytogenes_ re
 
 
 
-## What is a variant?:  read mapping and what does the variant caller has to deal with?
+## What is a variant: read mapping and what does the variant caller has to deal with?
 
-A variant represent a difference to an other isolate/reference eg. point mutation or SNP, insertion/deletion (which are the subject for today) or eg. structural variants.
+A variant represents a difference to another isolate/reference, for instance a point mutation or SNP, an insertion/deletion (which are the subject for today) or eg. structural variants.
 
-We have mapped those strains with [BWA MEM](http://bio-bwa.sourceforge.net/) (eg. see [ ]() tutorial). BWA MEM , a mapping method that performs **local alignment**, against:
+We have mapped those strains with [BWA MEM](http://bio-bwa.sourceforge.net/) (eg. see [ ]() tutorial). BWA MEM , a mapping method that performs **local alignment**. We have used this program against:
 - the reference EGD-e
-- another reference that is more closely related to the strain (see note bellow: How to rapidly find reference for you isolates when you have no idea what to choose ?)
-- their own assembly. We used the genome sequence `.fna`  provided at `prokka` annotation for mapping isolates against their own assembly to insure that locus tags are consistent with annotation and ease visualization with [IGV](https://software.broadinstitute.org/software/igv/) Integrative Genomic Viewer (see [ ]() tutorial).
+- another reference that is more closely related to the strain (see note below: How to rapidly find reference for you isolates when you have no idea what to choose ?)
+- their own assembly. We used the genome sequence `.fna`  provided by `prokka` annotation for mapping isolates against their own assembly to insure that locus tags are consistent with annotation and ease visualization with [IGV](https://software.broadinstitute.org/software/igv/) Integrative Genomic Viewer (see [ ]() tutorial).
 
 We used the **defaults parameters** for the mapping. Note however this might be adjusted to allow more strict matches of the reads to the sequence.
-We have used both raw reads and trimmed reads for mapping. So we can have an idea of the amount of noise (incl. false variants) what a variant caller must deal with.
+We have used both raw reads and trimmed reads for mapping. So we can have an idea of the amount of noise (incl. false variants) that a variant caller must deal with.
 
 You will find the files for the tutorial in SAGA:
 - mapping for strain: Lab9_st162 `/cluster/projects/nn9305k/tutorial/20211108_trusting_snps/Lab9_st162`
@@ -38,24 +42,29 @@ You will find the files for the tutorial in SAGA:
 PS: The BAM/SAM format of sequence/reads mapping is described [here](http://samtools.github.io/hts-specs/SAMv1.pdf)
 
 ### Summary: how to load data into IGV
+
+We will now use the program IGV to look at the mapping results.
+
 1. Loading your assembly:
 	In IGV meny select: `Genomes > Load genome from file` and choose the assembly/reference to load (`.fna`)
 2. Add the mapped reads (raw, trimmed) and the annotation file as track
 	In IGV meny select: `File > Load from file` and choose the mapped read file (`.bam`) and the `.gff` file corresponding to the assembly/reference
 
-Finding annotation: in the search box (left of go) type eg. murJ. The allows you to quickly find the gene:  Lipid II flippase MurJ,  (Locus murJ_1 and murJ_2)
+We can look for genes to manouvre in the genome: in the search box (left of go) type eg. murJ. The allows you to quickly find the gene:  Lipid II flippase MurJ,  (Locus murJ_1 and murJ_2)
 
-In here you can information of the color coding for [alignments in IGV](http://software.broadinstitute.org/software/igv/AlignmentData) and how to change the different color coding views.
+In here you can find information on the color coding for [alignments in IGV](http://software.broadinstitute.org/software/igv/AlignmentData) and how to change the different color coding views.
 
 The color coding used in the viewer is described in [IGV manual](http://software.broadinstitute.org/software/igv/AlignmentData)
 - In red: insert size that is larger than expected (possible evidence of a deletion).
 - In blue: inferred insert size that is smaller than expected (possible evidence of an insertion).
-- Mismatches bases in aliments are assigned a transparency value (proportional to the phred quality score).
+- !!Mismatches bases in aliments are assigned a transparency value (proportional to the phred quality score).
 - Transparency (white transparent box) is used for mapped reads with low mapping quality (eg. mapped at several loci).
 For more information look [here](https://software.broadinstitute.org/software/igv/AlignmentData#fileformats).
 
 
 ### Practical: Mapping approach and data noise/errors
+
+We will in this section have a look whether we can see the following things:
 - Sequencing errors / low quality bases
 - Adapters (not trimmed, incompletely trimmed)
 
@@ -65,15 +74,15 @@ For more information look [here](https://software.broadinstitute.org/software/ig
 
 Here is an idea of what you should be able to look at:
 
-| Raw VS trimmed | Colors Interpreation |
+| Raw VS trimmed | Colors Interpretation |
 | ---- | ----|
 |![](./Lab9_st162_own_assembly_raw_VS_trimmed.png)|![](./Lab9_st162_raw_reads_colors_interpretation.png) |
 
-- The reads with many vertical traits are reads that are poorly mapped to the genome or have bases with low quality scores (where many inconsistency with the consensus sequence are found).
-- Look at the pileup, and zone in and out.
+- !!The reads with many vertical lines are reads that are poorly mapped to the genome or have bases with low quality scores (where many inconsistencies with the consensus sequence are found).
+- Look at the pileup, and zoom in and out.
 - What are the likely errors, what are the adapters ...
 
-NB: With Lab9_st162 mapped to EGD-e with trimmed reads, you can reads with low mapping (eg. mapped at several places) by looking around the gene `ssb`.
+NB: With Lab9_st162 mapped to EGD-e with trimmed reads, you can see reads with low mapping (eg. mapped at several places) by looking around the gene `ssb`.
 
 ![](./EGD-e_Lab9_st162_low_mapping_quality.png)
 
@@ -102,14 +111,14 @@ In IGV the symbol `I` indicates insertions and black `-` deletions.
 **The amount of variant discovered depend on how closely related your reference is to the strain(s) used for discovering variants.**
 Questions:
 - Lab9_st166 is quiet closely related to EGD-e. Did choosing an other closely related strain as reference reduced the number of potential snps?
-- Lab9_st162 is quiet distantly related to EGD-e. How do you think the reference choice will influence your analyses for SNPs detection?
+- Lab9_st162 is quite distantly related to EGD-e. How do you think the reference choice will influence your analyses for SNP detection?
 
 
 The variant caller must discriminate between real variant and "noise" (sequencing error and absence of trimming).
 
 The choice of the reference used in variant calling will influence which variants are detected, as a variant is a difference in base relative to another sequence used as reference. For detecting variants between multiple samples, a common reference has to be used.
 
-Having a common reference that is as closely related to the common set of isolates is important when you want to do phylogenies based on SNPs. Every site that produce indel will be removed from the phylogenetic reconstruction (unless a special model that account for indels is used).
+Having a common reference that is as closely related as possible to the common set of isolates is important when you want to do phylogenies based on SNPs. Every site that produce indel will be removed from the phylogenetic reconstruction (unless a special model that account for indels is used).
 
 If a reference it too distantly related, it is possible that many of your reads wont map to the reference (as they are too different, they might not be considered for local alignment). This might reduce your ability to detect variants in the loci that not very conserved in the genome.
 
@@ -131,14 +140,14 @@ You can also have a look at the article [Li et al. 2008](https://pubmed.ncbi.nlm
 ### Note: How to rapidly find reference for you isolates when you have no idea what to choose ?
 You can eg. use the software [poppunk](https://poppunk.net/) on a diverse set of reference isolates. Then if all your isolates belong to the same cluster, you can choose a reference that belongs this same cluster. If not all your isolates belong to the same cluster, you can look at the phylogenetic tree and choose eg. a reference that belong to the same monophyletic group (most recent common ancestor/node shared with all your isolates).
 
-Another solution, is eg. to run a type of typing eg. 7 gene MLST typing and choose a reference that belong to the same CC. This can be done eg. with [MLST software](https://github.com/tseemann/mlst)
+Another solution, is eg. to run a type of typing eg. 7 gene MLST typing and choose a reference that belong to the same ST. This can be done eg. with [MLST software](https://github.com/tseemann/mlst)
 
-For this tutorial, we used [poppunk (version 2.4.0)](https://github.com/johnlees/PopPUNK) to search for appropriate references, as it is fast to do for a large dataset, much faster than a core phylogeny.
+For this tutorial, we used [poppunk (version 2.4.0)](https://github.com/johnlees/PopPUNK) to search for an appropriate references, as it is fast to do for a large dataset, much faster than a core phylogeny.
 We used the sequence-dataset composed of the isolates that were used to define the [Listeria monocytogenes cgMLST scheme](https://bigsdb.pasteur.fr/listeria/) described in [(Moura et al. 2017)](https://www.nature.com/articles/nmicrobiol2016185). The strain diversity in this dataset is expected to be representative of _L.monocytogenes_ diversity, therefore allowing us to find alternative reference for SNP calling with our strains.
 
 A tabular delimited file containing the ID and the paths for poppunk is created, without headers. We removed potential outlier genome by pruning (it just remove the sequences that are outlier from the analyses).
 
-NB: We have checked that the model fitted well (it is not always the case, but for _Listeria monocytogenes_ it works well).
+NB: We have checked that the model fit well (it is not always the case, but for _Listeria monocytogenes_ it works well).
 
 We created a phylogenetic tree to visually find which references sequences are more similar to our own genomes.
 
@@ -172,9 +181,9 @@ Snippy uses a mapping to a reference to find variants (SNPs/indels). The use of 
 
 Typed variants can be represented in a **variant call format** `.vcf` file. This file report the differences of nucleotides/indels of a/several isolates **relative to the reference sequence**. It also provides the statistics calculated by the variant caller eg. the likelihood of a variant base to be different to the reference. A set of measures are provided (depending on variant caller), eg. base confidence at mapping, filters used, probabilities calculated in the pileup. An overview about the format can be found [here](https://samtools.github.io/hts-specs/VCFv4.3.pdf) or in [wikipedia](https://en.wikipedia.org/wiki/Variant_Call_Format) for a fast overview.
 
-**Snippy removes duplicated reads prior to variant calling.** (Duplicated reads would lead to an inflated weight when calling variant based on how frequently they are found in a pileup). Snippy can be run using an assembly (.fasta) or annotated genome (.gbk: genebank format) as reference.
+**Snippy removes duplicated reads prior to variant calling.** (Duplicated reads would lead to an inflated weight when calling variant based on how frequently they are found in a pileup). This is something that you should keep in mind if your read set contains a lot of duplicated reads.
 
-Here we will call variant using a reference provided in the genebank format, as this will ease visualization of the variants files and allow to navigate from loci to loci while using IGV.
+Snippy can be run using an assembly (.fasta) or annotated genome (.gbk: genebank format) as reference. Here we will call variant using a reference provided in the genebank format, as this will ease visualization of the variants files and allow to navigate from loci to loci while using IGV.
 
 **Practical**
 Create a directory for one isolate, and create a symlink to the files .
@@ -185,12 +194,12 @@ cd <directory>
 ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/Lab9_st162/* .
 ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/GCA_000196035.1_ASM19603v1_genomic.fna
 
-# request for ressources
+# request ressources
 screen
 srun --account=nn9305k --mem=32G --cpus 4 --qos=devel --time=0:30:00 --pty bash -i
 # activate snippy
 conda activate snippy
-# Runn snippy (the --report option is heavy - please someone do without?)
+# Run snippy (the --report option is heavy - please someone do without?)
 snippy --outdir out_Lab9_st162 --ref GCF_000196035.1.gbk --R1 Lab9_st162_R1.fastq.gz --R2 Lab9_st162_R2.fastq.gz --cpus 4 --report
 ```
 
@@ -212,7 +221,7 @@ less snps.filt.svc
 ### Bonus: detecting variants with snippy multi
 Snippy run can be run on multiple samples using the same reference for variant detection.
 
-Bellow is an example of how to create a snippy multi-input file. In this example, reads pairs for each isolate are organized in their own folder. The folder name is named after the isolate ID. The input folder `snippy_input_dir`  contains all the directories of all isolates we want to run with snippy.
+Below is an example of how to create a snippy multi-input file. In this example, reads pairs for each isolate are organized in their own folder. The folder name is named after the isolate ID. The input folder `snippy_input_dir`  contains all the directories of all isolates we want to run with snippy.
 
 ```bash
 # example of creating the snippy multi-input file
@@ -262,10 +271,10 @@ Snippy produces a multiple core alignment. The common reference serve as common 
 	- DP = the coverage/depth (default to 10 in snippy)
 	- A default base-quality of minimum phred score=13 is used for a variant calling (error rate of  ~5%) . This differs from the default settings of Freebayes (phred score=20, which correspond to an error rate of 1%. See eg. [here]((https://gatk.broadinstitute.org/hc/en-us/articles/360035531872-Phred-scaled-quality-scores)).
 
-NB: depending on your objective, you might consider to adjust the minimum coverage/depth, the minimum fraction/proportion and variant probability. Eg. if you (1) have a very deep sequencing (2) have contaminants or eg. (3) want to call "real" rare intra-isolate variants VS/OR  (4) obtaining the majority variant.
+NB: depending on your objective, you might consider to adjust the minimum coverage/depth, the minimum fraction/proportion and variant probability. Eg. if you (1) have a very deep sequencing (2) have contaminants or eg. (3) want to call "real" rare intra-isolate variants !!VS/OR  (4) obtaining the majority variant.
 
 ### Practical
-We can know look at the variants typed by snippy.
+We can now look at the variants typed by snippy.
 
 We ran snippy using the option `--report` to create a variant report. It used [samtools tview](http://www.htslib.org/doc/samtools-tview.html) to create this report.
 
@@ -284,7 +293,7 @@ Lets look at the variant calling files in IGV and compare it with previous mappi
 	- the final variant file `snps.vcf`
 
 
-**Look at the genes/loci: eg for the isolates, and also navigate through the genome view. Try to answer questions bellow.**
+**Look at the genes/loci: eg for the isolates, and also navigate through the genome view. Try to answer questions below.**
 - Lab_st162: eg. look at: MurA (we looked at previously), MurZ, lmo2553 and eg. regulatory_3308 , lmo 2821 ...
 - Lab9_st166: eg. look at: no variants MurA, around lmo 2566, lmo 2652, lmor14 (eg.poor mapping quality), lmo2396 (many messy mapped reads) ...
 - scroll through the genome to get a general impression
