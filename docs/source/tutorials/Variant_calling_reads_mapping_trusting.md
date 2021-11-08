@@ -192,12 +192,12 @@ Create a directory for one isolate, and create a symlink to the files .
 ```bash
 cd <directory>
 # example simlink
-ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/Lab9_st162/* .
-ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/GCA_000196035.1_ASM19603v1_genomic.fna
+ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/input/Lab9_st162/* .
+ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/GCF_000196035.1.gbk .
 
 # request ressources
 screen
-srun --account=nn9305k --mem=32G --cpus 4 --qos=devel --time=0:30:00 --pty bash -i
+srun --account=nn9305k --mem=32G --cpus-per-task 4 --qos=devel --time=0:30:00 --pty bash -i
 # activate snippy
 conda activate snippy
 # Run snippy (the --report option is heavy - please someone do without?)
@@ -222,7 +222,7 @@ less snps.filt.svc
 ### Bonus: detecting variants with snippy multi
 Snippy run can be run on multiple samples using the same reference for variant detection.
 
-Below is an example of how to create a snippy multi-input file. In this example, reads pairs for each isolate are organized in their own folder. The folder name is named after the isolate ID. The input folder `snippy_input_dir`  contains all the directories of all isolates we want to run with snippy.
+You can eg. use Haukon's script [here](https://github.com/NorwegianVeterinaryInstitute/ALPPACA/blob/master/bin/snippyfy.bash). Or the example bellow that I use to create snippy multi-input files. In this example, reads pairs for each isolate are organized in their own folder. The folder name is named after the isolate ID. The input folder `snippy_input_dir`  contains all the directories of all isolates we want to run with snippy.
 
 ```bash
 # example of creating the snippy multi-input file
@@ -281,7 +281,7 @@ We ran snippy using the option `--report` to create a variant report. It used [s
 
 **Have a fast look at the report**
 ```bash
-less less snps.report.txt
+less snps.report.txt
 ```
 
 Lets look at the variant calling files in IGV and compare it with previous mappings. [Guide: IGV vcf viewing](https://software.broadinstitute.org/software/igv/viewing_vcf_files)
