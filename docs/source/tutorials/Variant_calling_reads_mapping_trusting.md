@@ -58,7 +58,7 @@ In here you can find information on the color coding for [alignments in IGV](htt
 The color coding used in the viewer is described in [IGV manual](http://software.broadinstitute.org/software/igv/AlignmentData)
 - In red: insert size that is larger than expected (possible evidence of a deletion).
 - In blue: inferred insert size that is smaller than expected (possible evidence of an insertion).
-- !!Mismatches bases in aliments are assigned a transparency value (proportional to the phred quality score).
+- Mismatched bases in aliments are assigned a transparency value (proportional to the phred quality score).
 - Transparency (white transparent box) is used for mapped reads with low mapping quality (eg. mapped at several loci).
 For more information look [here](https://software.broadinstitute.org/software/igv/AlignmentData#fileformats).
 
@@ -79,7 +79,7 @@ Here is an idea of what you should be able to look at:
 | ---- | ----|
 |![](./Lab9_st162_own_assembly_raw_VS_trimmed.png)|![](./Lab9_st162_raw_reads_colors_interpretation.png) |
 
-- !!The reads with many vertical lines are reads that are poorly mapped to the genome or have bases with low quality scores (where many inconsistencies with the consensus sequence are found).
+- The reads with many vertical lines are reads that are poorly mapped to the genome or have bases with low quality scores (where many inconsistencies with the consensus sequence are found).
 - Look at the pileup, and zoom in and out.
 - What are the likely errors, what are the adapters ...
 
@@ -272,7 +272,7 @@ Snippy produces a multiple core alignment. The common reference serve as common 
 	- DP = the coverage/depth (default to 10 in snippy)
 	- A default base-quality of minimum phred score=13 is used for a variant calling (error rate of  ~5%) . This differs from the default settings of Freebayes (phred score=20, which correspond to an error rate of 1%. See eg. [here]((https://gatk.broadinstitute.org/hc/en-us/articles/360035531872-Phred-scaled-quality-scores)).
 
-NB: depending on your objective, you might consider to adjust the minimum coverage/depth, the minimum fraction/proportion and variant probability. Eg. if you (1) have a very deep sequencing (2) have contaminants or eg. (3) want to call "real" rare intra-isolate variants !!VS/OR  (4) obtaining the majority variant.
+NB: depending on your objective, you might consider to adjust the minimum coverage/depth, the minimum fraction/proportion and variant probability. Eg. if you (1) have a very deep sequencing (2) have contaminants or eg. (3) want to call "real" rare intra-isolate variants and not solely the majority variants (4) OR you want to solely obtain the majority variants.
 
 ### Practical
 We can now look at the variants typed by snippy.
