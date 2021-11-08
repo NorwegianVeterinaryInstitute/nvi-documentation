@@ -1,8 +1,9 @@
 # Variant calling with reads mapping
 
-## !!How does variant calling work
-Insert small list of the steps involved.
-
+## How does variant calling with reads mapping work
+1. You need to map the reads to a reference.
+2. You need to call your variants (detection of what is different to the reference).
+3. You filter the variants according to some quality criteria. 
 
 We will use _Listeria monocytogenes_ from the EURL proficiency test 2021 in this tutorial.
 
