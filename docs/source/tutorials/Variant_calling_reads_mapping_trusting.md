@@ -197,7 +197,7 @@ ln -s /cluster/projects/nn9305k/tutorial/20211108_trusting_snps/snippy/GCF_00019
 
 # request ressources
 screen
-srun --account=nn9305k --mem=32G --cpus-per-task 4 --qos=devel --time=0:30:00 --pty bash -i
+srun --account=nn9305k --mem=32G --cpus-per-task 4 --time=1:00:00 --pty bash -i
 # activate snippy
 conda activate snippy
 # Run snippy (the --report option is heavy - please someone do without?)
