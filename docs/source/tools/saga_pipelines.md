@@ -60,3 +60,5 @@ This is a list of the pipelines that are available:
 
 - [Bifrost](https://github.com/NorwegianVeterinaryInstitute/Bifrost) - whole genome assembly pipeline 
 - [Bulk RNA-seq](https://github.com/NorwegianVeterinaryInstitute/RNA-seq) - transctipome analysis pipeline
+- [Ellipsis](https://github.com/NorwegianVeterinaryInstitute/Ellipsis) - plasmid assembly and annotation pipeline
+- [ALPPACA](https://github.com/NorwegianVeterinaryInstitute/ALPPACA) - Phylogeny pipeline
