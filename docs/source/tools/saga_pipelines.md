@@ -59,3 +59,4 @@ All of the pipelines use a location that is called $USERWORK to run the analyses
 This is a list of the pipelines that are available:
 
 - [Bifrost](https://github.com/NorwegianVeterinaryInstitute/Bifrost) - whole genome assembly pipeline 
+- [Bulk RNA-seq](https://github.com/NorwegianVeterinaryInstitute/RNA-seq) - transctipome analysis pipeline
