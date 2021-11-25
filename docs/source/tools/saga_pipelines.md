@@ -3,7 +3,7 @@
 The NVI has developed several pipelines that run on Saga. These pipelines are
 the tools that can be used for more large scaled analyses. This page details how
 they are used, and gives pointers to where more documentation about them can be
-found. 
+found.
 
 ## Pipeline benefits
 
@@ -23,7 +23,7 @@ benefits to the user:
 
 All of this means that the user can run a large set of data through an analysis
 pipeline without having to worry about data management or how to set up a
-massive set of slurm jobs. 
+massive set of slurm jobs.
 
 ## Pipeline usage
 
@@ -48,7 +48,7 @@ All the pipelines live in this directory:
 /cluster/projects/nn9305k/vi_src
 ```
 
-Each pipeline has its own runscript. 
+Each pipeline has its own runscript.
 
 When a pipeline is run, the input to the pipeline has to be described in the configfile. All of the pipelines use the same setup for this: this is a directory where all of the raw data is stored. All of the data inside of this directory will be analyzed. The best way of setting this up is by having the raw data stored in the designated raw data directory, and then symlinking it into your analysis directory. This method makes it easy to edit the dataset that is used for an analysis.
 
@@ -58,7 +58,12 @@ All of the pipelines use a location that is called $USERWORK to run the analyses
 
 This is a list of the pipelines that are available:
 
-- [Bifrost](https://github.com/NorwegianVeterinaryInstitute/Bifrost) - whole genome assembly pipeline 
+- [Bifrost](https://github.com/NorwegianVeterinaryInstitute/Bifrost) - whole genome assembly pipeline
 - [Bulk RNA-seq](https://github.com/NorwegianVeterinaryInstitute/RNA-seq) - transctipome analysis pipeline
 - [Ellipsis](https://github.com/NorwegianVeterinaryInstitute/Ellipsis) - plasmid assembly and annotation pipeline
+- [FFPA_nextflow](https://github.com/Thomieh73/FFPA_nextflow) - plasmid assembly pipeline developed in Full Force project
 - [ALPPACA](https://github.com/NorwegianVeterinaryInstitute/ALPPACA) - phylogeny pipeline
+- [Talos](https://github.com/NorwegianVeterinaryInstitute/Talos) - General shotgun metagenomics pipeline
+- [Hunt-Quartet](https://github.com/NorwegianVeterinaryInstitute/HUNT-Quartet) - Specific quality control metagenomics pipeline
+- [Nepal](https://github.com/NorwegianVeterinaryInstitute/Nepal) - Nanopore basecalling and demultiplexing pipeline
+- [NanoClust](https://github.com/NorwegianVeterinaryInstitute/NanoCLUST) - Nanopore amplicon analysis pipelines
