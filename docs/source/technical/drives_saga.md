@@ -32,6 +32,8 @@ area that you have available for working on NVI data
   directories to work on them.
 * /nird/projects/nird/NS9305K - Main NIRD area. This location is actually on
 NIRD. This is where long term storage of data should occur.
+* /cluster/shared/vetinst - Contains the datasets directory, for datasets under analysis. This folder is not backed up, therefore all datasets must be first deposited on NIRD for safe long-term storage and then copied from NIRD to this folder.   
+* /cluster/work/users/USERNAME - A folder that can be used for analyses, ie. if analyses create many temporary files. It is used as such in eg. BIFROST and ALPPACA pipelines. There is no backup of this folder, files are automatically deleted after 21-42 days. Remember copying your results to your dedicated results folder if you use this area.
 
 ### Locations under the main Saga drive
 * active - all users should have a directory here with their username. This is
