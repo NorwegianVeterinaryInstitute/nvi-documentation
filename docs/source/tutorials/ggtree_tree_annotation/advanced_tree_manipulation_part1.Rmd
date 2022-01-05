@@ -1,0 +1,77 @@
+---
+title: "Advanced tree manipulation and Visualisation - Part 1".
+author: "Eve Zeyl Fiskebeck & Håkon Kaspersen"
+date: "1/5/2022"
+output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+<!--Planned and wish list !!! -->
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = F, eval = FALSE, 
+  fig.path = "./")
+```
+
+# ggtree extra library
+
+Håkon - geom_fruit is central to introduce in a tutorial
+
+# Proper tree rerooting
+### Data for this tutorial section 
+> could we use apec2021 -> showing also the problem of wrong middle rerooting ? was good one
+### Tutorial section 
+
+- Step by step
+- The wrapper function in package (ggtreevextra) - to do
+
+# Heatmaps 
+## Heatmaps - presentation of data on the side ie AMR / other stuff
+### Data for this tutorial section 
+### Tutorial section 
+
+
+
+Håkon 
+
+## Distances heatmaps
+### Data for this tutorial section 
+> could we also use the apec 2021 ? 
+
+### Tutorial section 
+
+Eve tree/rotated/tree and phylogeny
+
+> can also use part of that to show how to create weird composite color scales
+> getting the distances in a proper format for display - Apec2021 (Is ready there)
+might just need to improve the documentation of the function
+
+
+## Facets -> Phylogeography
+### Data for this tutorial section 
+> here maybe should use a dummy data - > cannot really use the yersinia ? or ask
+
+### Tutorial section 
+
+Maps and Trees on facets in time --- 
+
+- getting a map
+- getting the tree 
+- time splitting / faceting
+
+> Need to make the functions more general - see Yersinia ! and put that in ggtreevextra
+
+
+## Other things ?
+
+
+
+
+
+
+
+
+

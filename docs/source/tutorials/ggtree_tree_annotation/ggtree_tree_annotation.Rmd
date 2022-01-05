@@ -501,6 +501,7 @@ You can find also some examples of code here, which we can help you adapt to you
 Cohen, Liza Miriam, Janine T. Bossé, Marc Stegger, Yanwen Li, Paul R. Langford, Camilla Kielland, Thea Blystad Klem, et al. "Comparative Genome Sequence Analysis of Actinobacillus Pleuropneumoniae Serovar 8 Isolates From Norway, Denmark, and the United Kingdom Indicates Distinct Phylogenetic Lineages and Differences in Distribution of Antimicrobial Resistance Genes." Frontiers in Microbiology 12 (2021): 2558. <https://www.frontiersin.org/articles/10.3389/fmicb.2021.729637/full>
 
 ```{r trick: references packages, include=FALSE}
+# Source https://github.com/Pakillo/grateful/blob/master/README.Rmd
 p_load_current_gh("Pakillo/grateful")
 used_packages <- c(scan_packages(), "pacman", "dplyr", "ggtree", "ape", "ggplot2", "ggnewscale")
 citing <-get_citations(used_packages)
