@@ -1,4 +1,8 @@
 
 
 # Eve - Ignore
-docs/source/tutorials/ggtree_tree_annotation/*
+docs/source/tutorials/ggtree_tree_annotation/*html
+docs/source/tutorials/ggtree_tree_annotation/*bib
+docs/source/tutorials/ggtree_tree_annotation/temp.R
+docs/source/tutorials/ggtree_tree_annotation/refs.Rmd
+docs/source/tutorials/ggtree_tree_annotation/*.png
