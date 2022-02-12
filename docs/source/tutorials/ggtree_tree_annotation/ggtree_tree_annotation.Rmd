@@ -54,7 +54,7 @@ install.packages("pacman", dependencies = T)
 Loading and/or installing other libraries with `pacman`:
 ```{r loading required packages, eval=F, echo=TRUE}
 library(pacman)
-p_load(dplyr, ggtree, ape, ggplot2, ggnewscale)
+p_load(stringr,dplyr, ggtree, ape, ggplot2, ggnewscale)
 ```
 
 Finding out what functions are available within a specific package
