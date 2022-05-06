@@ -1,0 +1,585 @@
+---
+title: "Tutorial: annotation of phylogenetic trees with ggtree"
+author: "Eve Zeyl Fiskebeck"
+date: "06/05/2022"
+output:  html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+
+bibliography: grateful-refs.bib
+csl: chicago-fullnote-bibliography-short-title-subsequent.csl
+
+knit: (function(input, encoding) {
+    rmarkdown::render(
+      input = input,
+      encoding = encoding,
+      envir = globalenv()
+    )
+  })    
+---
+
+<!--bibliography: references.bib -->
+```{r only for me: klippy, eval =T, echo=F}
+# need to be instaled before hand
+library(klippy)
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy('')
+```
+
+    
+```{r setup,  eval=T, echo=F, results="hide", class.source='klippy'}
+# Run only if you want to create an html tutorial
+if (!requireNamespace("knitr", quietly = TRUE))
+    install.packages("knitr", dependencies = T)
+```
+
+# Principles of trees annotations with `ggtree`
+
+This tutorial is a quick start to help you annotating trees with `ggtree` package using in R. `ggtree` library is based on `ggplot2` library, so if what you want to do is not described specifically in `ggtree` documentation, have a look of how to do it with `ggplot2`, this is very useful.
+
+Please also refer to the reference books:
+
+\- [Data integration, Manipulation and Visualization of phylogenetic trees](https://yulab-smu.top/treedata-book/index.html), hereafter refereed as "ggtree book".
+
+\- [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/), hereafter refereed as "ggplot2 book". 
+
+\- [Analysis of Phylogenetics and evolution with R](https://www.mimuw.edu.pl/~lukaskoz/teaching/sad2/books/Analysis_of_Phylogenetics_and_Evolution_with_R.pdf), a reference book that provide description of how to do tree manipulations with `ape` R library.
+
+\- [R for data science](https://r4ds.had.co.nz/), quick start for data import, manipulation and visualization.
+
+Note:
+
+`ggtree` library, and other libraries eg. `treeio` described in "ggtree book" are being actively developed. It might occur that the documentation is not always in sync with the library version that you have installed (i.e. functions you do not find anymore, functions where syntax has been modified.) In this case: look at the functions available in the library versions you have loaded, and if this does not help, there are usually solutions to be found in [stack overflow](https://stackoverflow.com/).
+
+## Tutorial setup: libraries installation
+
+`ggtree` library can be installed through the [Bioconductor](https://bioconductor.org/) package manager, this is explained [here](https://bioconductor.org/packages/release/bioc/html/ggtree.html).
+
+<!--Can be problem in installation library
+Needed to install manually
+https://nlopt.readthedocs.io/en/latest/#download-and-installation
+--> 
+
+
+
+
+```{r install ggtree,  eval=T, echo=T,  results="hide", class.source='klippy'}
+# source: https://bioconductor.org/packages/release/bioc/html/ggtree.html
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager", dependencies = T)
+if (!requireNamespace("ggtree", quietly = TRUE)) BiocManager::install("ggtree")
+```
+
+Installation of other libraries that we will use in this tutorial:
+
+The `pacman` library is convenient to install very fast new libraries (less writing) and is also useful to explore the functions of libraries we are not familiar with.
+```{r install pacman, eval=T, echo=TRUE,  results="hide", class.source='klippy'}
+if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman", dependencies = T)
+```
+
+Loading and/or installing other libraries with `pacman`:
+```{r loading required packages, eval=T, echo=T, results="hide", class.source='klippy'}
+library(pacman)
+p_load(stringr, dplyr, ggtree, treeio, ape, ggplot2, ggnewscale, Cairo)
+```
+
+Finding out what functions are available within a specific package
+```{r using pacman to find functions in a specific package,  eval=T, echo=T, results="hide", class.source='klippy'}
+p_functions(ggtree)
+```
+
+## Principles of graphics with libraries based on `ggplot`
+
+`ggtree` makes use the grammar of graphics, as described in "ggplot2 book".
+
+**In short a plot is composed of:**
+
+\- the data (the tree and associated metadata).
+
+\- the mapping parameters: how the data variables (e.g. geographical origin, age, ID, bootstrap values) are mapped to an aesthetic attribute.
+
+\- several layers. Layers can be seen as a set of transparent sheets, that you add on top of each other, each adding a different information, and that together will create the visual effect that you wished to accomplish (hopefully).
+
+\- scales: for e.g. labeling colors, points size, shape and fill. Scales are either discrete or continuous.
+
+\- a coordinate system (for trees: it depends on the length of your tree).
+
+\- facets (used to break up the data set in subsets for display of multiple subsets. We won't use facet here, but they can be useful e.g. to show sampling location overtime in a phylogeographic context.
+
+\- a theme (which defines e.g. the background color or your plot, font family, location/display parameters of the legend... we will use very, very simple theme).
+
+We will sequentially define all those elements to be able to visualize and annotate a phylogenetic tree. For more information, please have a look at the "ggplot2 book".
+
+## The data used in this tutorial
+
+We will use data from the following article [Cohen et al. 2021](https://doi.org/10.3389/fmicb.2021.729637) that uses comparative analysis and phylogenetic lineages reconstruction to study the differences in distribution of *Actinobacillus pleuropneumoniae* AMR genes between Norway and Denmark.
+
+We have downloaded the sequences of the isolates used in this article and associated metadata. We have reconstructed a ML phylogenetic tree (for isolates belonging to clade 2) using [ALPPACA](https://github.com/NorwegianVeterinaryInstitute/ALPPACA) pipeline.
+
+The ML tree inference is performed with [IQTREE](http://www.iqtree.org/). We will use the consensus tree (1000 faast-boostrap) for this tutorial. The tree is provided in [newick format](https://en.wikipedia.org/wiki/Newick_format#:~:text=In%20mathematics%2C%20Newick%20tree%20format,Maddison%2C%20Christopher%20Meacham%2C%20F).
+
+In this tutorial you will use those data-files:
+
+\- metadata file: `metadata_clade2_tutorial.rds`
+
+\- consensus tree file: `IQTREE_tree.phylo`(the default output name for your tree when using ALPPACA).
+
+\- pairwise SNPs distance: `distance_cluster2_clean.rds` long format, no double pairs, no isolate distance to itself.
+
+# Tutorial
+
+Setup: see above
+
+## Importing data in R
+
+The metadata has been saved in a *single R object* file to simplify import for this tutorial.
+
+To be able to use the metadata for tree annotation, the variables have to be of the correct type (what should be a real should be defined as such, and characters / factors as such).
+
+Improper data types for your variables typically produce scales error (e.g. discrete value provided to a continuous scales or vice-versa), and also can hinder recognizing adecately the variable you want to display, in which cases the data displayed will not be what you want (weird graphs). So you need to have an idea of how you want your tree to look like to be able to know which data type is appropriate. Here is an example how to change the types.
+
+1.  We read the metadata in an object (change the <path> of the file if necessary)
+
+```{r assigning r object into memory,  eval=T, echo=T, results="hide", class.source='klippy'}
+metadata_file <- "metadata_clade2_tutorial.rds"
+metadata1 <- readRDS(metadata_file)
+```
+
+2.  Check if all variables types are in correct format:
+
+```{r summary of object structure,  eval=T, echo=T, results="hide", class.source='klippy'}
+str(metadata1)
+```
+
+3.  We change the data type to data type that we want I want the year to be display as a continuous gradient so I can se a natural evolution, I need to change the type from integer to real (double in R). The ID for isolates I will use, and are ok, they are as character. I want the Farm_ID to be a character (for labeling). \> ggplot often transforms alone between datatypes (but its good practice to ensure that they are adequate)
+
+```{r mofifying the types of metadata variables, eval=T, echo=T, results="hide", class.source='klippy'}
+metadata <-
+  metadata1 %>%
+  mutate_at(.vars = "year", as.double) %>%
+  mutate_at(.vars = "Farm_ID", as.character)
+
+str(metadata)
+```
+
+Year is now of numeric (real) type instead of integer. We will now be able to use a continuous scale.
+
+4.  We import the tree into memory and look at the structure of the tree object
+
+> Here I will use the import functions from ape (producing S3 objects) but is the possibility to read using s4 objects (treedata) in ggtree. Explain why I choosed to do as such... 
+
+
+Change the path for the tree file if necessary.
+
+```{r reading the tree,  eval=T, echo=T, results="hide", class.source='klippy'}
+tree_file <- "./IQTREE_tree.phylo"
+tree <- ape::read.tree(tree_file)
+# tree <- treeio::read.iqtree() # This is an alternative way (explain)  
+tree
+is.rooted(tree)
+str(tree)
+```
+
+The tree is unrooted (it is a ML tree!). We see that the sequences names are used as tip labels. Because of the we used [Parsnp](https://harvest.readthedocs.io/en/latest/content/parsnp.html) in ALPPACA pipeline (we asked to choose a random sequence as reference), we have one duplicated sample annotated as `xxxx.fasta.ref` and `xxxx.fasta`. This is not a problem for the tree reconstruction with IQTREE as IQTREE remove duplicates sequence before performing the ML tree inference and reinsert duplicated sequences on the tree output for visualisation (with 0 distances). But it is not nice to have an isolate displayed twice on a tree.
+
+## Preliminary: preparing data for display
+
+There for we detect which isolate is the reference, the isolate is present twice the tree, and drop the tip corresponding to this reference.
+
+```{r drop reference tip: isolate in double,  eval=T, echo=T, results="hide", class.source='klippy'}
+# detect tip to drop
+drop_tip <- tree$tip.label[stringr::str_detect(tree$tip.label, ".fasta.ref")]
+# new tree with dropped tip
+tree <- ape::unroot(ape::drop.tip(tree, drop_tip, rooted = FALSE))
+# or using the imported function treeio::drop.tip()
+
+# we verify that the correct label has been removed
+tree$tip.label
+```
+
+> Carefull - droping tip automatically root your tree ... this might lead to problem if its not done proprely
+> here we ensure that the tree is unrooted
+> We will look at rooting in a different tutorial 
+
+We clean the tip label names to be able to match and therefore combine the metadata IDs with the corresponding tree IDs.
+
+```{r drop reference: isolate in double,  eval=T, echo=T, results="hide", class.source='klippy'}
+tree$tip.label <- str_remove(tree$tip.label, ".fasta") 
+tree$tip.label
+```
+
+We select the metadata that only correspond to the tree (optional, but this helps avoiding NA values, when plotting - this could potentially eg. add a category that we do not have in our data).
+
+```{r metadata specific to the tree,  eval=T, echo=T, results="hide", class.source='klippy'}
+metadata_tree <- 
+  # creates a data frame with the tips ids from the tree
+  tibble(id = tree$tip.label) %>% 
+  # joining 2 data frames, specifying which columns are corresponding keys
+  left_join(metadata, by = c("id" = "Acession_number")) %>%
+  # reorder such as id is the first column (required to associate tree and metadata in plotting)
+  select(id, everything()) 
+```
+
+## From plotting a simple tree to a more advanced tree
+
+1.  Specify data used in the tree and make a simple plot
+
+```{r specify data tree,  eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot <- 
+  ggtree::ggtree(tree, 
+                 layout = "rectangular", 
+                 ladderize = T, 
+                 lwd = .2) %<+%
+  metadata_tree 
+simple_plot
+```
+
+We have created a plot object: `simple_plot`. This plot object contains the instructions on how to make a plot (a blueprint). The plot is not done (instructions not evaluated) until we ask R to render the object. The evaluation happens when we type `simple_plot`.
+
+This is very useful because I allows us to experiment and gradually add more instructions to the blueprint, keeping in the object, what we are sure is gave the results we hoped for, and while experimenting to add new layers. When we are satisfied, we can assign those new layers to the `plot_object.`
+
+In this tutorial, we will gradually test and add different layers to create a nice blueprint for visualization of a phylogenetic tree.
+
+2.  add layers to display points and labels at the tips and show the bootstrapping values on the tree.
+
+```{r specify mapping and layers,  eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot + 
+  geom_tiplab(aes(label = label, color = year), size = 2) +
+  geom_tippoint(aes(shape = Region)) +
+  geom_nodelab(size = 2, nudge_x = -0.0000009, nudge_y = 0.5) +
+  geom_treescale(fontsize = 2)
+```
+
+We have added tip labels, and color by year (in the aesthetic!) and point shape for region. The year here is a continuous variable, because I transformed the type of the variable to real.
+
+Note: Bootstrap values are normally associated to the branch preceding a node, and represents the support for a specific clade (including all descendants). However, several software used to display bootstrap values, display those values at the nodes. `ggtree` does not have a function to display bootstrap on branches but we can display those at nodes, and adjust the position of the labels accordingly.
+
+The scale bar provide the correspondence between the evolutionary distance (here: the mean number of substitutions per site) for a branch of corresponding length.
+
+You also see that the legends are automatically created, according to the variables values, depending on if they are categorical or continuous.
+
+### Apparte:
+
+Everything that is associated to a variable on your tree or associated in metadata, that you want to display needs to be included in the mapping. The mapping is the information of how you associate a variable to a graphical display, and this is done within the `aes()` mapping function. Every graphical parameter outside this function will be considered as a constant (or will provide unwanted effects).
+
+```{r test wrong mapping,  eval=F, echo=T, results="hide", class.source='klippy'}
+# Error 
+simple_plot + 
+  geom_tiplab(aes(label = label), color = year, size = 2)
+```
+
+Year is not found, because the names of the variables are accessible within the mapping function.
+
+```{r test wrong mapping2,  eval=T, echo=T, results="hide", class.source='klippy'}
+# this is a very bad practice, but just to show you bad can give unwanted effects
+year <- "pink"
+simple_plot + 
+  geom_tiplab(aes(label = label), color = year, size = 2)
+
+# explain why it can be a problem (environment)
+year <- 2018
+simple_plot + 
+  geom_tiplab(aes(label = label), color = year, size = 2)
+
+rm(year)
+```
+
+But if there is an object in your environment that is called year, this will work and produce a weird result!! This is because R looks in the general environment to find the object if it does not find it at first.
+
+Moreover: there is no good solution to find how much you should adjust the positions of values/text e.g. for the bootstrap values. It depends on the size and layout of your tree. However, you can find what is the range of the xlim and ylim oas soon as you build a simple plot, this can give you an idea of the range of value and then on what order of magnitude you need to use for adjustment:
+
+```{r finding size of the tree,  eval=T, echo=T, results="hide", class.source='klippy'}
+# Most useful
+myplot_xlim <-ggplot_build(simple_plot)$layout$panel_scales_x[[1]]$range$range
+myplot_xlim
+# Just in case ...
+myplot_ylim <- ggplot_build(simple_plot)$layout$panel_scales_y[[1]]$range$range
+myplot_ylim 
+```
+
+Bellow is where the xy limits of your plot are placed.
+
+```{r visualizing xlim and ylim,  eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot + 
+  geom_vline(xintercept = myplot_xlim[1], color = "green", lty = 2) +
+  geom_vline(xintercept = myplot_xlim[2], color = "green", lty = 3) +
+  geom_hline(yintercept = myplot_ylim[1], color = "blue", lty = 2) +
+  geom_hline(yintercept = myplot_ylim[2], color = "blue", lty = 3) 
+```
+
+### Improving the tree visualization
+
+We are not happy with the display of the regions. We only want full symbols filled with color. Some shapes can visibly be filled, while others cannot. Shapes can be used for categorical variable, and we want to specify EXACTELY which shape to use. To do so we define a palette, that defines the correspondence between a shape and a value of the categorical variable.
+
+Shapes are defined by the graphical parameter `pch`. In the help you can look to the numeric correspondence of the shape to its symbol.
+
+```{r example of shape palette,  eval=T, echo=T, results="hide", class.source='klippy'}
+# find what the shapes correspond to
+?pch 
+# Create a shape palette 
+palette_shape <- c("Central"= 21,
+                   "East" = 22,
+                   "Greater Oslo" = 23,
+                   "North" = 24,
+                   "South-West" = 25)
+```
+
+```{r improve shape,  eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot + 
+  geom_tippoint(aes(shape = Region)) + 
+  scale_shape_manual(values = palette_shape, name = "Shape = Region") 
+```
+
+The shapes look much better. Now we want to color and fill those shapes, such as each color/fill corresponds to a specific farm.
+
+```{r improve shape and color/fill,  eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot2 <- simple_plot + 
+  geom_tippoint(aes(shape = Region, fill = Farm_ID, color = Farm_ID), size = 2, show.legend = T) + 
+  scale_shape_manual(values = palette_shape, name = "Shape = Region") 
+simple_plot2
+```
+
+You see that the legend is automatically created. When your variables names are not very satisfactory, you can use the argument `name` to improve the legend text corresponding to the specified scale.
+
+We add tip labels. We want tip labels to be colored according to the year of sampling. In a standard ggplot you can only have one scale type per plot (shape, color, size, fill). The library `ggnewscale`allow us to create new scales, but this means that all the plot parameters from the previous scale, need to be defined before creating new scale.
+
+```{r add a new scale and colored tips labels, eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot2 +
+    ggnewscale::new_scale_color() +
+    geom_tiplab(aes(label = label, color = year), size = 2) 
+```
+
+Now we want to display the labels as samples IDs (not accession numbers) and we also want the farms ID to be shown as part of the label name, to ease interpretation.
+
+Moreover, this color gradient that is used for the year does not allow good discrimination between sampling years. We will improve it by creating a discriminant gradient over 3 colors. We will use a continuous color scale (gradient, and specify a middle color value at the middle of the year range).
+
+```{r improve scale and color scale for colored tips labels, eval=T, echo=T, results="hide", class.source='klippy'}
+simple_plot3 <- simple_plot2 +
+  ggnewscale::new_scale_color() +
+  geom_tiplab(aes(label = paste0(ID, " F ", Farm_ID), color = year), size = 2) +
+  scale_color_gradient2(midpoint = 2011.5, low = "orange", mid = "red",
+                        high = "blue", space = "Lab", name ="Year = sampleID colored labels") 
+
+simple_plot3
+```
+
+Note: if you have a full date (not only the year of isolation), you can use a special continuous scale to represent the dates of sampling on a color gradient. You would replace the `scale_color_gradient2` layer by something like this:
+
+```{r scale for full date: alternative, eval=T, echo=T, results="hide", class.source='klippy'}
+scale_color_date(low = "red",  high = "blue", date_labels ="%Y-%m-%d")
+```
+
+Now we add the bootstrap values, and colored in red if they are low (\<95 because we used IQTREE fast-bootstrap method) and green otherwise.
+
+```{r add the conditional bootstrap labels, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+simple_plot4 <- 
+  simple_plot3 + 
+  ggnewscale::new_scale_color() +
+  geom_nodelab(aes(color = as.numeric(label) < 95),
+               node = "internal", 
+               size = 1.5, nudge_x = -0.0000009, nudge_y = 0.5) +
+  scale_color_manual(values = setNames(c("red", "darkgreen"), c(T,F)),
+                     na.translate = FALSE, name = "Bootstrap") +
+  geom_treescale(fontsize = 2) +
+  # This will allow removing the latest legend for color: the Boostrap legend
+  guides(color = "none") 
+simple_plot4
+```
+
+If we do not remove the legend, we will have T (True), and F(False) as legend. As red is the warning color and green color, it was easy to remember, so we can hide the legend using the guides function. In ggplot2, `guides` allows manipulation of [scales and legends](https://ggplot2-book.org/scales-guides.html).
+
+The previous plot with the bootstrap values is nice for data exploration, but not very nice for publication. An alternative can be to color the nodes according to bootstrap value: support or poor clade support.
+
+```{r alternative boostrap node plot labels, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+simple_plot4b <- 
+  simple_plot3 + 
+  ggnewscale::new_scale_color() +
+  # the variable label correspond to the values of nodes: here Boostrap values
+  geom_nodepoint(aes(color = as.numeric(label) < 95),
+                 size = 1, na.rm = T, pch = 19) +
+  # the expression phantom allow mathematical annotation for the text labels 
+  scale_color_manual(values = setNames(c("red", "darkgreen"), c(T,F)),
+                     labels = c(expression(phantom(x) <95), expression(phantom(x) >=95)),
+                     na.translate = FALSE, name = "Bootstrap") +
+  geom_treescale(fontsize = 2)
+simple_plot4b
+```
+
+Now we would like to add title, move the legend to the other size. We also have a simple solution to add a title.
+
+```{r add a tittle and change the position of legend add title, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+simple_plot5 <- simple_plot4b +
+  ggtitle("Clade 2") +
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 6),
+        plot.title = element_text(),
+        legend.position = "left")
+simple_plot5
+```
+
+But you can get more control of your captions with using:
+
+```{r better tittle control, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+simple_plot4b +
+  labs(title ="Clade 2", subtitle = "This is really amazing!", 
+       caption = "We can really custumize everything!") +
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 6),
+        plot.title = element_text(),
+        legend.position = "left")
+```
+
+### Saving you graph
+
+Be aware that the appearance of your graph does not only depends upon the parameters used for display but **ALSO** of the format of the graphical display you use (the size/resolution of the output).
+
+So if your graph is a bit squished in width or in height, sometimes this can be adjusted by changing the settings of width and height when saving the graph. But this also can go into opposites direction, if a plot looks nice on the console display, it can become very ugly if you change the ratio and size (resolution) of the display when saving.
+
+```{r change the position of legend add title, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+# note path must be writen for Rmarkdown
+ggsave(filename = "my_colorfull_tree.png",
+       path = "~/Desktop",
+       plot = simple_plot5,
+       units = "cm", dpi = 600, width = 30, height = 25, 
+       type = "cairo")
+```
+
+### Annotating clades: adding segments reporting SNPs distances.
+
+There is unfortunately no easy (automatic) way to do so as per today. To do so you need to:
+
+1.  Get the taxa names (best to get them in order of the tree).
+
+Note: Be aware the taxa names are the tip names in order as represented in the tree, but the labels are the tree labels, not the metadata ID labels we used as display. Redo a simple tree plot using `geom_tiplab(aes(label = label), size = 2)` to be able to view the labels used to make the tree (Accession number) correspondence.
+
+```{r get taxa names, eval=T, echo=T, results="hide", class.source='klippy'}
+taxa_names <- get_taxa_name(simple_plot5)
+taxa_names
+```
+
+> For annotation: we get the taxa names from the plot object. We want the order of the taxa to be corresponding to
+the order that is displayed
+
+2.  Now locate the high and low taxon that are contained in the clade of interest, and extract the corresponding node number
+
+```{r get MRCA node, eval=T, echo=T, results="hide", class.source='klippy'}
+group1_node <- ggtree::MRCA(simple_plot5, "ERR6510225", "ERR6510223")
+group1_node 
+```
+> Warning: The function MRCA works both on the tree object AND the plot object of the tree. 
+> BUT there might be some discrepencies in the labelling order of the nodes between the tree and the plot of the tree (ie rotated nodes for better display). When you want to plot - use MRCA function on the plot object (not on the tree object).
+
+
+3.  subset your taxa name vector to extract all the taxa that belong to the group of interest
+
+```{r get a group taxa names, eval=T, echo=T, results="hide", class.source='klippy'}
+# you can do manually
+group1 <- taxa_names[12:16]
+# or:
+group1 <- taxa_names[which(taxa_names %in% "ERR6510225"):which(taxa_names %in% "ERR6510223")]
+```
+
+4.  Extract the pairwise distance for the group in question
+
+```{r extract pairwise distance for selected group, eval=T, echo=T, results="hide", class.source='klippy'}
+# load all the pairwise distances
+distance_cluster2 <- readRDS("./distance_cluster2_clean.rds") 
+group1_distance <- distance_cluster2 %>%
+  filter(ID1 %in%group1, ID2 %in% group1) %>%
+  pull(distance) %>%
+  range() # here we give the range (min and max)
+group1_distance
+```
+
+5.  Further annotate the tree.
+
+```{r annotate selected group, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+simple_plot5 +
+  geom_cladelab(node = group1_node, label = "0-1\nSNP", 
+                align = F, geom = 'text', fontsize = 2, 
+                textcolor = "black", size = 1, offset =.00001)
+```
+
+`\n` allows to add a carriage return for the text (text label written on several lines). There are also more advanced possibilities to format your labels (e.g. with [markdown elements](https://www.rdocumentation.org/packages/ggtext/versions/0.1.1/topics/element_markdown) for the [plot themes](https://ggplot2-book.org/polishing.html)).
+
+Use one line of `geom_cladelab` per group you want to annotate.
+
+If your plotting area is too small, you can extend the xlim (or ylim, depending on you type of annotation) as done bellow.
+
+If you extend too much, your tree will be all squished, so you need to get back to the limits of the tree in the plot and then adjust accordingly.
+
+```{r trick: extend you plot area, eval=T, echo=T, results="hide", warning = FALSE, class.source='klippy'}
+# Extract the current xlim (as done above)
+ggplot_build(simple_plot5)$layout$panel_scales_x[[1]]$range$range
+
+# redefine (slighly extend) xlim
+simple_plot5 + 
+    geom_cladelab(node = group1_node, label = "0-1\nSNP", 
+                align = F, geom = 'text', 
+                textcolor = "black", size = 1, offset =.00001) +
+  xlim(0.000000e+00, 5e-05)
+```
+
+# Going further
+
+**WARNING**: be aware that if you import you tree as treedata (treeio::read_iqtree) and need to reroot your tree with rerooting might lead to bootstrap being placed on the wrong nodes. Therefore it is better to directly use ape to import the tree, and re-rooting should be the first step you do (before merging your data).
+
+Please ask us if you are in need of certain types of displays. We have written scripts for different projects, that could be adapted and reused.
+
+There is almost never one solution to obtain the same plot with ggtree/ggplot2. The difficulties rely in finding a simple solution that function well with all the layers added. When starting to build your own solutions, you might encounter different problems. The best way to solve them is to: Google a lot (stack-overflow and R-blogs are a great sources of examples how to do one element that you want!).
+
+Some examples of goggling: - [More Shapes](http://sape.inf.usi.ch/quick-reference/ggplot2/shape)
+
+-   [Top R Color Palettes to Know for Great Data Visualization](https://www.datanovia.com/en/blog/top-r-color-palettes-to-know-for-great-data-visualization/)
+
+You can find also some examples of code here, which we can help you adapt to your problem:
+
+-   [APEC-2021-Rprepackage](https://github.com/NorwegianVeterinaryInstitute/APEC-2021-Rprepackage) contain scripts for cleaning and working with distance data (transforming to clean long format)\*. Of special interest.
+
+    -   transforming SNPs distances and extracting some summary statistics and distance plots
+    -   selecting metadata and merging with tree data (in order to avoid NA and further problems when plotting)
+    -   functions for proper re-rooting of trees using ggtree
+    -   tree annotation - tree/rotated_tree/distance heatmap plot in one graph (allow to visualize pairwise distance between groups)
+
+-   [VI31142_NRC250212_Broiler](https://github.com/NorwegianVeterinaryInstitute/VI31142_NRC250212_Broiler) contains scripts for plotting snippy and beast phylogenetic trees, different scales
+
+-   contain scripts to be able to subset trees (allows "zooming" on specific clade -\> to make a zoomed plot)
+
+-   [yersinia](https://github.com/NorwegianVeterinaryInstitute/yersinia/tree/master/src) contains scripts for phylogeography
+
+    -   plotting different trees on a map, and within a timeline (facet-plots)
+
+<!--# planned package (in prep) that will take the tools above in coherent package -->
+
+<!--# [ggevxtra](https://github.com/NorwegianVeterinaryInstitute/ggtrevextra) -->
+
+# References
+Examples: Getting the references from your packages: Different options
+Packages: [Rmarkdown book](https://bookdown.org/yihui/rmarkdown-cookbook/)
+R Library: [grateful](https://github.com/Pakillo/grateful) 
+
+```{r trick: references packages, eval=T, echo=TRUE, results="hide", class.source='klippy'}
+# And many other functions to cite packages 
+p_load_current_gh("Pakillo/grateful")
+scan_packages()
+```
+
+Data from: 
+
+Cohen, Liza Miriam, Janine T. Bossé, Marc Stegger, Yanwen Li, Paul R. Langford, Camilla Kielland, Thea Blystad Klem, et al. "Comparative Genome Sequence Analysis of Actinobacillus Pleuropneumoniae Serovar 8 Isolates From Norway, Denmark, and the United Kingdom Indicates Distinct Phylogenetic Lineages and Differences in Distribution of Antimicrobial Resistance Genes." Frontiers in Microbiology 12 (2021): 2558. <https://www.frontiersin.org/articles/10.3389/fmicb.2021.729637/full>
+
+R: session 
+```{r session info, eval=T, echo=T, results="hide", class.source='klippy'}
+sessionInfo()
+```
+
+R: packages: 
+```{r results = 'asis', eval=T, echo=T, warning = FALSE, class.source='klippy'}
+cite_packages(output = "paragraph",
+              citation.style = "chicago-fullnote-bibliography-short-title-subsequent.csl",
+              include.RStudio = T)
+```
+
+
