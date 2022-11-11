@@ -1,0 +1,31 @@
+OUTPUT_DIR : /path_download_metadata/
+
+EMAIL : <your login in NCBI email>
+
+API_KEY : <paste your api key>
+
+FORCE_PAUSE_SECONDS : 0.5
+
+DATABASE : providencia_db.sqlite
+
+TABLES :
+  - BioSample
+
+SEARCH_TERMS :
+  - BioSample : Providencia[Orgn]
+
+TABLE_COLUMNS :
+  - BioSample :
+    - BioSampleAccession: BioSample, accession
+    - BioSampleTitle: Title
+    - BioSampleName: Id, db_label, Sample name
+    - BioSampleOrganism: Description, OrganismName
+    - BioSampleType: Attribute, harmonized_name, sample_type
+    - BioSampleStrain: Attribute, harmonized_name, strain
+    - BioSampleCollectionDate: Attribute, harmonized_name, collection_date
+    - BioSampleCountry: Attribute, harmonized_name, geo_loc_name
+    - BioSampleLatLon: Attribute, harmonized_name, lat_lon
+    - BioSampleHost: Attribute, harmonized_name, host
+    - BioSampleHostDisease: Attribute, harmonized_name, host_disease
+    - BioSampleIsolationSource: Attribute, harmonized_name, isolation_source
+    - BioSampleComment: Description, Comment
