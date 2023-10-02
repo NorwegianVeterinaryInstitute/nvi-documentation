@@ -103,25 +103,18 @@ NOTE: Before installing a tool, please check if it is already available as a mod
 
 ## Creating a new project
 When creating a new project or sub-project, please follow the steps described below:
-1. Run the `create_project.bash` script under `~/adm/scripts` to generate the main project directory
-
-```
-bash create_project.bash <project_name>
-```
-
+1. Run the `create_project.bash` script under `~/adm/scripts` to generate the main project directory (see below)
 2. Fill in the `<project_name>/README` with the necessary information
-3. Run the `create_subproject.bash` script under `~/adm/scripts` whenever you need to create a sub-project
-
-```
-bash create_subproject.bash <project_name> <sub_project_name>
-```
-
-Where `project_name` refers to the main project name.
-
+3. Run the `create_subproject.bash` script under `~/adm/scripts` whenever you need to create a sub-project (see below)
 4. Fill in the necessary information in the `~/<project_name>/<sub_project_name>/README`
 5. Initiate git in the sub-project directory: `git init`
 6. Connect the local git directory to the NorwegianVeterinaryInstitute github site
 7. Whenever you want to create a new sub-project, run the `create_subproject.bash` script and repeat steps 3-6.
+
+```
+bash create_project.bash <project_name>
+bash create_subproject.bash <project_name> <sub_project_name>
+```
 
 Users may also check the `CHECKLIST` file generated in each sub-project to check if they have done all steps necessary for each sub-project.
 
