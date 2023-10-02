@@ -126,7 +126,7 @@ Whenever a sub-project is complete and need archiving, please follow the steps b
 3. Make sure that the directory is up to date with git before archiving
 4. Pack the entire sub-project directory with `tar -czvf <sub_project_name>.tar.gz <sub_project_name>`
 5. Make sure that a project directory exists under the NIRD home area `/nird/projects/NS9305K/<project_name>`
-5. Move the tarball to NIRD under the respective project directory: `rsync -rauPW <sub_project_name>.tar.gz /nird/projects/NS9305K/<project_name>`
-6. Run the rsync command in step 5 again to make sure that the tarball has been safely transferred
-7. Delete the tarball and sub_project directory on Saga
+6. Move the tarball to NIRD under the respective project directory: `rsync -rauPW <sub_project_name>.tar.gz /nird/projects/NS9305K/<project_name>`
+7. Run the rsync command in step 6 again to make sure that the tarball has been safely transferred
+8. Delete the tarball and sub_project directory on Saga
 
