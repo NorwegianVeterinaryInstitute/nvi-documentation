@@ -80,6 +80,11 @@ NOTE: Only unpacked files are allowed in this directory. After transferring read
 
 Long-term storage of reads and archived projects is done on NIRD, project number NS9305K. Please see "Archiving projects" for more information.
 
+#### Configs
+This directory holds the nextflow configs used with nf-core or other nextflow pipelines. Please use the corresponding config by pipeline name.
+
+Please do not use the configs listed in nn9305k, as they have the wrong project number in the SLURM settings (this will bill nn9305k instead of nn10070k for the CPU usage).
+
 #### Src
 The src directory is used for conda environments, saving conda yaml files, and for stand-alone tools not installed as a module or with conda.
 Subdirectories include `~/bin` for stand-alone tools, and `~/conda` for conda environments and yaml file archives.
