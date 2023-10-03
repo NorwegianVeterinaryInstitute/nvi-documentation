@@ -75,7 +75,7 @@ Here follows a description of the sub-directories within each sub-project.
 New sub-projects should be generated with the script `generate_subproject.bash` to make sure that it adheres to the structure described above. Please read the "Starting a new project" section for more information.
 
 #### Rawdata
-All sequencing data used for the projects on nn9305k should be placed here. The reads are temporarily rsynced from NIRD to this directory. After the analyses have completed, the reads in question are deleted from this directory.
+All sequencing data used for the projects on nn10070k should be placed here. The reads are temporarily rsynced from NIRD to this directory. After the analyses have completed, the reads in question are deleted from this directory.
 NOTE: Only unpacked files are allowed in this directory. After transferring reads from NIRD, unpack the tarball and remove it to save space. Tarballs that have not been unpacked may be subject to immediate deletion if we need space!
 
 Long-term storage of reads and archived projects is done on NIRD, project number NS9305K. Please see "Archiving projects" for more information.
