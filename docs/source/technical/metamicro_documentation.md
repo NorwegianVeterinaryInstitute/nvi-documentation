@@ -22,7 +22,7 @@ The remaining directories are only for administrative use.
 #### Databases
 The databases directory holds databases used for the analysis of sequence data, such as smaller Kraken databases, taxonomic databases, and so on.
 
-NOTE: Very large databases should not be placed here, they should be located in `/cluster/shared/databases`.
+NOTE: Larger databases should not be placed here, they should be located in `/cluster/shared/biobases`. However, this directory also has limited storage space. For very large databases, please contact Sigma2, and they will download it to `/cluster/shared/databases`.
 
 Note on nomenclature for tools and databases:
 All databases and tools need to be tagged with a version number in the directory they are placed. If the database or tool in question do not have a specific version number, use the date of download as the version.
