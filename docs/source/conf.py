@@ -31,13 +31,7 @@ release = 'v0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
-    "sphinx.ext.intersphinx",
 ]
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -61,15 +55,14 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 # To support markdown
-# python -m pip install --upgrade --no-cache-dir pip recommonmark 
-# from recommonmark.parser import CommonMarkParser
 
-# source_parsers = {
-#     '.md': CommonMarkParser,
-# }
+from recommonmark.parser import CommonMarkParser
 
-# source_suffix = ['.rst', '.md']
+source_parsers = {
+    '.md': CommonMarkParser,
+}
 
+source_suffix = ['.rst', '.md']
 
 # Setting the document root
 master_doc = "index"
