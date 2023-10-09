@@ -55,16 +55,14 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 # To support markdown
-pip install recommonmark
-#from recommonmark.parser import CommonMarkParser
+from recommonmark.parser import CommonMarkParser
 
-#source_parsers = {
-#    '.md': CommonMarkParser,
-#}
+source_parsers = {
+    '.md': CommonMarkParser,
+}
 
-#source_suffix = ['.rst', '.md']
+source_suffix = ['.rst', '.md']
 
-extensions = ['recommonmark']
 
 # Setting the document root
 master_doc = "index"
