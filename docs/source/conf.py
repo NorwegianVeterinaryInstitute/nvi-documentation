@@ -64,11 +64,11 @@ html_static_path = ['_static']
 # python -m pip install --upgrade --no-cache-dir pip recommonmark 
 # from recommonmark.parser import CommonMarkParser
 
-source_parsers = {
-    '.md': CommonMarkParser,
-}
+# source_parsers = {
+#     '.md': CommonMarkParser,
+# }
 
-source_suffix = ['.rst', '.md']
+# source_suffix = ['.rst', '.md']
 
 
 # Setting the document root
