@@ -55,7 +55,7 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 # To support markdown
-pip install recommonmark
+sudo pip install recommonmark
 from recommonmark.parser import CommonMarkParser
 
 source_parsers = {
