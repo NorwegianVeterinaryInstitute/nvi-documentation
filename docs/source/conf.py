@@ -32,6 +32,7 @@ release = 'v0.0.1'
 # ones.
 extensions = [
     'sphinx_rtd_theme',
+    'myst_parser',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -57,13 +58,17 @@ html_theme = 'sphinx_rtd_theme'
 
 # To support markdown
 
-from recommonmark.parser import CommonMarkParser
+# from recommonmark.parser import CommonMarkParser
 
-source_parsers = {
-    '.md': CommonMarkParser,
+# source_parsers = {
+#     '.md': CommonMarkParser,
+# }
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown',
 }
-
-source_suffix = ['.rst', '.md']
 
 # Setting the document root
 master_doc = "index"
