@@ -22,11 +22,11 @@ Open [https://github.com/settings/keys](https://github.com/settings/keys) and th
 
 ### Step 3 - Setup SSH and git in RStudio
 
-Open a fresh session of RStudio. See [here]() for some tips on configuring RStudio.
+Open a fresh session of RStudio. See [here](rstudio_tips) for some tips on configuring RStudio.
 
-In the menu under Tools > Options > Terminal set the Shell to Git Bash.
+In the menu under Tools > Global Options > Terminal set the Shell to Git Bash.
 
-In the menu under Tools > Options > git/svn verify that the path to the private key is showing up.
+In the menu under Tools > Global Options > git/svn verify that the path to the private key is showing up.
 
 ## Step  4 - Set up GitHub Personal Access Token
 
