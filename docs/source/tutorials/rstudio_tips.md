@@ -6,7 +6,6 @@
 
 This is a guide on how to do different things in RStudio to make your work easier and simpler. Some of it is good practices, some of it is just my preferences, but it may be useful for other people too.
 
-
 ### RStudio settings
 
 Under the Tools menu > Global Options > General > Basic:
@@ -62,3 +61,11 @@ Under the Tools menu > Global Options > Code > Display:
 Check Highlight R function calls. Great to be able to see which part of your code is actually a function name.
 
 Check Use rainbow parentheses. Great to be abel to see the matching parentheses especially in long chunks of code and in Shiny.
+
+Check Show margin and set at 80 characters. This will show a vertical line in the code to help you keep readability in mind when writing long lines of code or comments.
+
+### RStudio Workspace Panes
+
+The default settings for the Workspace Panes in Rstudio has the code editor on the left side. A good improvement on that is to have the editor on the right side of the workspace and the console/terminal on the left. The bottom pane on the right side should keep the history tab, where as all the other tabs go in the bottom left pane. That way, you can expand the code editing pane to the whole right side of the screen without sacrificing too much functionality. You don't need to check the code history tab too much when working, if at all.
+
+This is also focus your vision to the center of the screen as most typing in the code editing panel will happen in the centre of the sceen.
