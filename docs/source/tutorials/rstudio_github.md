@@ -24,15 +24,15 @@ Open [https://github.com/settings/keys](https://github.com/settings/keys) and th
 
 Open a fresh session of RStudio. See [here](rstudio_tips) for some tips on configuring RStudio.
 
-In the menu under Tools > Global Options > Terminal set the Shell to Git Bash.
+In the menu under "Tools" > "Global Options" > "Terminal" set the `Shell` to `Git Bash`.
 
-In the menu under Tools > Global Options > git/svn verify that the path to the private key is showing up.
+In the menu under "Tools" > "Global Options" > "Git/SVN" verify that the path to the private key is showing up.
 
 ## Step  4 - Set up GitHub Personal Access Token
 
 A Personal Access Token is not something you necessarily need. It is required for installing private R packages such as the `NVIConfig` package. You may or may not need this.
 
-First go to [https://github.com/settings/tokens](https://github.com/settings/tokens) and generate a new classic token by clicking on the Generate new token dropdown and selecting the classic token. The next page will ask for a lot of options for the token permissions, you will need probably just the repo options on the top of the page, but feel free to select whatever you think is needed for your work. In the Note field add something that will describe the token and click Generate token.
+First go to [https://github.com/settings/tokens](https://github.com/settings/tokens) and generate a new classic token by clicking on the "Generate new token" dropdown and selecting the classic token. The next page will ask for a lot of options for the token permissions, you will need probably just the `repo` options on the top of the page, but feel free to select whatever you think is needed for your work. In the `Note` field add something that will describe the token and click Generate token.
 
 The token will be shown in the browser. Keep that open for the time being.
 
