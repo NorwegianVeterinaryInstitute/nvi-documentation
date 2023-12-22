@@ -1,41 +1,106 @@
 ---
 title: "Advanced tree manipulation and Visualisation - Part 1".
 author: "Eve Zeyl Fiskebeck & Håkon Kaspersen"
-date: "1/5/2022"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+
+params:
+  repo_path: "https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/tree/evfi_ggtree_dev/docs/source/tutorials"  
+  
+
 output: github_document
 editor_options: 
   markdown: 
     wrap: 72
 ---
 
-<!--Planned and wish list !!! -->
-
 ```{r setup, echo = FALSE}
+library(pacman)
+p_load(here, ggtree)
+
 knitr::opts_chunk$set(
   collapse = F, eval = FALSE, 
   fig.path = "./")
 ```
 
-# ggtree extra library
+<!-- REMEMBER - 
+- [ ] At merging in main change the repo_path to main branch
+--> 
 
-Håkon - geom_fruit is central to introduce in a tutorial
+# Phylogenetic tree (re-)rooting
 
-# Proper tree rerooting
-### Data for this tutorial section 
-> could we use apec2021 -> showing also the problem of wrong middle rerooting ? was good one
-### Tutorial section 
+There are different ways to root phylogenetic trees, Eg. using an outgroup, 
+using midpoint rooting, using molecular clock hypothesis and tip dating (eg. see 
+bactdating) or using non-time reversible nucleotide substitutions models.
 
-- Step by step
-- The wrapper function in package (ggtreevextra) - to do
+- Maximum likelihood phylogenetic trees are unrooted when we use time reversible models 
+![GTR faimily](https://d3i71xaburhd42.cloudfront.net/313ab4728900e96d7eaff5c8db8fe30f1f702afb/7-Figure4-1.png).
+
+But there are ways in IQ-Tree to find the root using eg. non reversible models. 
+[See here](http://www.iqtree.org/doc/Rootstrap)
+
+Here we will show you how to import unrooted tree and re-root it for visualization
+with ggtree. We experienced many times challenges to correctly re-root the tree. 
+If incorrectly done, it can shift the bootstrap values at the wrong place.
+
+You can read eg. a general explanation of why [here:](https://academic.oup.com/mbe/article/34/6/1535/3077051). In summary, its 
+because bootstrap values are support values of branches, but because they are
+often displayed on the nodes it leads to confusion (and also improper mechanism
+when rooting). 
+
+Therefore we advise you that you ensure that each re-rooting you have done did not
+shift the bootstrap values and that your visualization is correct.
+You can do so, eg. using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) (using bootstrap as branch support to be correct). FigTree can eg. be installed via conda. 
+
+## Downloading the data for this tutorial 
+
+```{r}
+readRDS(paste(params$save_dir, "tree.RDS", sep = "/"))
+```
+
+
+
+- [ ] Write
+
+## Outgroup rooting
+
+
+
+
+## Mid-point rooting
+
+During mid point rooting, the root will be placed in the middle of the longest 
+branch (aka. longest evolutionary distance) between OTU/groups, because this 
+branch represents the most distantly related OTU. 
+
+Midpoint rooting is useful when you do not have other information about where 
+the root should be AND want to give a directionality of evolution, 
+for interpretation. HOWEVER, you need to think before mid-point rooting, about
+the assumption you are making and be conscious that I can be misleading and 
+erroneous.
+
+Here is an example of me not thinking before doing! 
+(hope you can learn from my mistake)
+
+<!-- we use apec2021 -> showing also the problem of when middle rerooting 
+is wrong -->
+
+-[ ] History - large cluster
+-[ ] History - misleading interpretation with midpoint rooting
+
+
+
+# References
+
+-[ ] [ggtree book]()
+
+<!-- Continue  
 
 # Heatmaps 
 ## Heatmaps - presentation of data on the side ie AMR / other stuff
-### Data for this tutorial section 
+
 ### Tutorial section 
 
-
-
-Håkon 
+# ggtree extra library
 
 ## Distances heatmaps
 ### Data for this tutorial section 
@@ -80,14 +145,12 @@ Maps and Trees on facets in time ---
 > or find other solutions ! 
 
 
-
-
 ## Other things ?
 - Finding a solution to get segments for phylogeography ...
-- coposite plots (tree, heatmap and other plots ...) 
+- composite plots (tree, heatmap and other plots ...) 
 
 
-
+--> 
 
 
 
