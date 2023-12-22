@@ -54,7 +54,7 @@ You can do so, eg. using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) (
 ## Downloading the data for this tutorial 
 
 ```{r}
-readRDS(paste(params$save_dir, "tree.RDS", sep = "/"))
+mytree <- readRDS(paste(params$repo_path, "tree.RDS", sep = "/"))
 ```
 
 
