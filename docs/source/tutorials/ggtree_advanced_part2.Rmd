@@ -1,0 +1,70 @@
+---
+title: "Untitled"
+author: "Eve Fiskebeck"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+<!-- Continue  
+
+# Heatmaps 
+## Heatmaps - presentation of data on the side ie AMR / other stuff
+
+### Tutorial section 
+
+# ggtree extra library
+
+## Distances heatmaps
+### Data for this tutorial section 
+> could we also use the apec 2021 ? 
+
+### Tutorial section 
+
+Eve tree/rotated/tree and phylogeny
+
+> can also use part of that to show how to create weird composite color scales
+> getting the distances in a proper format for display - Apec2021 (Is ready there)
+might just need to improve the documentation of the function
+
+# Manipulating tree data formats
+> advantages
+- avoid the NA when plotting
+- merging directly metadata and tree (sure its not a problem when plotting)
+
+
+## Facets -> Phylogeography
+### Data for this tutorial section 
+> here maybe should use a dummy data - > cannot really use the yersinia ? or ask
+
+### Tutorial section 
+
+Maps and Trees on facets in time --- 
+
+- getting a map
+- getting the tree 
+- time splitting / faceting
+
+> Need to make the functions more general - see Yersinia ! and put that in ggtreevextra
+
+
+# Creating zooms on specific clades 
+## ggtree clade specific - the simple solution
+
+> limirations 
+
+## subsetting the tree - plotting subsets as independent tree
+> see Broiler repo -> for being able to subset clades and plot individually 
+> or find other solutions ! 
+
+
+## Other things ?
+- Finding a solution to get segments for phylogeography ...
+- composite plots (tree, heatmap and other plots ...) 
+
+
+--> 
+
+
+
+
+

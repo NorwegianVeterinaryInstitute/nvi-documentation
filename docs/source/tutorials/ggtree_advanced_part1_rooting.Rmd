@@ -1,0 +1,425 @@
+---
+title: "Advanced tree manipulation and Visualisation - Part 1"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: "Eve Zeyl Fiskebeck & Håkon Kaspersen"
+  
+params:
+  
+  
+  raw_repo_path: "https://raw.githubusercontent.com/NorwegianVeterinaryInstitute/nvi-documentation/evfi_ggtree_dev/docs/source/tutorials"
+  raw_repo_path2: "https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/raw/evfi_ggtree_dev/docs/source/tutorials"
+output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
+  chunk_output_type: console
+---
+
+```{r setup, echo = FALSE}
+library(pacman)
+p_load(here, tidyverse, ggtree, ape, castor, ggrepel)
+
+knitr::opts_chunk$set(
+  collapse = F, eval = FALSE,
+  fig.path = "./")
+```
+
+<!-- REMEMBER - 
+- [ ] At merging in main change the repo_path to main branch
+--> 
+
+# Phylogenetic tree (re-)rooting
+
+There are different ways to root phylogenetic trees, Eg. using an outgroup, 
+using midpoint rooting, using molecular clock hypothesis and tip dating (eg. see 
+bactdating) or using non-time reversible nucleotide substitutions models.
+
+- Maximum likelihood phylogenetic trees are unrooted when we use time reversible models 
+![GTR faimily](https://d3i71xaburhd42.cloudfront.net/313ab4728900e96d7eaff5c8db8fe30f1f702afb/7-Figure4-1.png).
+
+But there are ways in IQ-Tree to find the root using eg. non reversible models. 
+[See here](http://www.iqtree.org/doc/Rootstrap).
+
+Its seems that depending how the tree is encoded in newwick, it might appear as 
+rooted when it should not be, and vice-versa, its also depend on how the software
+reads it. **WHICH means that, when you manipulate trees, 
+you need to check every step of what you are doing, to 
+be sure that what you want to do is done correctly (there are also bugs sometimes).**
+
+Here we will show you how to import unrooted tree and re-root it for visualization
+with ggtree. We experienced many times challenges to correctly re-root the tree. 
+If incorrectly done, it can shift the bootstrap values at the wrong place.
+
+You can read eg. a general explanation of why [here:](https://academic.oup.com/mbe/article/34/6/1535/3077051). In summary, its 
+because bootstrap values are support values of branches, but because they are
+often displayed on the nodes it leads to confusion (and also improper mechanism
+when rooting). 
+
+Therefore we advise you that you ensure that each re-rooting you have done did not
+shift the bootstrap values and that your visualization is correct.
+You can do so, eg. using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) (using bootstrap as branch support to be correct). FigTree can eg. be installed via conda. 
+
+
+
+- [ ] Write
+
+# Outgroup rooting
+
+importing the data 
+```{r}
+my_unrooted_tree <- ape::read.tree(
+  file = paste(params$raw_repo_path, "IQTREE_tree.phylo", sep = "/"))
+  
+my_metadata <- readRDS(file = url(
+  paste(params$raw_repo_path2, "metadata_clade2_tutorial.rds", sep = "/"))
+  )
+```
+
+having a look at the tree and the data (reminder)
+```{r}
+my_unrooted_tree 
+str(my_unrooted_tree)
+```
+
+Accessing elements within the tree (reminder)
+```{r}
+my_unrooted_tree$tip.label
+```
+
+The tree is not rooted 
+```{r}
+is.rooted(my_unrooted_tree)
+```
+plotting unrooted tree
+```{r}
+ggtree::ggtree(my_unrooted_tree, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2) + 
+  geom_nodelab(color = "blue", size = 2, hjust = 2.5, vjust = -1)
+```
+(reminder) dropping the tip that is duplicated (ref)
+
+```{r}
+my_unrooted_tree2 <- ape::drop.tip(my_unrooted_tree, "ERR6510203.fasta.ref")
+is.rooted(my_unrooted_tree2)
+```
+
+!! How hell, dropping tip like that unrooted tree creates a rooted tree.
+[Before there was a bug in the opposite way](https://github.com/emmanuelparadis/ape/issues/32), is it a bug now? 
+No matter what, check consistency between methods/software. 
+
+> I played around with the obtions - its still gives a rooted tree - so we have 
+to unroot AND do a sanity check 
+
+```{r}
+my_unrooted_tree2 <-ape::unroot(ape::drop.tip(my_unrooted_tree, "ERR6510203.fasta.ref"))
+is.rooted(my_unrooted_tree2)
+```
+
+```{r}
+ggtree::ggtree(my_unrooted_tree2, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2) + 
+  geom_nodelab(color = "blue", size = 2, hjust = 2.5, vjust = -1)
+```
+
+This is ok now, it is as it should be ... 
+
+Whether or not you droped a tip that was duplicated - we now learn how we should 
+root. 
+
+```{r}
+my_rooted_tree <- ape::root(my_unrooted_tree2, "ERR6510203.fasta",
+                            resolve.root = T)
+is.rooted(my_rooted_tree)
+```
+
+Now we need to check that the bootstrap values are at the correct place 
+```{r}
+ggtree::ggtree(my_rooted_tree, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2) + 
+  geom_nodelab(color = "blue", size = 2, hjust = 2, vjust = -1) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5)
+```
+
+Verify that the bootstrap values are at the correct place. This is correct. 
+
+## Tip: 
+Where really should be my bootstraps supports ? 
+Make sure you understand where it is (on the branch before the node).
+
+
+```{r}
+p_1 <- ggtree::ggtree(my_rooted_tree, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2)  
+
+# we need to get the position by doing a first graph, and provide the aesthetic
+node_data <- 
+  as_tibble(p_1$data) %>% 
+    filter(!isTip) 
+p_1 + 
+  geom_label_repel(data = node_data, 
+                   aes(x = x, y = y, label = label), color = "blue", size = 2,
+                   min.segment.length = 1e-5, 
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+
+Comparing with the original tree
+```{r}
+p_2 <- ggtree::ggtree(my_unrooted_tree2, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2)  
+
+# we need to get the position by doing a first graph, and provide the aesthetic
+node_data_2 <- 
+  as_tibble(p_2$data) %>% 
+    filter(!isTip) 
+p_2 + 
+  geom_label_repel(data = node_data_2, 
+                   aes(x = x, y = y, label = label), color = "darkgreen", size = 2,
+                   min.segment.length = 1e-5, 
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+
+## Awareness - When do problem arise ? 
+
+- they can arise, ie. if you worked with dataobjects, linking metadata, 
+and root after. It is possible that the metadata does not follow the rooting,
+eg.ufboot 
+
+```{r}
+mytest_unrooted_tree <- treeio::read.iqtree(paste(params$raw_repo_path, "IQTREE_tree.phylo", sep = "/"))
+```
+
+There are different types/classes of R objects from phylogenetic trees. 
+They have different internal structure, and different functions must be used
+to work proprely - this occurs under the hood normaly (aka, if everything goes
+correctly)
+
+```{r}
+typeof(mytest_unrooted_tree)
+class(mytest_unrooted_tree)  # a "treedata" S4 object
+glimpse(mytest_unrooted_tree)
+# you see here, bootstrap values are give in label, UFboot and SH_aLRT
+as_tibble(mytest_unrooted_tree) %>% View()
+```
+
+
+```{r}
+typeof(my_unrooted_tree)
+class(my_unrooted_tree) # a "phylo" S3 object
+glimpse(my_unrooted_tree)
+# you see here the boostrap values are given as label only
+as_tibble(my_unrooted_tree) %>% View()
+```
+
+What happens when we reroot ? In old versions or ggtree - we had problems 
+<!--uncertain now --> with rooting - and the bootstrap values were not at the
+correct place. 
+
+Here I am testing with  ggtree  V3.8.2, (treeio  1.24.3,  tidytree 0.4.5, ape 5.7-1)
+
+`tidytree::root()` is exported from ape 
+```{r}
+tidytree::root()
+methods(root)
+
+# The methods have * - they cannot be visualized directly 
+# methods(class = "method")
+
+# Visualistation using :::
+tidytree:::root.treedata
+ape:::root.phylo
+
+# to know the package the function came from 
+getAnywhere(root.treedata) # comes from tidytree
+getAnywhere(root.phylo) # comes from ape
+```
+
+We see that there are 2 methods for rooting. We need to choose the method 
+accordingly to the object type 
+
+> note I did not drop the tip with ref, but as it is the same, it will appear 
+at the same place on the tree
+
+```{r}
+mytest_rooted_tree <- 
+  tidytree:::root.treedata(mytest_tree, outgroup = "ERR6510203.fasta")
+
+mytest_rooted_tree_ape1 <- ape::root(mytest_tree, outgroup = "ERR6510203.fasta")
+mytest_rooted_tree_ape2 <- ape::root(mytest_tree@phylo, outgroup = "ERR6510203.fasta")
+```
+
+what happens to our data ? we first look at the data from rooting with ape on a
+treedata object
+```{r}
+identical(mytest_rooted_tree_ape1, mytest_rooted_tree_ape2)
+```
+
+the two objects are not identical 
+```{r}
+glimpse(mytest_rooted_tree_ape1) # This kept the tree data ojbect
+glimpse(mytest_rooted_tree_ape2) # this is ok it kept the phylo object
+```
+
+Are the phylo object identical then ?
+```{r}
+identical(mytest_rooted_tree_ape1@phylo, mytest_rooted_tree_ape2)
+```
+
+```{r}
+# there are some differences in attributes, and in edge labelling order ... 
+glimpse(mytest_rooted_tree_ape1@phylo) # This kept the tree data ojbect
+glimpse(mytest_rooted_tree_ape2) # this one has another attribute cladewise 
+```
+
+Does it affect the displays of the trees ? 
+```{r}
+p_ape1 <- ggtree::ggtree(
+  mytest_rooted_tree_ape1@phylo, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2)  
+
+# we need to get the position by doing a first graph, and provide the aesthetic
+node_data_ape1 <- 
+  as_tibble(p_ape1$data) %>% 
+    filter(!isTip) 
+p_ape1 + 
+  geom_label_repel(data = node_data_ape1, 
+                   aes(x = x, y = y, label = label), color = "violet", size = 2,
+                   min.segment.length = 1e-5,
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+
+```{r}
+p_ape2 <- ggtree::ggtree(
+  mytest_rooted_tree_ape2, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2)  
+
+# we need to get the position by doing a first graph, and provide the aesthetic
+node_data_ape2 <- 
+  as_tibble(p_ape2$data) %>% 
+    filter(!isTip) 
+p_ape2 + 
+  geom_label_repel(data = node_data_ape2, 
+                   aes(x = x, y = y, label = label), color = "red", size = 2,
+                   min.segment.length = 1e-5,
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+Those 2 trees are drawn the same way. 
+
+Checking with the treeio function
+```{r}
+p_treeio <- ggtree::ggtree(
+  mytest_rooted_tree, layout = "rectangular", ladderize = T) +
+  geom_tiplab(size = 2)  
+
+# we need to get the position by doing a first graph, and provide the aesthetic
+node_data_treeio <- 
+  as_tibble(p_treeio$data) %>% 
+    filter(!isTip)
+```
+
+- using the node labels in labels 
+```{r}
+p_treeio + 
+  geom_label_repel(data = node_data_treeio, 
+                   aes(x = x, y = y, label = label), color = "brown", size = 2,
+                   min.segment.length = 1e-5,
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+The plot is a bit more extended but the nodes appears to be at the correct place
+
+- Testing if UFboot moved to the correct place
+```{r}
+as_tibble(p_treeio$data) %>% View()
+p_treeio + 
+  geom_label_repel(data = node_data_treeio, 
+                   aes(x = x, y = y, label = UFboot), color = "grey", size = 2,
+                   min.segment.length = 1e-5,
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+This is identical 
+
+- Testing if SH-aLRT moved to the correct place
+```{r}
+p_treeio + 
+  geom_label_repel(data = node_data_treeio, 
+                   aes(x = x, y = y, label = SH_aLRT), color = "grey", size = 2,
+                   min.segment.length = 1e-5,
+                   nudge_x = -.1e-5,
+                   force_pull = .95,
+                   segment.size = 2, segment.alpha = .3) +
+  # we plot a root edge to view the position of the root 
+  geom_rootedge(rootedge = .1e-5) 
+```
+This is identical 
+
+## Conclusion: 
+- I did not detect any incorrect re-rooting using this dataset and this version
+of ggtree, nor ape (latest version at the time I am writing this tutorial).
+
+But if you have an earlier version of ggtree, you might encounter shift of labels. 
+It is also possible that I failed to detect the problem. Should some bootstrap appear
+missing from your tree, after re-rooting (generally only for a few tips), please
+compare your tree eg. with FigTree AND if consider updating packages if you are 
+using oldest ones (although new bugs may appear). 
+
+You also now have some ideas/tools to know 
+- how to specify which method you use (and ensure that you use the function in 
+the package of your choice when several functions refer to functions available 
+in different packages)
+- be aware of the different types of objects, eg. previously metadata was not 
+modified either when attached to S4 treedata object at re-rooting. 
+
+# Mid-point rooting
+
+During mid point rooting, the root will be placed in the middle of the longest 
+branch (aka. longest evolutionary distance) between OTU/groups, because this 
+branch represents the most distantly related OTU. 
+
+Midpoint rooting is useful when you do not have other information about where 
+the root should be AND want to give a directionality of evolution, 
+for interpretation. HOWEVER, you need to think before mid-point rooting, about
+the assumption you are making and be conscious that I can be misleading and 
+erroneous.
+
+Here is an example of me not thinking before doing! 
+(hope you can learn from my mistake)
+
+Packages for midpoint rooting
+-[ ] castor to check 
+-[ ] phytools -> check also how I did before ? 
+<!-- we use apec2021 -> showing also the problem of when middle rerooting 
+is wrong -->
+
+-[ ] History - large cluster
+-[ ] History - misleading interpretation with midpoint rooting
+
+
+
+# References
+
+-[ ] [ggtree book]()
+(not available from NVI - blocked)
