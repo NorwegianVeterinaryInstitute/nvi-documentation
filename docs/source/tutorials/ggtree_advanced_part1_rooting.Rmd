@@ -154,6 +154,10 @@ displayed on the nodes for few taxa. This is not an IQTREE error.
 the bootstrap values when visualized at the nodes, and lead to incorrect
 support readings**
 
+NB: using other functions for rooting (eg. from treeio ...) might lead to the
+same problems, as many of those are based on ape. If you use a different format
+to read the tree - you also need to be aware of potential problem and check that
+the rooting is correct. 
 
 Correct (re)rooting of tree: 
 ```{r}
