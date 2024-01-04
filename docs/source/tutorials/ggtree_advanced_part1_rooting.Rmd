@@ -24,7 +24,8 @@ knitr::opts_chunk$set(
   fig.path = "./")
 ```
 
-<!-- REMEMBER - 
+<!-- REREAD and rerun  - added part for correct rooting --> 
+<!--REMEMBER - 
 - [ ] At merging in main change the repo_path to main branch
 --> 
 
@@ -67,8 +68,8 @@ You can do so, eg. using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) (
 
 importing the data 
 ```{r}
-my_unrooted_tree <- ape::read.tree(
-  file = paste(params$raw_repo_path, "IQTREE_tree.phylo", sep = "/"))
+my_unrooted_tree <- 
+  ape::read.tree(  file = paste(params$raw_repo_path, "IQTREE_tree.phylo", sep = "/"))
   
 my_metadata <- readRDS(file = url(
   paste(params$raw_repo_path2, "metadata_clade2_tutorial.rds", sep = "/"))
@@ -123,7 +124,7 @@ ggtree::ggtree(my_unrooted_tree2, layout = "rectangular", ladderize = T) +
 
 This is ok now, it is as it should be ... 
 
-Whether or not you droped a tip that was duplicated - we now learn how we should 
+Whether or not you dropped a tip that was duplicated - we now learn how we should 
 root. 
 
 ```{r}
@@ -132,7 +133,42 @@ my_rooted_tree <- ape::root(my_unrooted_tree2, "ERR6510203.fasta",
 is.rooted(my_rooted_tree)
 ```
 
-Now we need to check that the bootstrap values are at the correct place 
+**Rooting the tree as such appears correct, but it can lead to problems when 
+visualizing the tree, and such problems might be undetected. 
+When using ape to read the tree `ape::read.tree`, it put the bootstrap values as node labels. When you then root the using `ape::root`, we need to specify that the 
+bootstrap values are indicated as node labels.**
+
+Not doing so can lead to serious problems that will influence tree interpretation:
+Because: 
+- when an unrooted tree is represented in newick format, an arbitrary node is 
+choosen for representation as root 
+- in IQTREE, an outgroup is used to place the root position and encode the tree. 
+This placing is arbitrary (if you did not specify which outgroup should be used 
+for this while running IQTREE). 
+This can eg. pause problem when other taxon are more close to the outgroup than 
+the rest of taxa and you want to re-root using another outgroup. 
+
+The observable symptoms of incorrect (re)rooting are: missing bootstrap values when 
+displayed on the nodes for few taxa. This is not an IQTREE error. 
+**Improper reading of the tree can have serious consequences, because it can shift 
+the bootstrap values when visualized at the nodes, and lead to incorrect
+support readings**
+
+
+Correct (re)rooting of tree: 
+```{r}
+my_rooted_tree <- ape::root(my_unrooted_tree2, "ERR6510203.fasta",
+                            resolve.root = T,
+                            edgelabel = T)
+is.rooted(my_rooted_tree)
+```
+
+
+
+Now we need to check that the bootstrap values are at the correct place. 
+A good tip is to compare your tree with the tree displayed by [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) where you actually display
+the bootstrap values on the branches (as they should be) and then reroot. 
+
 ```{r}
 ggtree::ggtree(my_rooted_tree, layout = "rectangular", ladderize = T) +
   geom_tiplab(size = 2) + 
