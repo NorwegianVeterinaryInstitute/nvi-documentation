@@ -28,7 +28,7 @@ Users normally get access to those two areas.  (Contact: Karin Lagesen).
 | SAGA |  | NIRD |
 | ---- | ---- | ---- |
 | Compute |  | Storage |
-| SAGA.sigma2.no |  | login.nird.sigma2.no |
+| saga.sigma2.no |  | login.nird.sigma2.no |
 | /cluster/project/nn9305K | Main NVI Bioinfo project area | /project/NS9305K |
 
 Overview: 
@@ -44,10 +44,10 @@ Overview:
 | **Subfolders organization**                       |                                                                                                                                 |           |                |                                                                                             |
 | /cluster/projects/nn9305k/active/$USER_OR_project | Your **active** working area, shared active projects                                                                            | yes       | All            | Where all your work happens                                                                 |
 | /cluster/projects/nn9305k/db_flatfiles            | various references files                                                                                                        | yes       | All            | eg. ariba MLST, AMR, and virulence db; chewbbaca schemes;  adapter files for trimmomatic.   |
-| /cluster/projects/nn9305k/genome_references       |                                                                                                                                 | yes       | all            | Where reference genome data and databases created by reference genomes (eg. annotations db) |
-| /cluster/projects/nn9305k/samplefiles             |                                                                                                                                 | yes       | all            | Template files and procedures for new users (eg.  slurm scripts, bashrc and bash_profile)   |
+| /cluster/projects/nn9305k/genome_references       | Reference genome data and databases created by reference genomes                                                                                                                                 | yes       | all            | (eg. annotations db) |
+| /cluster/projects/nn9305k/samplefiles             | Template files and procedures for new users                                                                                                                                | yes       | all            | (eg.  slurm scripts, bashrc and bash_profile)   |
 | **Other NVI Projects**                            |                                                                                                                                 |           |                |                                                                                             |
-| /cluster/projects/nn9305k/nn10070k                | NVI Metagenomics project area                                                                                                   |           | specific users | Contact : Håkon Kaspersen. See specific documentation for usage                                                                  |
+| /cluster/projects/nn9305k/nn10070k                | NVI Metagenomics project area                                                                                                   | yes          | specific users | Contact : Håkon Kaspersen. See specific documentation for usage                                                                  |
 |                                                   |                                                                                                                                 |           |                |                                                                                             |
 | **Shared ressources on SAGA**                     |                                                                                                                                 |           |                |                                                                                             |
 | /cluster/shared                                   | Location for shared/common databases                                                                                            | no        |                |                                                                                             |
