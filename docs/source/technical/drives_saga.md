@@ -33,30 +33,30 @@ Users normally get access to those two areas.  (Contact: Karin Lagesen).
 
 Overview: 
 
-| SAGA | Usage | Backed-up | Access | Comments |
-| ---- | ---- | ---- | ---- | ---- |
-| **main organization** |  |  |  |  |
-| /cluster/home/$USER | Your login area: where you end up after login | Yes | All | **Do not store any NVI data here!** |
-| /cluster/projects/nn9305k | Main Bioinformatic location and working area | yes | All |  |
-| /nird/projects/NS9305K | Mount point for NIRD NNVI project (= NIRD) | _NA_ | All | Long term storage |
-| /cluster/work/users/$USER | Analysis area | no | All | Data is removed after carence time if spaces is limited. = `$USERWORK` |
-|  |  |  |  |  |
-| **Subfolders organization** |  |  |  |  |
-| /cluster/projects/nn9305k/active/$USER_OR_project | Your **active** working area, shared active projects | yes | All | Where all your work happens |
-| /cluster/projects/nn9305k/db_flatfiles | various references files | yes | All | eg. ariba MLST, AMR, and virulence db; chewbbaca schemes;  adapter files for trimmomatic. |
-| /cluster/projects/nn9305k/genome_references |  | yes | all | Where reference genome data and databases created by reference genomes (eg. annotations db) |
-| /cluster/projects/nn9305k/samplefiles |  | yes | all | Template files and procedures for new users (eg.  slurm scripts, bashrc and bash_profile) |
-| **Other NVI Projects** |  |  |  |  |
-| /cluster/projects/nn9305k | NVI Metagenomics project area |  | specific users | Contact : Håkon Kaspersen |
-|  |  |  |  |  |
-| **Shared ressources on SAGA** |  |  |  |  |
-| /cluster/shared | Location for shared/common databases | no |  |  |
-| /cluster/shared/vetinst | Location for NVI shared **active** raw data* | no | all |  |
-| /cluster/shared/biobases | Location for shared classification databases (eg. kraken) | no | all | Contact : Thomas Haverkamp |
-| /cluster/shared/databases | Location for shared databases (eg. blast) | no | all | Contact : Thomas Haverkamp |
-| Detail : datasets on **/cluster/shared/vetinst** | `datasets` - **copies** of currently **active = worked on** datasets. Divided into `wgs`, `transcriptomics` and `metagenomics`. | no | all | Ensure that raw data is stored on NIRD. **Can be deleted if space is required !** |
-|  |  |  |  |  |
-|  |  |  |  |  |
+| SAGA                                              | Usage                                                                                                                           | Backed-up | Access         | Comments                                                                                    |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------- | ------------------------------------------------------------------------------------------- |
+| **main organization**                             |                                                                                                                                 |           |                |                                                                                             |
+| /cluster/home/$USER                               | Your login area: where you end up after login                                                                                   | Yes       | All            | **Do not store any NVI data here!**                                                         |
+| /cluster/projects/nn9305k                         | Main Bioinformatic location and working area                                                                                    | yes       | All            |                                                                                             |
+| /nird/projects/NS9305K                            | Mount point for NIRD NNVI project (= NIRD)                                                                                      | _NA_      | All            | Long term storage                                                                           |
+| /cluster/work/users/$USER                         | Analysis area                                                                                                                   | no        | All            | Data is removed after carence time if spaces is limited. = `$USERWORK`                      |
+|                                                   |                                                                                                                                 |           |                |                                                                                             |
+| **Subfolders organization**                       |                                                                                                                                 |           |                |                                                                                             |
+| /cluster/projects/nn9305k/active/$USER_OR_project | Your **active** working area, shared active projects                                                                            | yes       | All            | Where all your work happens                                                                 |
+| /cluster/projects/nn9305k/db_flatfiles            | various references files                                                                                                        | yes       | All            | eg. ariba MLST, AMR, and virulence db; chewbbaca schemes;  adapter files for trimmomatic.   |
+| /cluster/projects/nn9305k/genome_references       |                                                                                                                                 | yes       | all            | Where reference genome data and databases created by reference genomes (eg. annotations db) |
+| /cluster/projects/nn9305k/samplefiles             |                                                                                                                                 | yes       | all            | Template files and procedures for new users (eg.  slurm scripts, bashrc and bash_profile)   |
+| **Other NVI Projects**                            |                                                                                                                                 |           |                |                                                                                             |
+| /cluster/projects/nn9305k/nn10070k                | NVI Metagenomics project area                                                                                                   |           | specific users | Contact : Håkon Kaspersen. See specific documentation for usage                                                                  |
+|                                                   |                                                                                                                                 |           |                |                                                                                             |
+| **Shared ressources on SAGA**                     |                                                                                                                                 |           |                |                                                                                             |
+| /cluster/shared                                   | Location for shared/common databases                                                                                            | no        |                |                                                                                             |
+| /cluster/shared/vetinst                           | Location for NVI shared **active** raw data*                                                                                    | no        | all            |                                                                                             |
+| /cluster/shared/biobases                          | Location for shared classification databases (eg. kraken)                                                                       | no        | all            | Contact : Thomas Haverkamp                                                                  |
+| /cluster/shared/databases                         | Location for shared databases (eg. blast)                                                                                       | no        | all            | Contact : Thomas Haverkamp                                                                  |
+| Detail : datasets on **/cluster/shared/vetinst**  | `datasets` - **copies** of currently **active = worked on** datasets. Divided into `wgs`, `transcriptomics` and `metagenomics`. | no        | all            | Ensure that raw data is stored on NIRD. **Can be deleted if space is required !**           |
+|                                                   |                                                                                                                                 |           |                |                                                                                             |
+|                                                   |                                                                                                                                 |           |                |                                                                                             |
 Special explanations 
 - Shared folders usually contain subfolders and REAME file describing what the databases contains. Read those. 
 - `/cluster/shared/vetinst` - Main raw data directory. All data used for calculations should be stored there. Unpack and softlinked the data in to your active directories to work on them. Compressed archives should be removed.  This folder is **not backed up**,   therefore you must ensure that all datasets are first deposited on NIRD for safe long-term storage and then copied from NIRD to this folder.
@@ -100,7 +100,7 @@ following way of organizing things.
 - Inside this folder, create a `README file` that explains to you and anybody
   else what this project is about
 - Then, create the following folders:
-  - `rawdata` - softlink in your dataset here
+  - `rawdata` - softlinklink in your dataset here
   - `scripts` - any scripts, including slurm scripts go here
 - You might have several subtasks that you will do. Create a separate directory
   for each of them, using the format year_month_purpose (for instance
