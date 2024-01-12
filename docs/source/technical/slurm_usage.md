@@ -8,4 +8,13 @@ There are two ways of running analysis on SAGA using the slurm system
 1. using a slurm script
 2. using a interactive command.
 
+## How to write and use a slurm script
+Before diving into this it is good to know that on saga we have example slurm scripts ready in the folder:
+/cluster/projects/nn9305k/samplefiles
+
+## Setting up a interactive command
+
+
+
+
 
