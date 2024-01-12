@@ -5,7 +5,7 @@ explains which areas we have access to and how to use them.
 
 ## A note on backup
 
-As of fall 2021, there is a 6 months snapshot function on SAGA. This means that
+As of fall 2021, there is a 6 months snapshot (a kind of backup) function on SAGA. This means that
 the disk areas on SAGA are backed up to NIRD. Please note that any changes after
 6 months cannot be recovered.
 
