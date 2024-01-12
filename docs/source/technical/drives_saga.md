@@ -1,4 +1,4 @@
-# SAGA drive organization
+# Drives organization HPC (SAGA and NIRD)
 
 We have access to several drive locations on SAGA and NIRD. This document
 explains which areas we have access to and how to use them. SAGA is used
