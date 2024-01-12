@@ -24,7 +24,7 @@ These are different locations that we work with in regarding SAGA and NIRD.
 Users normally get access to those two areas. However, we sometime forget, so
 please complain (Contact: Karin Lagesen, Thomas Haverkamp).
 
-In the folowingm `$USER` is your username. See also 
+In the following `$USER` is your username. See also 
 [SIGMA2 Documentation: Storage areas on HPC clusters](https://documentation.sigma2.no/files_storage/clusters.html)
 
 | SAGA |  | NIRD |
