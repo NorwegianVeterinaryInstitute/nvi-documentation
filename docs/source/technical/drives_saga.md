@@ -1,7 +1,8 @@
 # SAGA drive organization
 
 We have access to several drive locations on SAGA and NIRD. This document
-explains which areas we have access to and how to use them.
+explains which areas we have access to and how to use them. SAGA is used
+for compute (calculations) and NIRD for long term storage. 
 
 ## A note on backup
 
