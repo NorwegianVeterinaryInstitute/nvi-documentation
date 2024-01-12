@@ -21,7 +21,8 @@ actually on SAGA, we should **use rsync and not copy/move when shifting data**
 ## Drive locations on SAGA and NIRD: overview
 
 These are different locations that we work with in regarding SAGA and NIRD.
-Users normally get access to those two areas.  (Contact: Karin Lagesen).
+Users normally get access to those two areas. However, we sometime forget, so
+please complain (Contact: Karin Lagesen, Thomas Haverkamp).
 
 - `$USER` is your username 
 - See also [SIGMA2 Documentation: Storage areas on HPC clusters](https://documentation.sigma2.no/files_storage/clusters.html)
