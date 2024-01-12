@@ -49,7 +49,6 @@ Overview:
 | /cluster/projects/nn9305k/genome_references       | Reference genome data and databases created by reference genomes                                                                                                                                 | yes       | all            | (eg. annotations db) |
 | /cluster/projects/nn9305k/samplefiles             | Template files and procedures for new users                                                                                                                                | yes       | all            | (eg.  slurm scripts, bashrc and bash_profile)   |
 | **Other NVI Projects**                            |                                                                                                                                 |           |                |                                                                                             |
-| /cluster/projects/nn9305k/nn10070k                | NVI Metagenomics project area                                                                                                   | yes          | specific users | Contact : Håkon Kaspersen. See specific documentation for usage                                                                  |
 |                                                   |                                                                                                                                 |           |                |                                                                                             |
 | **Shared ressources on SAGA**                     |                                                                                                                                 |           |                |                                                                                             |
 | /cluster/shared                                   | Location for shared/common databases                                                                                            | no        |                |                                                                                             |
@@ -63,6 +62,9 @@ Special explanations
 - Shared folders usually contain subfolders and REAME file describing what the databases contains. Read those. 
 - `/cluster/shared/vetinst` - Main raw data directory. All data used for calculations should be stored there. Unpack and softlinked the data in to your active directories to work on them. Compressed archives should be removed.  This folder is **not backed up**,   therefore you must ensure that all datasets are first deposited on NIRD for safe long-term storage and then copied from NIRD to this folder.
 - `/cluster/work/users/$USERNAME` - A folder that should be used for analyses, ie. if analyses create many temporary files. It is used as such in eg. BIFROST and ALPPACA pipelines. There is **no backup** of this folder, files are automatically deleted after 21-42 days. Remember copying your results to your dedicated results folder if you use this area.
+
+We also have access to other SAGA projects, whihc are special projects, eg. the MetaMicro project (nn10070k). Those projects have specific documentations. 
+- for the  MetaMicro project (Responsible Håkon Kaspersen and Thomas Haverkamp) please see its [specific documentation for usage](,/metamicro_documentation.md).
 
 | NIRD | Usage | Backed-up | Access | Commments |
 | ---- | ---- | ---- | ---- | ---- |
