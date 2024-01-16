@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'NVI Documentation'
-copyright = '2020, Norwegian Veterinary Institute'
+copyright = '2024, Norwegian Veterinary Institute'
 author = 'Norwegian Veterinary Institute'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.0.1'
+release = 'v0.0.9'
 
 
 # -- General configuration ---------------------------------------------------
