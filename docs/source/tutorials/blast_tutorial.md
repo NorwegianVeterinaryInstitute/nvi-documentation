@@ -98,12 +98,12 @@ Once the screen is up and running, we can ask for computing time and resources f
 For testing small commands use the [development queue](https://documentation.sigma2.no/jobs/job_scripts/saga_job_scripts.html)
 
 ```
-srun --account=nn9305k --mem-per-cpu=4800M --cpus-per-task=10 --time=1:0:0 --pty bash -i
+srun --account=nn9305k --mem=40G --cpus-per-task=10 --time=1:0:0 --pty bash -i
 ```
 or when using the develop queue
 
 ```
-srun --account=nn9305k --mem-per-cpu=4800M --cpus-per-task=10 --time=1:0:0 --qos=devel --pty bash -i
+srun --account=nn9305k --mem=40G --cpus-per-task=10 --time=1:0:0 --qos=devel --pty bash -i
 ```
 Once a job is allocated we can load the blast software. The blast software can be loaded using the [module system on saga](https://documentation.sigma2.no/software/installed_software.html).
 
