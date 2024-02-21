@@ -10,6 +10,18 @@ Some examples of what you can do
 bcftools offers many tools to manipulate VCF files. Combining the different utilities in bcftools and piping them,
 can help you extract the information you want from your data.
 
+## Background
+
+There many variant callers, and the variants discovered differe to a certain extend between tools. 
+This is due to several reasons: 
+- data preparation: how reads are mapped to a reference genome (external or assembly from the reads you are using to call variants)
+- different algorithms and filtering criteria used during variant calling
+- ...
+
+- [ ] some refs papers
+
+Taking control of the variant calling process and how variant files are manipulated can give you control of the whole process.
+Here we will give some examples on how you can do so with bcftools. 
 
 ## Ressources
 
