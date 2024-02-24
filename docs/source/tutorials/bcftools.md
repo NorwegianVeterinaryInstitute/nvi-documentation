@@ -436,6 +436,11 @@ snpEff ann -noLog -noStats -no-downstream -no-upstream -no-utr -c reference/snpe
 # /usr/local/bin/snippy-vcf_to_tab --gff reference/ref.gff --ref reference/ref.fa --vcf snps.vcf > snps.tab # This is a reformating to make it easier to read 
 ```
 
+### CNV copy number variation
+
+Possible copy number variation: 
+![maybe](./bcftools_image5.png)
+
 # END
 
 <!-- Should add Snippy also has some regions filters I think - I did not look at that yet>
