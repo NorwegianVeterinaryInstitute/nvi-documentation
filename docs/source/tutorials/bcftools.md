@@ -310,31 +310,19 @@ diff galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf galaxy_snippy/snippy.vcf
 ```
 
 ---
-
-The filtering command used in [Snippy] is a long ...: 
-> Note that snippy uses an earlier version of bcftools, this is why the command is sligly different than the command used in our tutorial
-```bash
-bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf  | vt normalize -r reference/ref.fa - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' > snps.filt.vcf
-```
-
-Lets try to find out what  Snippy is doing.
-We need to understand also to look at the unfiltered variant and find which VCF format was used, and gain information about the meaning of the fields. We need also to compare this file with the filtered variant file. 
+We need to understand also to look at the unfiltered variant and find which VCF format was used, and gain information about the meaning of the fields. We need also to compare this file with the filtered variant file, and understand what is done in [Snippy].
 
 ```bash 
 cd data/snippy/mutant_R1_fastq
 less snps.raw.vcf
 ```
-# HERE
 
 1. Which VCF version was used ?
-   1. The [VCF file standard used is VCFv4.2](https://samtools.github.io/hts-specs/VCFv4.2.pdf). Bellow an extract of the relevant fields. 
+   1. The [VCF file standard used is VCFv4.2](https://samtools.github.io/hts-specs/VCFv4.2.pdf). Bellow an extract of the relevant fields.
 2. Which reference was used, its ID and length
 3. You can see the command that was called to call [FreeBayes].
 4. That no phasing information was used.
 5. The fields descriptions for the columns provided in the VCF file
-
-[Snippy] uses advanced variant filtering options: [bcftools] `--include`and `exclude`.
-
 
 **Description of metadata content in the VCF file**
 
@@ -351,23 +339,31 @@ less snps.raw.vcf
 - ALT : the alternate nucleotide(s) in the sample (comma separated)
 - QUAL : Phred-scaled quality score for the assertion made in ALT. "−10log10 prob(call in ALT is
 wrong)".
-- FILTER : filter status : PASS if go through all the filters, otherwise list of filters where it failed <!-- no filter>
-- `INFO`: Additional information for the variants detected (see descriptions of tags) ... some of those we can look at are:
-  - AC: allele count in genotypes <!-- as considered as diploid 2 are counted when not filtered -->
-  - AF: allele frequency (in order allele is listed)
-  - AN: total number of alleles in called alleles
-  - DP: combined depth across samples at the position (eg. here we used one sample so it gives the depth)
-  - LEN: the allele length
-  - TYPE:  describe the type of variant (snp, del, ins, mnp: several bases changes)
-- FORMAT : **read specific to vcf file you have, some abbreviations may change**
-  - GT : genotype encoded (diploid ./. haploid .)
-  - DP : here its the read depth
-  - AD : number of observations for each allele
-  - RO
-  - QR
-  - AO
-  - QA
-  - GL : genotype likelihod (ref, diploid - 1 for each allele)
+
+FILTER : filter status : PASS if go through all the filters, otherwise list of filters where it failed <!-- no filter>
+
+`INFO`: Additional information for the variants detected (see descriptions of tags). We can look at some of those
+<!-- AB	ABP	AC	AF	AN	AO	CIGAR	DP	DPB	DPRA	EPP	EPPR	GTI	LEN	MEANALT	MQM	MQMR 	NS	NUMALT	ODDS 	PAIRED	PAIREDR	PAO	PQA	PQR	PRO	QA	QR	RO	RPL	RPP	RPPR	RPR	RUN	SAF	SAP	SAR	SRF	SRP	SRR-->
+
+- AC: allele count in genotypes <!-- as considered as diploid 2 are counted when not filtered -->
+- AF: allele frequency (in order allele is listed)
+- AN: total number of alleles in called alleles
+- DP: combined depth across samples at the position (eg. here we used one sample so it gives the depth)
+- LEN: the allele length
+- TYPE:  describe the type of variant (snp, del, ins, mnp: several bases changes)
+... 
+Some information can be redundant with format
+
+FORMAT : **read specific to vcf file you have, some abbreviations may change**
+
+- GT : genotype encoded (diploid ./. haploid . - / means unphased otherwise would be | )
+- DP : here its the read depth
+- AD : number of observations for each allele
+- RO : reference allele observation count
+- QR : Sum of quality of the reference observations
+- QA : Sum of quality of the alternate observations
+- AO : Alternate allele observation count"
+- GL : genotype likelihod (ref, diploid - 1 for each allele)
 
 
 ![QUAL and probal](./bcftools_image3.png)
@@ -375,35 +371,74 @@ wrong)".
 
 ![Relation Phred and accuracy](./bcftools_image4.png)
 
-- FMT/GT="1/1" : FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">. <!-- number describe the nb of values that the field can take> <!-- 1/1 Means genotype unphased - otherwise would be | AND ./. is diploid and . is for haploid -- >
-- QUAL>=100.0 
-- FMT/DP>=10 : ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
-- (FMT/AO)/(FMT/DP)>=0.
+**Looking at [Snippy] very long filtering command ...**
+> Note that snippy uses an earlier version of bcftools, this is why the command is sligly different than the command used in our tutorial
+```bash
+bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf  | vt normalize -r reference/ref.fa - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' > snps.filt.vcf
+```
 
-What does the normalize mean ? 
-
-
-
-
-# TODO Can we reproduce this type of filtering? 
-? detail understanding of what is the filtereding 
+- [Snippy] uses advanced variant filtering options: [bcftools] `--include`and `exclude`. 
 
 Lets decompose : 1 -> 2 -> 3 -> 4
 1. `bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf`
-2. `vt normalize -r reference/ref.fa - `
-3. `bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL'`
-4. write filtered variants to file: `> snps.filt.vcf`
+   1. `view` allows to view, filter and subset VCF
+   2. GT=1/1 Genotype must be identical (homozygosity) : here is the transfromation from the diploid encoding so it gets valid with halpoids
+   3. QUAL>=100 guet as close as possible as 0 probability incorect ALT call (adjust not to filter all!)
+   4. FMT/DP>=10 : Filtering if depth at locus is < 10
+   5. (FMT/AO)/(FMT/DP)>=0.9 - AC >= 0.9 read depth to be acounted for
+2. `vt normalize -r reference/ref.fa` - [Snippy] use [vt] tool to do an operation called **[variant normalisation](https://genome.sph.umich.edu/wiki/Variant_Normalization)**, which standardize the way variants are represented in the VCF file.
+<!-- POKING KARIN
+- Different optimal local alignments for variants can be equal, however those need to be represented in a consistent maner to allow reproducibility and eg. combining different variant files. This allows to standardise the representation of variants and will allow comparison of variant representation. 
+- TODO read with fresh head
+-->  
+1. `bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL'`
+   1. `annotate` allows to add or remove annotation to VCF files. So its a way to slighly clean the long VCF file from the fields the author does not want to keep.
+2. output the filtered variants to file: `> snps.filt.vcf`
+
+**Can we reproduce this type of filtering?**
 
 ```bash
-# ? can we reproduced this result
---- test 
+# copy input in 
+mkdir filter_variants && cf filter_variants
+bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' -Ou -o filter_step1.vcf snps.raw.vcf 
+```
 
-# check difference between filtered variant file and our results 
-#? will that work here ?
-diff <our result> snps.filt.vcf
+Line in VCF are added to show the filtering column, and we can crosscheck that the variants are filtered according to those criteria, we can see in the vcf file that the loci that did not fullfill criteria are filtered out
+
+<!-- Normalisation https://www.biostars.org/p/359264/ -->
+The normalisation of bcftools appear to be slighly different than the one from [vt] tool. [bcftools] seems to only left align, whereas [vt] tool appear to apply an additional parsiomny criteria. <!-- not sure makes difference for the present dataset-->
+> There are also options to split or combine multiallelic sites (VCF manipulation). 
+To do a simple left alignment, one can do:
+
+```bash
+bcftools norm -f wildtype.fna -Ou -o filter_step2.vcf filter_step1.vcf 
+```
+
+And then we can filter the fields in the vcf file
+```bash
+bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' -Ou -o filter_step3.vcf filter_step2.vcf
+```
+This also add the last command to the VCF file.
+
+Check difference between filtered variant file and our results. The same variants remain.
+However we do not have the effect annotations yet.
+
+# HERE stoped
+#### Variant Annotation
+
+[Snippy] uses [SnpEff] to annotate variant and their possible effects. 
+
+The command used are:
+```bash 
+snpEff build -c reference/snpeff.config -dataDir . -gff3 ref
+# With a nice warning: WARNING: All frames are zero! This seems rather odd, please check that 'frame' information in your 'genes' file is accurate.
+snpEff ann -noLog -noStats -no-downstream -no-upstream -no-utr -c reference/snpeff.config -dataDir . ref snps.filt.vcf > snps.vcf
+# /usr/local/bin/snippy-vcf_to_tab --gff reference/ref.gff --ref reference/ref.fa --vcf snps.vcf > snps.tab # This is a reformating to make it easier to read 
 ```
 
 # END
+
+<!-- Should add Snippy also has some regions filters I think - I did not look at that yet>
 
 <!-- Footnotes -->
 
@@ -434,6 +469,8 @@ diff <our result> snps.filt.vcf
 [FreeBayes]:https://github.com/freebayes/freebayes
 
 [SnpEff]:https://pcingola.github.io/SnpEff/
+
+[vt]:https://genome.sph.umich.edu/wiki/Vt
 
 <!-- Coordinates of interest in our dataset:
 
