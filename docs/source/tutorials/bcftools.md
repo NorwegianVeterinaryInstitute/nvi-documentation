@@ -76,9 +76,9 @@ Computer Science:
 > Note that Some operations only work on indexed files in [bctools], and Working with multiple VCF files will require indexing.
 - Standard vs non standard indexes <!-- what is that -->
 
-bcftools / variant manipulation: 
-- line interesections <!-- not sure what they mean : "when performing line intersections, the desire"  -> what does that mean ? is it the comlumn pipleup at the variant? --> 
-- phasing
+bcftools / variant manipulation:
+- line interesections <!-- This is something to do with combining/cross referencing multiple variant files. We wont use that here : "when performing line intersections, the desire"  -> matching variant position ... --> 
+- phasing <!-- linkage - using this information can be usefull to detect errors. We do not use here -->
 - mapQ : The mapping quality - as provided by samtools. [Samtools] mapping quality is computed as such: `−10 log10 Probability {mapping position is wrong}` (phred correspondance) <!-- TODO understand better>
 - BAQ: per base alignment quality - Offset to base alignment quality - realignment <!-- TODO understand better https://github.com/samtools/samtools/issues/655>
 
@@ -153,7 +153,7 @@ We will see an example on how to do so during consensus calling.
 
 ---
 
-### Variant calling (OK)
+### Variant calling
 <!-- also did not use the quality option-->
 
 Variant calling requires **two phases**:
@@ -245,7 +245,7 @@ You can now look at your VCF file. Find which VCF file format is used and look a
 You can have a look at the commands used by [Snippy] 
 in the tutorial data`/cluster/projects/nn9305k/tutorial/20240226_bcftools/` subfolder `data/galaxy_snippy/snippy.txt` file.
 
-#### Consensus calling (OK ! )
+#### Consensus calling
 
 [Snippy] command[^5] to create the consensus sequence
 `bcftools consensus --sample mutant_R1_fastq -f reference/ref.fa -o snps.consensus.fa snps.vcf.gz` 
@@ -423,7 +423,7 @@ This also add the last command to the VCF file.
 Check difference between filtered variant file and our results. The same variants remain.
 However we do not have the effect annotations yet.
 
-# HERE stoped
+# HERE Continue prep.
 #### Variant Annotation
 
 [Snippy] uses [SnpEff] to annotate variant and their possible effects. 
