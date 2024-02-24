@@ -79,14 +79,18 @@ Computer Science:
 bcftools / variant manipulation: 
 - line interesections <!-- not sure what they mean : "when performing line intersections, the desire"  -> what does that mean ? is it the comlumn pipleup at the variant? --> 
 - phasing
-- mapQ : The mapping quality - as provided by samtools
-- BAQ: per base alignment quality
+- mapQ : The mapping quality - as provided by samtools. [Samtools] mapping quality is computed as such: `−10 log10 Probability {mapping position is wrong}` (phred correspondance) <!-- TODO understand better>
+- BAQ: per base alignment quality - Offset to base alignment quality - realignment <!-- TODO understand better https://github.com/samtools/samtools/issues/655>
 
 Be-aware that different aligners used mapping quality in a different way.
 You can read more in [this blog](https://medium.com/@shilparaopradeep/samtools-guide-learning-how-to-filter-and-manipulate-with-sam-bam-files-2c28b25d29e8) and [here](https://www.acgt.me/blog/2014/12/16/understanding-mapq-scores-in-sam-files-does-37-42). If you use other mapping tools, you might consider how the mapQ is used to adjust parameters accordingly.
 <!-- need to check if is used then in the likelihood computation - which I guess so - which means different
 mapper then risk of need of adjusting quality for likelihood -->
 
+<!-- recheck 
+https://medium.com/@shilparaopradeep/samtools-guide-learning-how-to-filter-and-manipulate-with-sam-bam-files-2c28b25d29e8 
+255 not available
+-->
 
 ---
 
@@ -149,7 +153,8 @@ We will see an example on how to do so during consensus calling.
 
 ---
 
-### Variant calling
+### Variant calling (OK)
+<!-- also did not use the quality option-->
 
 Variant calling requires **two phases**:
 - The first step is the **computation of the likelihood of each genotype** (understand the likelihood that each detected variant is true). This is done with `bcftools mpileup`.
@@ -194,7 +199,7 @@ to avoid calling variants in repeated regions.  <!-- TODO need eventually to fin
    - `--seed INT` allows you to set the seed - this can be usefull if you try to adjust options
 - Options used here:
   - `Ou`output type uncompressed
-  - `f`format of fields ==(not sure what that does here)== <!-- TODO find out-->
+  - `f`format of fields. To do specific format for the columns of VCF file (see VCF standard FORMAT column) <!-- I assmume its defaults here as no list is provided-->
 
 > Note that at this stage the likelihood is computed assuming a diploid organism. You will have to adjust
 the filter to organism ploidy during variant calling.
@@ -224,19 +229,15 @@ Tutorial:
 cd tutorial
 # bcftools mpileup -Ou -f <ref.fasta> <mapped_reads.bam>  "the result of this is piped to:"
 # bcftools call -mv -Oz -o <called_variants>.vcf.gz
-bcftools mpileup -Ou --max-depth 500  -Q, -f ../wildtype.fna ../galaxy_snippy/snippy.bam  -Ou -o result_mpileup.vcf
+bcftools mpileup -Ou --max-depth 500  -f ../wildtype.fna ../galaxy_snippy/snippy.bam  -Ou -o result_mpileup.vcf
 bcftools call -mv -Ou --ploidy 1 -o calls.vcf result_mpileup.vcf
 
 # OR in one command 
-bcftools mpileup -Ou -f ../wildtype.fna ../galaxy_snippy/snippy.bam | bcftools call -v -Oz --ploidy 1 -co calls.vcf.gz
-
-
-bcftools index calls.vcf.gz
-
+bcftools mpileup -Ou  --max-depth 500 -f ../wildtype.fna ../galaxy_snippy/snippy.bam | bcftools call -mv -Ou --ploidy 1 -o calls.vcf
 ```
-There are several other options that might be of use to adjust the way you call variants. 
-To view the detailed list of available options do: 
 
+You can now look at your VCF file. Find which VCF file format is used and look at the [corresponding format standard](https://samtools.github.io/hts-specs/)
+<!-- TODO POKING KARIN-->
 
 
 ### Inspiration: what does [Snippy] uses [bcftools] for ?
@@ -254,8 +255,7 @@ in the tutorial data`/cluster/projects/nn9305k/tutorial/20240226_bcftools/` subf
 `ref.fa`is the wild strain reference (it only differs by encoding in upper vs lower cases)
 `mutant_R1_fastq` is the sample name
 
-<!-- ? can we try to recreate -> yes working ! --> 
-
+<!-- ? can we try to recreate -> yes working ! -->
 
 1. We create a copy of the VCF file and reference in a separate directory to be able to follow our work
 2. We need to index and compress the VCF file (bgzip). The compressing utility is installed with samtools/bctools
@@ -291,25 +291,66 @@ conda activate snp-dists
 snp-dists -a dummy.fasta # no differences were detected
 conda deactivate
 ```
-### Variant filtering
+#### Variant filtering
 
-Ex. why 
+Why filter variants, an example of variants being filtered out because of lack of depth in the pileup.
 ![3 variants, one filtered out because lack depth](./bcftools_image2.png)
 
-Ex. variant filtering and final results differences
-- unfiltered variant call from [Snippy] (called with FreeBayes) in the tutorial data subfolder
-`data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.raw.vcf` vs the filtered variant call `data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.filt.vcf`
-and the final annotated variant[^4] are provided in `data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf`. 
+The unfiltered variants called with [FreeBayes] when running [Snippy] can be found here:
+`data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.raw.vcf` 
+and the filtered variant call here `data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.filt.vcf`.
 
-> Note: This last one is equivalent to the one exported as `data/galaxy_snippy/snippy.vcf`. 
+---
+Note: The final annotated variant[^4] are provided in `data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf`.
+> Note: This last one is equivalent to the one exported as `data/galaxy_snippy/snippy.vcf`.
 > You can test this using `diff file1 file 2`
+```bash
+cd data
+diff galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf galaxy_snippy/snippy.vcf 
+```
 
-[^4]: Filtered variants are annotated with [SnpEff]
-<!--  -->
-The filtering command used in [Snippy] is: 
-`bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf  | vt normalize -r reference/ref.fa - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' > snps.filt.vcf`
+---
 
-Can we reproduce this type of filtering? 
+The filtering command used in [Snippy] is a long ...: 
+> Note that snippy uses an earlier version of bcftools, this is why the command is sligly different than the command used in our tutorial
+```bash
+bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf  | vt normalize -r reference/ref.fa - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' > snps.filt.vcf
+```
+
+Lets try to find out what  Snippy is doing.
+We need to understand also to look at the unfiltered variant and find which VCF format was used, and gain information about the meaning of the fields.
+
+```bash 
+cd data/snippy/mutant_R1_fastq
+less snps.raw.vcf
+```
+# HERE
+
+1. Which VCF version was used ?
+   1. The [VCF file standard used is VCFv4.2](https://samtools.github.io/hts-specs/VCFv4.2.pdf).
+2. Which reference was used, its ID and length
+3. You can see the command that was called to call [FreeBayes].
+4. That no phasing information was used.
+5. The fields descriptions for the columns provided in the VCF file
+
+[Snippy] uses advanced variant filtering options: [bcftools] `--include`and `exclude`.
+
+Columns: 
+- QUAL 
+- FORMAT/TAG = FMT/TAG
+
+
+- FMT/GT="1/1" : FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+- QUAL>=100.0 
+- FMT/DP>=10 : ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
+- (FMT/AO)/(FMT/DP)>=0.
+
+What does the normalize mean ? 
+
+
+
+
+# TODO Can we reproduce this type of filtering? 
 ? detail understanding of what is the filtereding 
 
 Lets decompose : 1 -> 2 -> 3 -> 4
@@ -337,7 +378,9 @@ diff <our result> snps.filt.vcf
 
 [^3]: [Snippy] uses [FreeBayes](https://github.com/freebayes/freebayes) as variant caller.
 
-[^5]: probably earlier version of [bcftools]
+[^4]: Filtered variants are annotated with [SnpEff]
+
+[^5]: Probably earlier version of [bcftools]
 
 <!--References -->
 
