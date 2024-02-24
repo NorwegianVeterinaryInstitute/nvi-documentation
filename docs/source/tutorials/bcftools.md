@@ -318,7 +318,7 @@ bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(
 ```
 
 Lets try to find out what  Snippy is doing.
-We need to understand also to look at the unfiltered variant and find which VCF format was used, and gain information about the meaning of the fields.
+We need to understand also to look at the unfiltered variant and find which VCF format was used, and gain information about the meaning of the fields. We need also to compare this file with the filtered variant file. 
 
 ```bash 
 cd data/snippy/mutant_R1_fastq
@@ -327,7 +327,7 @@ less snps.raw.vcf
 # HERE
 
 1. Which VCF version was used ?
-   1. The [VCF file standard used is VCFv4.2](https://samtools.github.io/hts-specs/VCFv4.2.pdf).
+   1. The [VCF file standard used is VCFv4.2](https://samtools.github.io/hts-specs/VCFv4.2.pdf). Bellow an extract of the relevant fields. 
 2. Which reference was used, its ID and length
 3. You can see the command that was called to call [FreeBayes].
 4. That no phasing information was used.
@@ -335,12 +335,47 @@ less snps.raw.vcf
 
 [Snippy] uses advanced variant filtering options: [bcftools] `--include`and `exclude`.
 
-Columns: 
-- QUAL 
-- FORMAT/TAG = FMT/TAG
+
+**Description of metadata content in the VCF file**
+
+- INFO : description of the fields
+- FORMAT/TAG = FMT/TAG <!-- TAG is the flag used to describe what type of info is contained>
+- FILTER : Description of the filters that have been applied to the data
+
+**VCF fields**
+
+- CHROM : contig / chromosome of the reference
+- POS : position according to the reference (base 1)
+- ID : type of structural variant <!-- no structural variant so . >
+- REF : the nucleotide in the reference
+- ALT : the alternate nucleotide(s) in the sample (comma separated)
+- QUAL : Phred-scaled quality score for the assertion made in ALT. "−10log10 prob(call in ALT is
+wrong)".
+- FILTER : filter status : PASS if go through all the filters, otherwise list of filters where it failed <!-- no filter>
+- `INFO`: Additional information for the variants detected (see descriptions of tags) ... some of those we can look at are:
+  - AC: allele count in genotypes <!-- as considered as diploid 2 are counted when not filtered -->
+  - AF: allele frequency (in order allele is listed)
+  - AN: total number of alleles in called alleles
+  - DP: combined depth across samples at the position (eg. here we used one sample so it gives the depth)
+  - LEN: the allele length
+  - TYPE:  describe the type of variant (snp, del, ins, mnp: several bases changes)
+- FORMAT : **read specific to vcf file you have, some abbreviations may change**
+  - GT : genotype encoded (diploid ./. haploid .)
+  - DP : here its the read depth
+  - AD : number of observations for each allele
+  - RO
+  - QR
+  - AO
+  - QA
+  - GL : genotype likelihod (ref, diploid - 1 for each allele)
 
 
-- FMT/GT="1/1" : FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+![QUAL and probal](./bcftools_image3.png)
+<!-- Given the values are provided correctly by the correct program and in raw given in diploid ? -->
+
+![Relation Phred and accuracy](./bcftools_image4.png)
+
+- FMT/GT="1/1" : FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">. <!-- number describe the nb of values that the field can take> <!-- 1/1 Means genotype unphased - otherwise would be | AND ./. is diploid and . is for haploid -- >
 - QUAL>=100.0 
 - FMT/DP>=10 : ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total read depth at the locus">
 - (FMT/AO)/(FMT/DP)>=0.
