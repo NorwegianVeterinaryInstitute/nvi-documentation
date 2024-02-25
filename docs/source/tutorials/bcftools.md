@@ -98,12 +98,14 @@ https://medium.com/@shilparaopradeep/samtools-guide-learning-how-to-filter-and-m
 
 ## Tutorial
 
+In this tutorial we will first do variant calling using [bcftools], and then we will explore the resulting files a bit. 
+
 ### Getting the data used for this tutorial
 
 We followed the [Galaxy training - Microbial variant calling] tutorial to provide a working data set you can exercise with. (Feel free to do the same). 
 In this tutorial, [Snippy] is used to call variants between a read set and a reference genome. In this process, the reads are mapped to the reference, and the variants are subsequently called with [freebayes]. In this process, [bcftools] is used for manipulating files quite a bit. 
 
-In this tutorial we will recreate some steps used by [Snippy] to lear how [bcftools] works.
+In this tutorial we will recreate some steps used by [Snippy] to learn how [bcftools] works.
 This will also help us to better understand [Snippy]. We will eg. compare files generated with
 bcftools manually to what was generated during the [Snippy] run on galaxy.
 
@@ -160,8 +162,8 @@ We will see an example on how to do so during consensus calling.
 <!-- also did not use the quality option-->
 
 Variant calling requires **two phases**:
-- The first step is the **computation of the likelihood of each genotype** (understand the likelihood that each detected variant is true). This is done with `bcftools mpileup`.
-- The seconda step is the actuall **call of variants**. This is done with `bcftools call`.
+- The first step is the **computation of the likelihood of each genotype** (understand the likelihood that each detected variant is true). This is done with `bcftools mpileup`. This tool will look at the bases in the bam file that have been "stacked" up on each position, and calculate the likelihood of what base should be in each position. The result file will contain both variants and non-variants.
+- The seconda step is the actuall **call of variants**. This is done with `bcftools call`. This is a filtered and edited version of what comes out of the mpileup program, focusing on where the variants are. 
 
 To start the process of variant calling, you need an indexed reference.
 If the reference is not indexed yet, you need to create an index. This is done with samtools:
@@ -216,14 +218,14 @@ bcftools call
   - `-r` list OR `-R` file to select certain regions of the reference only
   - options to adjust usage of the likelihood that was calculated
 - used here:
-  - `Oz`output type compressed (bgzf) or `Ou`output uncompressed
-  - `o`output file
+  - `Oz` output type compressed (bgzf) or `Ou`output uncompressed
+  - `o`output file name
   - `-c` OR `-m` is the variant calling model chosen (pick one).
-  - `v`output variant sites only (this is what is a VCF)
+  - `v` output variant sites only (this is what is a VCF)
   - `--ploidy` <!-- TODO understand that better -->
 
 Note:
-> `-c` _consensus-caller_ model is the originally developped model, whiile
+> `-c` _consensus-caller_ model is the originally developped model, while
 `-m`, the _multiallelic-caller_ which is used for rare-variants and multiallelic calling is NOW the default method used in bcfools.
 
 
