@@ -63,18 +63,20 @@ You might have to consult the description of file formats. The standards for the
 
 - Sequence Alignment Map format (SAM)
 - Variant Call Format (VCF)
-- The BED format <!-- TODO is this the one used to define the intervals to analyze ? -->
+- The BED format <!-- TODO is this the one used to define the intervals to analyze ?  YES -->
 
 ### Terms to become familar with
 <!-- TODO Some need to be understood more-->
 
 Computer Science:
 
-- Binary VS non-binary variant files: BCF VS VCF
-- Working on stream
-- Indexing (def). 
+- Binary VS non-binary variant files: BCF VS VCF - bcf is a specific form of compressed vcf. It is compressed with bgzip. 
+- Working on stream - this means that one program produces an output that is then put as an input to the next without storing it as a file.
+- Indexing - this is creating a lookup "cheat table" for where things are in the file. 
 > Note that Some operations only work on indexed files in [bctools], and Working with multiple VCF files will require indexing.
 - Standard vs non standard indexes <!-- what is that -->
+
+An important thing to remember is that when we are working with these tools, both the reference genome and the variant file can and should be indexed. The reference genome is indexed using [samtools], while the variant file is indexed using [bcftools].
 
 bcftools / variant manipulation:
 - line interesections <!-- This is something to do with combining/cross referencing multiple variant files. We wont use that here : "when performing line intersections, the desire"  -> matching variant position ... --> 
