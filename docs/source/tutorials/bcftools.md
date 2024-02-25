@@ -98,7 +98,8 @@ https://medium.com/@shilparaopradeep/samtools-guide-learning-how-to-filter-and-m
 
 ### Getting the data used for this tutorial
 
-We followed the [Galaxy training - Microbial variant calling] tutorial to provide a working data set you can exercise with. (Feel free to do the same).
+We followed the [Galaxy training - Microbial variant calling] tutorial to provide a working data set you can exercise with. (Feel free to do the same). 
+In this tutorial, [Snippy] is used to call variants between a read set and a reference genome. In this process, the reads are mapped to the reference, and the variants are subsequently called with [freebayes]. In this process, [bcftools] is used for manipulating files quite a bit. 
 
 In this tutorial we will recreate some steps used by [Snippy] to lear how [bcftools] works.
 This will also help us to better understand [Snippy]. We will eg. compare files generated with
