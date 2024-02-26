@@ -39,6 +39,25 @@ AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at 
 
 <br><br>
 
+# List of pipelines: 
+1. **Assembly and Annotation Pipeline** <br> 
+   Shovill assembly, Prokka annotation and QUAST assembly assessment.<br>
+3. **MLST Pipeline NVI - Modified by NVI** <br>
+   Under Test: "DO NOT USE THIS" pipeline. Pipepline performs Shovill assembly and QUAST assembly quality assessment. And, uses checkm_analyze and checkm_qa for 
+   assessing the quality of genomes.<br>
+   
+4. **SISTR Pipeline v1.1.1 (NVI) - Modified by NVI**
+5. **Species Abundance Pipeline - Modified by NVI**
+6. **Assembly_QC Pipeline - NVI Developed**
+7. **Phylo-CoreGenomeSNP Pipeline - NVI Developed**
+8. **Reads_QC Pipeline - NVI Developed**
+9. **ResPointFinder - NVI Developed**
+10. **ResPointFinder2 (EFSA 2022) - NVI Developed**
+11. **ResPointFinder3 (EFSA 2023) - NVI Developed** 
+12. **SeroTypeFinder Pipeline - NVI Developed**
+13. **Virulence_Finder - NVI Developed**
+14. **spaTyper Pipeline - NVI Developed**
+
 # Analyses
 
 ## Assemblies
