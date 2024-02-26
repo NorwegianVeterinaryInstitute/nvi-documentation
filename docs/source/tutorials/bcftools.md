@@ -163,7 +163,7 @@ We will see an example on how to do so during consensus calling.
 
 Variant calling requires **two phases**:
 - The first step is the **computation of the likelihood of each genotype** (understand the likelihood that each detected variant is true). This is done with `bcftools mpileup`. This tool will look at the bases in the bam file that have been "stacked" up on each position, and calculate the likelihood of what base should be in each position. The result file will contain both variants and non-variants.
-- The seconda step is the actuall **call of variants**. This is done with `bcftools call`. This is a filtered and edited version of what comes out of the mpileup program, focusing on where the variants are. 
+- The second step is the actuall **call of variants**. This is done with `bcftools call`. This is a filtered and edited version of what comes out of the mpileup program, focusing on where the variants are. 
 
 To start the process of variant calling, you need an indexed reference.
 If the reference is not indexed yet, you need to create an index. This is done with samtools:
@@ -194,7 +194,7 @@ Options used for computation of likelihood:
 bcftools mplieup
 ```
 
--  **mplieup** options you might want to consider adjusting:
+**mplieup** options you might want to consider adjusting:
   - `-d OR --max-depth <YourDepth>` Per default the maximum depth of the pileup that is used is 250. If you have sequenced deeper, adjust this.
   - `-q, --min-MQ INT` which allows to filter out alignments that have a quality (mapQ) lower than a certain threshold
   - `-Q, --min-BQ INT` to avoid accounting for bases with a quality lower than a certain threshold
@@ -240,8 +240,9 @@ bcftools call -mv -Ou --ploidy 1 -o calls.vcf result_mpileup.vcf
 # OR in one command 
 bcftools mpileup -Ou  --max-depth 500 -f ../wildtype.fna ../galaxy_snippy/snippy.bam | bcftools call -mv -Ou --ploidy 1 -o calls.vcf
 ```
+Have a look at both the vcf files that are produced here. To make it easier, use `ls -S filename`. As you can see you have a lot of things in the file produced first, and much less in the second.
 
-You can now look at your VCF file. Find which VCF file format is used and look at the [corresponding format standard](https://samtools.github.io/hts-specs/)
+Find which VCF file format is used and look at the [corresponding format standard](https://samtools.github.io/hts-specs/)
 <!-- TODO POKING KARIN-->
 
 
@@ -252,7 +253,7 @@ in the tutorial data`/cluster/projects/nn9305k/tutorial/20240226_bcftools/` subf
 
 #### Consensus calling
 
-[Snippy] command[^5] to create the consensus sequence
+[Snippy] uses this command[^5] to create the consensus sequence
 `bcftools consensus --sample mutant_R1_fastq -f reference/ref.fa -o snps.consensus.fa snps.vcf.gz` 
 
 `-o`is the consensus output file - fasta format
