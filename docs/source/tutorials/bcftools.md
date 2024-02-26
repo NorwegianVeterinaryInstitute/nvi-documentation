@@ -429,6 +429,7 @@ This also add the last command to the VCF file.
 Check difference between filtered variant file and our results. The same variants remain.
 However we do not have the effect annotations yet.
 
+<!-- Comment for 26-02-2024 Tutorial - We need to continue / finish
 # HERE Continue prep.
 #### Variant Annotation
 
@@ -446,6 +447,8 @@ snpEff ann -noLog -noStats -no-downstream -no-upstream -no-utr -c reference/snpe
 
 Possible copy number variation: 
 ![maybe](./bcftools_image5.png)
+
+-->
 
 # END
 
