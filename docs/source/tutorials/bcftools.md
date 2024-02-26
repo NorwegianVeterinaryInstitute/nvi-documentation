@@ -253,7 +253,7 @@ in the tutorial data`/cluster/projects/nn9305k/tutorial/20240226_bcftools/` subf
 
 #### Consensus calling
 
-[Snippy] uses this command[^5] to create the consensus sequence
+[Snippy] uses bcftools[^5] to in some ways "merge" the reference and the variants. It basically puts the variants on top of the reference and outputs that. Sometimes this is called a pseudogenome.
 `bcftools consensus --sample mutant_R1_fastq -f reference/ref.fa -o snps.consensus.fa snps.vcf.gz` 
 
 `-o`is the consensus output file - fasta format
