@@ -83,11 +83,16 @@ AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at 
 13. **spaTyper Pipeline**<br>
     Generates spa type identification<br>
 
-# Analyses
+# Analyses 
+In order to analyse a sample (or more than one sample), you have to select the samples in the project and click "Add to cart" button to send the fastq files for annalyses. <br> <br>
 
-## Assemblies
+<img width="918" alt="Screenshot 2024-02-26 at 16 13 55" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/e16a9702-ee26-4b99-9af9-b03873c8d14e"> <br> <br>
+
+Once the samples are added, you have to click on the "shopping cart" on the top right corner to see all the pipelines available.
 
 # LineList
+
+## Assemblies
 
 # Data transfer and Automated Pipeline
 Sequenced data from NVI sequencing lab are semi-automatically(so far) transferred to VIGAS from SAGA/NIRD.    
