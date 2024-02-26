@@ -24,15 +24,20 @@ By clicking on the project names, you can see and access the data
 <img width="1643" alt="Screenshot 2024-02-26 at 15 28 34" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/cd8d4770-0b98-40b4-8c87-6a69f7389a69">
 <br><br>
 
-By clicking on the sample name, you can see the more details, files (fastq, assembly), metadata and analyses, 
+By clicking on the sample name, you can see more information, files (fastq, assembly), metadata and analyses. 
+Assembly files will be available only after running "Assembly and Annotation" pipeline. Metadata can either be added one by one manually or using a metadata file (csv or excel) with sample_id. Metadata also contains "selected-formatted" results from analyses using VIGASP pipelines. 
+
 <br><br>
-<img width="1654" alt="Screenshot 2024-02-26 at 15 29 57" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/fc159b42-bb41-4fc4-b198-477902bf881b">
+<img width="1654" alt="Screenshot 2024-02-26 at 15 29 57" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/fc159b42-bb41-4fc4-b198-477902bf881b"><br><br>
 
-
-## Metadata
-
+<br><br>
 # Pipeline overview 
-AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at NVI. Project managers can set up automated pipelines with customized parameters for each project. 
+AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at NVI. Project managers can set up automated pipelines with customized parameters for each project. By clicking on the "shopping cart" symbol in top right corner will take you to list of pipelines available.
+<br><br>
+
+<img width="1268" alt="Screenshot 2024-02-26 at 15 51 00" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/705dd6ef-f4f8-4bee-b731-15f625812ea4">
+
+<br><br>
 
 # Analyses
 
