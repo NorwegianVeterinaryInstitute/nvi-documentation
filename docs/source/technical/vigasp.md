@@ -1,20 +1,38 @@
 # Overview: 
-VIGAS/P stands for Veteriary Institute Genome Analysis System/Platform. VIGASP uses IRIDA for data management, data access control, analysis and storing the results. IRIDA uses Galaxy to execute the pipelines. 
+VIGAS/P stands for Veteriary Institute Genome Analysis System/Platform. VIGASP uses IRIDA for data management, data access control, analysis and storing the results. IRIDA uses Galaxy to execute the pipelines. Also, the fastq files can be uploaded to NCBI SRA.
 
 # Accessing VIGAS and logging in
-VIGAS is accessible only from official VI Laptops or through VI-VPN. 
-Those who want to get user names has to send email to Jeevan (jeevan.karloss.antony-samy@vetinst.no) with following details: 
+VIGAS is accessible only from official VI stationary computers and Laptops or through VI-VPN.
+
+Those who want to get user names has to send email to Jeevan (bioinf-group@vetinst.no) with following details: 
 1. Explanation: Why do you need access to VIGAS
 2. Preferred user name and mobile number
 3. List of species data do you want to have access for. We wil talk to the managers of those projects in VIGAS and give you access to those data/metadata/results.
+4. Also, the person will have to meet one of the bioinformatics team members in person and to show the NVI ID card due to the data confidentiality agreements.
 
 # Data management and access control 
-In IRIDA, data (Fastq files, meta data and results) are organized as projects (species bucket). No data can stand alone. F. ex. All salmonella data are part of "Salmonella spp" project and all Listeria data are part of "Listeria spp" project. Users can create projects where they can share the data from main project to do furether project specific analysis. Only the members of the project can access, share and see data and the results.  
+In IRIDA, all data (Fastq files, meta data and results) are organized as projects (species bucket). No data can stand alone. F. ex. All salmonella data are part of "Salmonella spp" project and all Listeria data are part of "Listeria spp" project. Only the members of the project can see, access, analyze and share the data and the results. Users can create projects where they can share the data from main project to do further project specific analysis. 
+
+## Projects in VIGASP
+Once the you have logged-in, you will see the projects you are part of like in the image below.  
+<img width="1656" alt="Screenshot 2024-02-26 at 15 26 42" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/5956ca0a-a722-423b-a7d1-d537c125dad2">
+
+<img width="1643" alt="Screenshot 2024-02-26 at 15 28 34" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/cd8d4770-0b98-40b4-8c87-6a69f7389a69">
+
+<img width="1654" alt="Screenshot 2024-02-26 at 15 29 57" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/adf161f6-93f2-4466-b0b7-63553d94869f">
+
+## Metadata
 
 # Pipeline overview 
-AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at NVI. Project managers can set up automated pipelines with customized parameters for each project.    
+AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at NVI. Project managers can set up automated pipelines with customized parameters for each project. 
+
+# Analyses
+
+## Assemblies
+
+# LineList
 
 # Data transfer and Automated Pipeline
-Sequenced data from NVI sequencing lab are semi-automatically(so far) transferred to VIGAS using SAGA/NIRD.    
+Sequenced data from NVI sequencing lab are semi-automatically(so far) transferred to VIGAS from SAGA/NIRD.    
 
 # Cititig VIGASP
