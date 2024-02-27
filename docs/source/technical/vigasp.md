@@ -96,7 +96,12 @@ In order to analyse a sample (or more than one sample), you have to select the s
 
 <img width="918" alt="Screenshot 2024-02-26 at 16 13 55" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/e16a9702-ee26-4b99-9af9-b03873c8d14e"> <br> <br>
 
-Once the samples are added, you have to click on the "shopping cart" on the top right corner to see all the pipelines available.
+Once the samples are added, you have to click on the "shopping cart" on the top right corner to see all the pipelines available. <br><br>
+
+<img width="1671" alt="Screenshot 2024-02-27 at 12 57 36" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/3772d134-3d04-47f8-9175-5e8b4a330eee">
+<br><br>
+
+Then, you can choose the pipeline you want to run by  clicking the "Select" butto under the pipeline
 
 # LineList
 
