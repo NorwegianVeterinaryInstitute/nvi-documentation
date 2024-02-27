@@ -5,8 +5,9 @@ VIGAS/P stands for Veteriary Institute Genome Analysis System/Platform. VIGASP u
 2. All data (fastq files, genome assemblies and metadata) and results are stored in an organized (Genus, sample_id and project) way with proper data access control.
 3. Possible to search by genus, sample_id, file_name and results (F. ex. MLST type, seroptype, amr genes, etc,.)
 4. As of March 2024, we have 11 pipelines
-5. Each project/Genus can set automated pipelines every time when there is a new data with specific parameters for that Genus 
-6. Fastq files from VIGASP can be uploaded to NCBI SRA directly.
+5. Each project/Genus can set automated pipelines every time when there is a new data with specific parameters for that Genus
+6. Formatted results are stored in a table format along with samples (LineList)
+7. Fastq files from VIGASP can be uploaded to NCBI SRA directly.
 
 # Accessing VIGAS and logging in
 VIGAS is accessible only from official VI stationary computers and Laptops or through VI-VPN.
