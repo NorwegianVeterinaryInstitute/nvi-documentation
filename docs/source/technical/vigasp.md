@@ -104,6 +104,8 @@ Once the samples are added, you have to click on the "shopping cart" on the top 
 Then, you can choose the pipeline you want to run by  clicking the "Select" butto under the pipeline
 
 # LineList
+## Creating template for LineList (How to hide the old LineList data)
+In. "Project" -> "Settings"-> "MetaData" -> "Choose the data you want" -> "create new template" -> "use that new template as default for LineList"
 
 ## Assemblies
 
