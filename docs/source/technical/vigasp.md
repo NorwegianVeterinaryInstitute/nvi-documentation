@@ -18,6 +18,11 @@ Those who want to get user names has to send email to Jeevan (bioinf-group@vetin
 3. List of species data do you want to have access for. We wil talk to the managers of those projects in VIGAS and give you access to those data/metadata/results.
 4. Also, the person will have to meet one of the bioinformatics team members in person and to show the NVI ID card due to the data confidentiality agreements.
 
+<br> <br> 
+<img width="1217" alt="Screenshot 2024-03-11 at 14 37 04" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/7045e614-2b2b-4f14-9bf8-389c3d1f5f36">
+<br> <br> 
+
+
 # Data management and access control 
 In IRIDA, all data (Fastq files, meta data and results) are organized as projects (species bucket). No data can stand alone. F. ex. All salmonella data are part of "Salmonella spp" project and all Listeria data are part of "Listeria spp" project. Only the members of the project can see, access, analyze and share the data and the results. Users can create projects where they can share the data from main project to do further project specific analysis. 
 
