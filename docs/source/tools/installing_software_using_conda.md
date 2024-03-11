@@ -17,7 +17,7 @@ The first thing we need to do is create a yml file in the folder yaml.
 
 Here we create the file: `dorado_gpu_0.4.2.yml`. In that file we indicate the name of the environment. The name of the environment should contain the version of the software you install. In addition we specify the channels that conda will use to find the software and the dependencies for the software. The order in which the channels are mentionned is important. Finally we indicate the software we want to install, as well as the dependencies that are required for this software to be functional. We specify which version of the software and which version of dependencies (eg. libraries) we want to set-up. 
 
-That contains this
+The file contains the following:
 ```
 name: dorado_gpu_0.4.2
 channels:
