@@ -1,10 +1,10 @@
 # Installing software using conda.
 
-The conda system makes it very easy to install software. With the command `conda create -n $ENV_NAME` you can set-up an environment and install any software you like. That can be packages already present at the [anaconda.org](anaconda.org), or you can install your own software in the bin folder of the environment. 
+The conda system makes it very easy to install software. With the command `conda create -n $ENV_NAME` you can set-up an environment and install any software you like. That can be packages already present at the [anaconda.org](anaconda.org) or any other conda channel. OR, you can install your own software in the bin folder of the environment. 
 
 This however, does not make it reproducible and for us scientists, that means that we do not document clearly what we are installing and how we do it. For software that you install yourself into the bin folder of the environment, it is important that you keep track of how you do it. If not, you might not be able to recreate the exact same environment.
 
-For software that is available on [anaconda.org](anaconda.org), we need to do a little bit more work than just running the create command, but then the installation process is well documented and reproducible.
+For software that is available on eg. [anaconda.org](anaconda.org), we need to do a little bit more work than just running the create command, but then the installation process is well documented and reproducible.
 
 Here we show how to set-up your own environment. As an example, we will use the tool [dorado](https://github.com/nanoporetech/dorado) and the version we want is the version that uses GPU's. That tool is available for conda installation here: https://anaconda.org/hcc/dorado-gpu. 
 
@@ -15,7 +15,7 @@ In that folder you find: a README file with instructions, a bash script called: 
 ### Creation of the yml file
 The first thing we need to do is create a yml file in the folder yaml.
 
-Here we create the file: `dorado_gpu_0.4.2.yml`. In that file we indicate the name of the environment and that should contain the version of the software you install. In addition we specify the channels that conda will use to find the software and the dependencies for the software. The order of the channels is important. And finally we indicate the software we want to install as the dependencie an we specify which version of the software we want to set-up. 
+Here we create the file: `dorado_gpu_0.4.2.yml`. In that file we indicate the name of the environment. The name of the environment should contain the version of the software you install. In addition we specify the channels that conda will use to find the software and the dependencies for the software. The order in which the channels are mentionned is important. Finally we indicate the software we want to install, as well as the dependencies that are required for this software to be functional. We specify which version of the software and which version of dependencies (eg. libraries) we want to set-up. 
 
 That contains this
 ```
@@ -38,7 +38,7 @@ Once we have create the yml file and saved that in the yaml folder, we can than 
 The general command for that is: 
 
 ```
-basg create_env.bash toolname_version yaml/yaml_file.yaml
+bash create_env.bash toolname_version yaml/yaml_file.yml
 ```
 
 For our example that becomes:
