@@ -28,7 +28,7 @@ Here we will give some examples on how you can do so with bcftools.
 Bcftools is for example used in [Snippy] the variant calling and core genome alignment sowftware that is implemented in [ALPPACA] pipeline[^2].
 Snippy do not use bcftools for variant calling[^3], but it uses it for several purposes:
 filtering variants, creating consensus, converting, compressing and indexing variant files.
-Bbcftools offers a variety of commands/modules to manipulate VCF files. Combining those in different way,
+Bcftools offers a variety of commands/modules to manipulate VCF files. Combining those in different way,
 can help you extract the information you want from your data.
 
 ### Examples of what can you do with [bcftools] and [Samtools]
@@ -73,7 +73,7 @@ Computer Science:
 - Binary VS non-binary variant files: BCF VS VCF - bcf is a specific form of compressed vcf. It is compressed with bgzip. 
 - Working on stream - this means that one program produces an output that is then put as an input to the next without storing it as a file.
 - Indexing - this is creating a lookup "cheat table" for where things are in the file. 
-> Note that Some operations only work on indexed files in [bctools], and Working with multiple VCF files will require indexing.
+> Note that Some operations only work on indexed files in [bcftools], and Working with multiple VCF files will require indexing.
 - Standard vs non standard indexes <!-- what is that -->
 
 An important thing to remember is that when we are working with these tools, both the reference genome and the variant file can and should be indexed. The reference genome is indexed using [samtools], while the variant file is indexed using [bcftools].
@@ -130,7 +130,7 @@ Activate conda.
 [Thomas tutorial](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html)
 
 ```bash
-minconda 
+miniconda 
 conda activate bcftools
 
 bcftools --help # Version: 1.19 (using htslib 1.19.1)
@@ -511,6 +511,3 @@ How a guide here ! https://medium.com/@shilparaopradeep/samtools-guide-learning-
 Fix index possibilities
  zcat snippy.vcf.gz | bgzip -c > snippy.new.vcf.gz && tabix snippy.new.vcf.gz
 --> 
-
-
->
