@@ -1,14 +1,14 @@
 # Installing software using conda.
 
-The conda system makes it very easy to install software. With the command `conda create $ENV_NAME` you can set-up an environment and install any software you like. That can be packages already present at the [anaconda.org](anaconda.org), or you can install your own software in the bin folder of the environment.
+The conda system makes it very easy to install software. With the command `conda create -n $ENV_NAME` you can set-up an environment and install any software you like. That can be packages already present at the [anaconda.org](anaconda.org), or you can install your own software in the bin folder of the environment. 
 
 This however, does not make it reproducible and for us scientists, that means that we do not document clearly what we are installing and how we do it. For software that you install yourself into the bin folder of the environment, it is important that you keep track of how you do it. If not, you might not be able to recreate the exact same environment.
 
-For software that is available on [anaconda.org](anaconda.org), we need to do a little bit more work than just running the create command, but than the installation process is well documented and reproducible.
+For software that is available on [anaconda.org](anaconda.org), we need to do a little bit more work than just running the create command, but then the installation process is well documented and reproducible.
 
 Here we show how to set-up your own environment. As an example, we will use the tool [dorado](https://github.com/nanoporetech/dorado) and the version we want is the version that uses GPU's. That tool is available for conda installation here: https://anaconda.org/hcc/dorado-gpu. 
 
-The place on Saga where we do the writing is in the folder: `/cluster/projects/nn9305k/src/conda_env_creator`.
+The place on Saga where we write the instructions that allow to create the reproducible environment is done in the folder: `/cluster/projects/nn9305k/src/conda_env_creator`.
 
 In that folder you find: a README file with instructions, a bash script called: `create_env.bash` and a folder called: `yaml`.
 
