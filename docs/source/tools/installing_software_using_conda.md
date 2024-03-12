@@ -14,10 +14,11 @@ In that folder you find: a README file with instructions, a bash script called: 
 
 ### Creation of the yml file
 The first thing we need to do is create a yml file in the folder yaml.
+The yml file contains the necessary instructions to create a reproducible environment. It is a text file with a special formatting (yaml) that contains the set of instructions that conda need to create a reproducible environment. 
 
-Here we create the file: `dorado_gpu_0.4.2.yml`. In that file we indicate the name of the environment. The name of the environment should contain the version of the software you install. In addition we specify the channels that conda will use to find the software and the dependencies for the software. The order in which the channels are mentionned is important. Finally we indicate the software we want to install, as well as the dependencies that are required for this software to be functional. We specify which version of the software and which version of dependencies (eg. libraries) we want to set-up. 
+Here we create the file: `dorado_gpu_0.4.2.yml`. In that file we indicate the name of the environment. The name of the environment should contain the version of the software you install. In addition we specify the channels that conda will use to find the software and the dependencies required by software. The order in which the channels are mentionned is important. Finally we indicate the software we want to install (and the required dependencies). We must specify which version of the software and which version of dependencies we want to set-up. 
 
-The file contains the following:
+That contains this
 ```
 name: dorado_gpu_0.4.2
 channels:
@@ -33,7 +34,7 @@ Note that I have a channel called `hcc`, this is the specific channel at anacond
 
 ### Installing the software on Saga.
 
-Once we have create the yml file and saved that in the yaml folder, we can than use the bash script `create_env.bash`.
+Once we have create the yml file and saved that in the yaml folder, we can then use the bash script `create_env.bash`.
 
 The general command for that is: 
 
