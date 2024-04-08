@@ -1,9 +1,9 @@
 # Bacterial genome submission to NCBI with VIGAS
 
-In the NVI VIGAS system it is possible to submit one or multiple genome sequences from isolates to the NCBI database so that you can accession numbers for these and the genome becomes public. But before you start with the submission in VIGAS, you first need to create a BIOPROJECT (in case it is not already existing) and you need to obtain BIOSAMPLE IDs. It is not possible to submit your genomes without these two items to the NCBI database. But don't worry. The process is very easy to follow and do. Things are automatically saved when you go to the next submission step at NCBI. So you can leave the process and come back the next day to continue, and it will do so at the step where you left.
+In the NVI VIGAS system it is possible to submit one or multiple genome sequences from isolates to the NCBI database so that you can get accession numbers for these and the genome becomes public. But before you start with the submission in VIGAS, you first need to create a [BIOPROJECT](https://www.ncbi.nlm.nih.gov/bioproject/) (in case it is not already existing) and you need to obtain [BIOSAMPLE](https://www.ncbi.nlm.nih.gov/biosample/docs/) IDs. It is not possible to submit your genome sequences to the NCBI database without these two items in place. But don't worry. The process is very easy to follow and do. Things are automatically saved when you go to the next submission step at NCBI. So you can leave the process and come back the next day to continue, and it will do so at the step where you left.
 
 ## Starting the submission.
-To start the submission go to the website `https://submit.ncbi.nlm.nih.gov/` and login or create an account at NCBI. Once you are inside the submission system, you are asked what you want to submit. There are four major categories:
+To start the submission go to the website [https://submit.ncbi.nlm.nih.gov/](https://submit.ncbi.nlm.nih.gov/) and login or create an account at NCBI. Once you are inside the submission system, you are asked what you want to submit. There are four major categories:
 
 1. Genome - Submit assembled complete or incomplete/draft prokaryotic and eukaryotic genomes. Not for viral, phage, or single locus sequences (for example: 16S rRNA).
 2. BankIt - Submit genomic DNA, organelle, ncRNA, plasmids, other viruses, phages, mRNA and synthetic constructs.
