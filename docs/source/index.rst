@@ -34,6 +34,13 @@ work with data analysis in various forms at the NVI.
    tools/index
 
 .. toctree::
+  :hidden:
+  :titlesonly:
+  :caption: R/Rstudio/Posit 
+
+   posit/index  
+
+.. toctree::
    :hidden:
    :titlesonly:
    :caption: Tricks and hints
