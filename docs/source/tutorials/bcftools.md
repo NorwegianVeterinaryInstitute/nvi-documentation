@@ -53,6 +53,7 @@ Bcftools offers a variety of commands/modules to manipulate VCF files. Combining
 can help you extract the information you want from your data.
 
 ---
+
 ### Examples of what can you do with bcftools and Samtools
 
 Some examples of what you can do:
@@ -66,19 +67,21 @@ Some examples of what you can do:
 - Help ensure quality of your dataset by providing utilities to help detect sample concordance, swaps and contamination
 - Detect the number of chromosomal copies (polysomy)
 
-It can also work working with haplotypes, determine consequences of variations (eg Frame shift), and in association to specific mutation annotations (eg. as with [SnpEff]) as done in [Snippy] then it can eg. help determine the effects of a mutation.
+It can also work with haplotypes, determine consequences of variations (eg Frame shift), and in association to specific mutation annotations (eg. as with [SnpEff] as done in [Snippy]) it can eg. help determine the effects of a mutation.
 
 It also provide some utilities for files manipulations, and can provide statistics on variant calls, and much more. It seems eg. that it can help determining Hq variants by allowing to extract variants congruent between different variants callers (intersection).
 
 ---
+
 ### Ressources
 
-There are many ressources online:
+There are many resources online:
 
 - [BCFtools HowTo, with manual](https://samtools.github.io/bcftools/howtos/index.html) and more generally [Samtools] website. A list of articles describing the algorithms and usages of [bcftools] is provided in [Samtools documentation](https://www.htslib.org/doc/#manual-pages).
 - Videos on YouTube, eg. from [Bioinformatics coach channel](https://www.youtube.com/@bioinformaticscoach) <!-- TODO not sure how good they are -->
 
 Other tutorials that are relevant:
+
 - [Galaxy training - Microbial variant calling] with [Snippy]. **We will use the data provided in this tutorial for the exercises.** 
 - [Galaxy training - Mapping]
 
@@ -94,7 +97,7 @@ You might have to consult the description of file formats. The standards for the
 
 Computer Science:
 
-- Binary VS non-binary variant files: BCF VS VCF - bcf is a specific form of compressed vcf. It is compressed with bgzip. 
+- Binary VS non-binary variant files: BCF VS VCF - bcf is a specific form of compressed vcf. It is compressed with bgzip.
 - Working on stream - this means that one program produces an output that is then put as an input to the next without storing it as a file.
 - Indexing - this is creating a lookup "cheat table" for where things are in the file. 
 > Note that Some operations only work on indexed files in [bcftools], and Working with multiple VCF files will require indexing.
@@ -103,6 +106,7 @@ Computer Science:
 An important thing to remember is that when we are working with these tools, both the reference genome and the variant file can and should be indexed. The reference genome is indexed using [samtools], while the variant file is indexed using [bcftools].
 
 bcftools / variant manipulation:
+
 - line interesections <!-- This is something to do with combining/cross referencing multiple variant files. We wont use that here : "when performing line intersections, the desire"  -> matching variant position ... --> 
 - phasing <!-- linkage - using this information can be usefull to detect errors. We do not use here -->
 - mapQ : The mapping quality - as provided by samtools. [Samtools] mapping quality is computed as such: `−10 log10 Probability {mapping position is wrong}` (phred correspondance) <!-- TODO understand better-->
@@ -148,6 +152,7 @@ And as you can see, we recovered the same variant position as in the galaxy tuto
 ![This is reproducible !](./bcftools_image1.png)
 
 ---
+
 ### bcftools in SAGA
 
 Activate conda.
@@ -158,7 +163,9 @@ Activate conda.
 miniconda 
 conda activate bcftools
 
-bcftools --help # Version: 1.19 (using htslib 1.19.1)
+# Version: 1.19 (using htslib 1.19.1)
+bcftools --help 
+
 # OR 
 bcftools --version
 ```
@@ -168,6 +175,7 @@ If you need to use VCF file produced by samtool prior to this version, you will 
 to convert to a more recent format.
 
 To see the list of commands and plugins (aka what you can do with bcf tools do:)
+
 ```bash
 # give you the list of default commands
 bcftools 
@@ -176,6 +184,7 @@ bcftools plugin -lv
 ```
 
 ---
+
 ### Note on bcftools usage
 
 It is possible that you will have to compress input files to be able to work with [bcftools].
@@ -187,13 +196,15 @@ We will see an example on how to do so during consensus calling.
 <!-- also did not use the quality option-->
 
 Variant calling requires **two phases**:
+
 - The first step is the **computation of the likelihood of each genotype** (understand the likelihood that each detected variant is true). This is done with `bcftools mpileup`. This tool will look at the bases in the bam file that have been "stacked" up on each position, and calculate the likelihood of what base should be in each position. The result file will contain both variants and non-variants.
-- The second step is the actuall **call of variants**. This is done with `bcftools call`. This is a filtered and edited version of what comes out of the mpileup program, focusing on where the variants are. 
+- The second step is the actuall **call of variants**. This is done with `bcftools call`. This is a filtered and edited version of what comes out of the mpileup program, focusing on where the variants are.
 
 To start the process of variant calling, you need an indexed reference.
 If the reference is not indexed yet, you need to create an index. This is done with samtools:
 
-> Note: usually you already have an indexed reference from the mapping step. 
+> Note: usually you already have an indexed reference from the mapping step.
+
 ```bash
 samtools faidx ../wildtype.fna
 ```
@@ -217,31 +228,35 @@ different encoding ... and expectations
 -->
 
 Get options used for computation of likelihood:
+
 ```bash
 bcftools mplieup
 ```
 
 **mplieup** options you might want to consider adjusting:
-  - `-d OR --max-depth <YourDepth>` Per default the maximum depth of the pileup that is used is 250. If you have sequenced deeper, adjust this.
-  - `-q, --min-MQ INT` which allows to filter out alignments that have a quality (mapQ) lower than a certain threshold
-  - `-Q, --min-BQ INT` to avoid accounting for bases with a quality lower than a certain threshold
-  - `-r` list OR `-R` file to select certain regions of the reference only. This can eg. allow you
+
+- `-d OR --max-depth <YourDepth>` Per default the maximum depth of the pileup that is used is 250. If you have sequenced deeper, adjust this.
+- `-q, --min-MQ INT` which allows to filter out alignments that have a quality (mapQ) lower than a certain threshold
+- `-Q, --min-BQ INT` to avoid accounting for bases with a quality lower than a certain threshold
+- `-r` list OR `-R` file to select certain regions of the reference only. This can eg. allow you
 to avoid calling variants in repeated regions.  <!-- TODO need eventually to find out how-->
-   - There are options to ajust how the likelihood is computed (we keep those for now as we have little experience, per default Illumina profile is activated)
-   - `--seed INT` allows you to set the seed - this can be usefull if you try to adjust options
+  - There are options to ajust how the likelihood is computed (we keep those for now as we have little experience, per default Illumina profile is activated)
+  - `--seed INT` allows you to set the seed - this can be usefull if you try to adjust options
 - Options used here:
-  - `Ou`output type uncompressed
-  - `f`format of fields. To do specific format for the columns of VCF file (see VCF standard FORMAT column) <!-- I assmume its defaults here as no list is provided-->
+- `Ou`output type uncompressed
+- `f`format of fields. To do specific format for the columns of VCF file (see VCF standard FORMAT column) <!-- I assmume its defaults here as no list is provided-->
 
 > Note that at this stage the likelihood is computed assuming a diploid organism. You will have to adjust
 the filter to organism ploidy during variant calling.
 
 Get options used for variant calling:
+
 ```bash
 bcftools call
 ```
 
-**call** options you might want to consider: 
+**call** options you might want to consider:
+
 - `-r` list OR `-R` file to select certain regions of the reference only
 - options to adjust usage of the likelihood that was calculated
 - used here:
@@ -255,8 +270,8 @@ Note:
 > `-c` _consensus-caller_ model is the originally developped model, while
 `-m`, the _multiallelic-caller_ which is used for rare-variants and multiallelic calling is NOW the default method used in bcftools.
 
-
 **Example for the tutorial:**
+
 ```bash
 cd tutorial
 # bcftools mpileup -Ou -f <ref.fasta> <mapped_reads.bam>  "the result of this is piped to:"
@@ -267,17 +282,20 @@ bcftools call -mv -Ou --ploidy 1 -o calls.vcf result_mpileup.vcf
 # OR in one command 
 bcftools mpileup -Ou  --max-depth 500 -f ../wildtype.fna ../galaxy_snippy/snippy.bam | bcftools call -mv -Ou --ploidy 1 -o calls.vcf
 ```
+
 Have a look at both the vcf files that are produced here. To make it easier, use `ls -S filename`. As you can see you have a lot of things in the file produced first, and much less in the second.
 
 Find which VCF file format is used and look at the [corresponding format standard](https://samtools.github.io/hts-specs/)
 
 ---
+
 ### What does Snippy uses bcftools for ?
 
 You can have a look at the commands used by [Snippy]
 in the tutorial data`/cluster/projects/nn9305k/tutorial/20240226_bcftools/` subfolder `data/galaxy_snippy/snippy.txt` file.
 
 ---
+
 #### Consensus calling
 
 [Snippy] uses bcftools[^5] to in some ways "merge" the reference and the variants. It basically puts the variants on top of the reference and outputs that. Sometimes this is called a pseudogenome.
@@ -294,7 +312,7 @@ in the tutorial data`/cluster/projects/nn9305k/tutorial/20240226_bcftools/` subf
 2. We need to index and compress the VCF file (bgzip). The compressing utility is installed with samtools/bctools
 3. We recreate the consensus
 4. We compare our consensus to Snippy consensus.
-Because in theory those sequences should be identical (obtained by the same means, but it might have been some headers reformating), we can concatenate "our" consensus and Snippy consensus and pretend this is an alingnment and detect SNPs differences between those consensus files.
+Because in theory those sequences should be identical (obtained by the same means, but it might have been some headers reformating), we can concatenate "our" consensus and Snippy consensus and pretend this is an alignment and detect SNPs differences between those consensus files.
 
 Note: We used the final files provided by galaxy to demonstrate equivalence
 
@@ -324,7 +342,9 @@ conda activate snp-dists
 snp-dists -a dummy.fasta # no differences were detected
 conda deactivate
 ```
+
 ---
+
 #### Variant filtering
 
 Why filter variants, an example of variants being filtered out because of lack of depth in the pileup.
@@ -338,6 +358,7 @@ and the filtered variant call here `data/galaxy_snippy/snippy_zip/mutant_R1_fast
 Note: The final annotated variant[^4] are provided in `data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf`.
 > Note: This last one is equivalent to the one exported as `data/galaxy_snippy/snippy.vcf`.
 > You can test this using `diff file1 file 2`
+
 ```bash
 cd data
 diff galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf galaxy_snippy/snippy.vcf 
@@ -345,7 +366,7 @@ diff galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.vcf galaxy_snippy/snippy.vcf
 
 We need to understand also to look at the unfiltered variant and find which VCF format was used, and gain information about the meaning of the fields. We need also to compare this file with the filtered variant file, and understand what is done in [Snippy].
 
-```bash 
+```bash
 cd data/snippy/mutant_R1_fastq
 less snps.raw.vcf
 ```
@@ -384,7 +405,8 @@ FILTER : filter status : PASS if go through all the filters, otherwise list of f
 - DP: combined depth across samples at the position (eg. here we used one sample so it gives the depth)
 - LEN: the allele length
 - TYPE:  describe the type of variant (snp, del, ins, mnp: several bases changes)
-... 
+...
+
 Some information can be redundant with format
 
 FORMAT : **read specific to vcf file you have, some abbreviations may change**
@@ -405,6 +427,7 @@ FORMAT : **read specific to vcf file you have, some abbreviations may change**
 
 **Looking at [Snippy] very long filtering command ...**
 > Note that snippy uses an earlier version of bcftools, this is why the command is sligly different than the command used in our tutorial
+
 ```bash
 bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf  | vt normalize -r reference/ref.fa - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' > snps.filt.vcf
 ```
@@ -412,6 +435,7 @@ bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(
 - [Snippy] uses advanced variant filtering options: [bcftools] `--include`and `exclude`. 
 
 Lets decompose : 1 -> 2 -> 3 -> 4
+
 1. `bcftools view --include 'FMT/GT="1/1" && QUAL>=100.0 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0.9' snps.raw.vcf`
    1. `view` allows to view, filter and subset VCF
    2. GT=1/1 Genotype must be identical (homozygosity) : here is the transfromation from the diploid encoding so it gets valid with halpoids
@@ -422,10 +446,10 @@ Lets decompose : 1 -> 2 -> 3 -> 4
 <!-- POKING KARIN
 - Different optimal local alignments for variants can be equal, however those need to be represented in a consistent maner to allow reproducibility and eg. combining different variant files. This allows to standardise the representation of variants and will allow comparison of variant representation. 
 - TODO read with fresh head
--->  
-1. `bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL'`
+-->
+3. `bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL'`
    1. `annotate` allows to add or remove annotation to VCF files. So its a way to slighly clean the long VCF file from the fields the author does not want to keep.
-2. output the filtered variants to file: `> snps.filt.vcf`
+4. output the filtered variants to file: `> snps.filt.vcf`
 
 **Can we reproduce this type of filtering?**
 
@@ -447,9 +471,11 @@ bcftools norm -f wildtype.fna -Ou -o filter_step2.vcf filter_step1.vcf
 ```
 
 And then we can filter the fields in the vcf file
+
 ```bash
 bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' -Ou -o filter_step3.vcf filter_step2.vcf
 ```
+
 This also add the last command to the VCF file.
 
 Check difference between filtered variant file and our results. The same variants remain.
