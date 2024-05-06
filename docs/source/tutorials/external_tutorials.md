@@ -22,11 +22,15 @@ You can find both feature events and links to past events and tutorials at
 
 ## Nextflow tutorials / training 
 - [Training](https://training.nextflow.io/)
-- [Software Carpentry incubator]https://carpentries-incubator.github.io/workflows-nextflow/)
+- [Software Carpentry incubator](https://carpentries-incubator.github.io/workflows-nextflow/)
 
 Not really tutorial, but examples that are most useful  [Nextflow Patterns](https://nextflow-io.github.io/patterns/) 
 
 ## Other specific Tools tutorials
+
+### FastQ - read quality assessment 
+Not a tutorial per see - but has excellent information on how to interprete read quality assesment results [here](https://nf-co.re/eager/2.4.4/docs/output)
+
 <!-- 
 ### Samtools 
 - []https://github.com/arq5x/tutorials
