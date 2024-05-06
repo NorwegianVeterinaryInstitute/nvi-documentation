@@ -35,3 +35,11 @@ Not a tutorial per see - but has excellent information on how to interprete read
 ### Samtools 
 - []https://github.com/arq5x/tutorials
 --> 
+
+# List of tools 
+
+## long reads 
+A nice list of tools to use with long-reads: [long-read tools](https://long-read-tools.org/)
+
+## Diverse bioinformatics
+List of bioinformatics tools by function : [](https://github.com/danielecook/Awesome-Bioinformatics)
