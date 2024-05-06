@@ -7,3 +7,11 @@ analysis work. This is a list containing some of the ones we've found useful.
 ## Basic computer usage
 
 * [UNIX shell introduction](http://swcarpentry.github.io/shell-novice/)
+
+
+## HPC tutorials 
+
+## Diverse data - Bioinformatics tutorials
+
+## Nextflow tutorials / training 
+
