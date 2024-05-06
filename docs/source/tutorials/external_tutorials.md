@@ -12,16 +12,22 @@ Have a look at [the Carpentries list of lessons](https://carpentries.org/communi
 * [UNIX shell introduction](http://swcarpentry.github.io/shell-novice/)
 
 ## HPC tutorials 
-You can find both feature events and links to past events and tutorail at 
+You can find both feature events and links to past events and tutorials at 
 [Sigma training events](https://documentation.sigma2.no/training/events.html)
 
 [HPC Carpentry lessons](https://www.hpc-carpentry.org/community-lessons/#hpc-carpentry)
- 
-## Diverse data - Bioinformatics tutorials
+
+## Git
+- introduction to version control [git novice: Software Carpentry](https://swcarpentry.github.io/git-novice/) 
 
 ## Nextflow tutorials / training 
+- [Training](https://training.nextflow.io/)
+- [Software Carpentry incubator]https://carpentries-incubator.github.io/workflows-nextflow/)
 
-## Git 
+Not really tutorial, but examples that are most useful  [Nextflow Patterns](https://nextflow-io.github.io/patterns/) 
 
-# General 
-
+## Other specific Tools tutorials
+<!-- 
+### Samtools 
+- []https://github.com/arq5x/tutorials
+--> 
