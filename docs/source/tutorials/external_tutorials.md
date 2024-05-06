@@ -42,4 +42,4 @@ Not a tutorial per see - but has excellent information on how to interprete read
 A nice list of tools to use with long-reads: [long-read tools](https://long-read-tools.org/)
 
 ## Diverse bioinformatics
-List of bioinformatics tools by function : [](https://github.com/danielecook/Awesome-Bioinformatics)
+List of [bioinformatics tools](https://github.com/danielecook/Awesome-Bioinformatics) by function
