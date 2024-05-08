@@ -43,9 +43,9 @@ Next, you are asked if you are submitting a batch/multiple samples or single sam
 On the third tab, we have to select the right sample type. If you know the species of your bacterium, then you can use that to select the right information packages. If your organism was identified during a a disease outbreak then select "Pathogen". If your organisms was obtained during surveillance than select "One Health Enteric"species for those organisms. For the rest of organisms select the package "MIGS Cultured Bacterial/Archaeal", and then select from what kind of environment you sample came from. You should have good arguments if you want to select the package "Microbe", but we would not recommend it.
 
 Now we end up on the fourth tab, which is the attributes tab. For a few samples you can use the build in editor to fill in the BioSample attributes. It will indicate the madatory columns that you need to fill in and there is support for each column describing the format of the data that can be entered.
-For lots of samples you can download an excel sheet with the attributes you need to fill in. There you see the madatory columns listed in green. When done you can also upload it here again using the "choose file" option. If you made misstakes, the system will notify you and you can correct it. Only when everything is filled in correctly, can you proceed to the final tab, which is "Review & Submit". 
+For lots of samples you can download an excel sheet with the attributes you need to fill in. There you see the madatory columns listed in green. When done you can also upload it here again using the "choose file" option. If you made misstakes, the system will notify you, and asks for you to revise your excel sheet. Only when everything that is essential is filled in correctly, can you proceed to the final tab, which is "Review & Submit". 
 
-When everything is correct for your BioSample registration, than you can proceed to the submit it. 
+When everything is correct for your BioSample registration, than you can proceed to the submit it. Depending on the time of the day, it can take either a few minutes or a bit longer, before you get your samples listed with a Biosample ID.
 
 ## Submission of the reads with VIGAS to the SRA.
 
