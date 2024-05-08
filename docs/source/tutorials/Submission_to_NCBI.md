@@ -48,4 +48,31 @@ For lots of samples you can download an excel sheet with the attributes you need
 When everything is correct for your BioSample registration, than you can proceed to the submit it. Depending on the time of the day, it can take either a few minutes or a bit longer, before you get your samples listed with a Biosample ID.
 
 ## Submission of the reads with VIGAS to the SRA.
+Now that you have registered your samples at the NCBI submission page as Biosamples, we can move to the VIGAS system to upload and register our sequence data.
+
+In VIGAS you find the option NCBI SRA export tool. You first select the sequences of the isolate(s) that you want to submit to the NCBI- SRA database. Then select the NCBI SRA export tool.
+You have now a menu in where you first have to fill in the submission details. 
+Those are:
+* The BioProject ID
+* The organization:  which should be:  `Norwegian Veterinary Institute`.
+* Identifier Namespace : This is a prefix, and should be short. We can use NVI to identify our sequence easily.
+* Release date
+
+Next you can fill in the samples. There is the option to use default sample settings, in case all the samples were sequenced in the same way. If that is not the case you have to fill in for each sample the following details:
+* BioSample ID of the indicated isolate
+* Library Name: should already be filled in.
+* Library Strategy: A scroll down menu with options
+* Library Source: A scroll down menu
+* Library Construction Protocol: The specific kit that was used for library creation, e.g Nextera?
+* Instrument Model: A scroll down menu
+* Library selection: A scroll down menu. For shotgun sequencing, select: `Random`.
+
+Next you select the fastq files that you want to submit for this isolate. Not you might have multiple runs for the same isolate. You decide which sequences should submitted.
+
+Now you can push the `Submit` button. 
+
+## Checking that the submission worked.
+After the pushing submit, you want to make sure the submission worked. In VIGAS you can check this by going to the NCBI export tool tab. There you will see if the submission was succesful or if it failed. In the later case contact the sys-admins for VIGAS. They should help you further here.
+You can also check if the submission worked, by going to the NCBI account from NVI and check the status of the Bioproject under the `Manage data` tab.
+
 
