@@ -1,0 +1,95 @@
+---
+title: "Saga Sofware"
+author: "Thomas Haverkamp, Eve Fiskebeck, Karin Lagesen, Novicha Nakov"
+date: today
+format:
+  revealjs: 
+    embed-resources: true
+    logo: "./img/logo.png"
+    slide-number: c/t
+    incremental: true
+    title-slide-attributes: 
+      data-background-image: "img/front_page.png"
+      data-background-size: "50%"
+      data-background-position: "50% 95%"
+      
+execute: 
+  cache: false
+---
+
+## Software in SAGA:  
+
+-   Conda
+
+-   Modules
+
+-   Containers
+
+## Conda 
+
+
+## Modules
+
+
+## Containers
+
+### `.bashrc` configuration for easy container usage
+
+### Where to find containers 
+
+(Order of preference)
+
+- Tool own image link 
+
+- Biocontainers: <https://quay.io/repository/biocontainers>
+
+-[ ]  Galaxy has repo with singularity containers 
+https://depot.galaxyproject.org/singularity/ (check if can pull)
+
+
+- Docker Hub: <https://hub.docker.com/>
+
+
+### Containers usage
+
+- pull / build image
+
+- run container interactively 
+
+- use container in a slurm script
+
+- mount additional directories
+
+### Build your own containers
+
+An example of what I do: 
+
+
+> Compatibility -> transformation
+
+- docker (non root)
+
+> simple vs complicated
+
+### Ressources 
+
+- tutorials 
+ -- Software Carpentry 
+
+- [Apptainer](https://apptainer.org/)
+
+- Docker 
+
+- Singularity 
+
+
+
+
+<!--  Examples: Based on template 
+Novicha: https://github.com/NorwegianVeterinaryInstitute/slides-nvi-data-eng
+
+Quarto: 
+- https://quarto.org/docs/presentations/
+- https://quarto.org/docs/presentations/revealjs/
+
+--> 
