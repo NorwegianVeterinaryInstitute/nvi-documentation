@@ -1,5 +1,5 @@
 ---
-title: "Saga Softwares"
+title: "Saga Software"
 date: today
 author: "Thomas Haverkamp, Eve Fiskebeck, \nKarin Lagesen, Novicha Nakov"
 institute: "NVI"
@@ -22,13 +22,12 @@ editor:
 
 ## Softwares in SAGA:
 
-::: {.nonincremental}
 -   Conda
 
 -   Modules
 
 -   Containers
-:::
+
 
 # Conda
 
