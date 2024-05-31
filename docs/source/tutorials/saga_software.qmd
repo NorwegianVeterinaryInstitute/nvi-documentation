@@ -150,22 +150,42 @@ More detail info & exercises on the training page
 
 > Check first if the software you need is available in modules ! 
 
-Check: [What is conda and Setup](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html)
+## Conda setup for nn9305k
 
+Links 
+- [What is conda and Setup](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html)
 
 Available in modules BUT for project nn9305k, we have our own installation 
 and setup. 
 
-**Remember you MUST have setup conda correctly before using it**, see
-[Setting up conda](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html#setting-up-conda-on-your-login-node)
+**Remember that you MUST have setup conda correctly before using it**
+- see [Setting up conda](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html#setting-up-conda-on-your-login-node)
 
+## Verify your setup for nn9305k
+
+If this has been done, the line bellow line should be in your .bashrc file:
+You can check as such 
+```{.bash}
+# alias miniconda='source /cluster/projects/nn9305k/bin/set-up_miniconda.sh'
+cd ~ 
+grep "alias miniconda" .bashrc
+```
+
+Curious what it does? 
+
+```{.bash}
+cat /cluster/projects/nn9305k/bin/set-up_miniconda.sh 
+```
+
+This loads the module `Miniconda3/22.11.1-1` and set up the PATH of where 
+the software are installed in your environment. So it makes conda usable ! 
+
+Also tracks how often conda is used ! 
 
 ## Using Conda - basics summary 
 
-
 ```{.bash}
-miniconda # activate conda - base (is the default environment)
-
+miniconda # make conda usable
 
 conda env list # give the list of software installed in conda
 # Note the path of environemnts is provided ! 
@@ -176,21 +196,39 @@ conda list # provide the list of software in the activated environment
 conda deactivate # "unload" 
 ```
 
-##  Sharing environemnts / reproducibility
+##  Installation, environemnts & reproducibility
 
-As mentionned here: 
+- [Installing software using conda](https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html)
 
-### HERE 
+`yalm files` with extension `.yalm ` or `.yml` are often used to describe the configuration of software
+in an human readable form. 
+
+In conda: recipe to create environment. Environment can be reproduced and 
+shared by sharing yalm file.
+
+In the project directory, yalm files can be found here (have a look):
+```{.bash}
+ls /cluster/projects/nn9305k/src/miniconda/yaml_files
+clear
+cat /cluster/projects/nn9305k/src/miniconda/yaml_files/checkm_2.yml
+```
+
+Conda documentation for [yalm files](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)
+
+
+
  
-/cluster/projects/nn9305k/src/miniconda/yaml_files
+
 
 
 ## Using Conda in slurm scripts 
 
 - you might need to provide the path of software, in the Conda environment
 
+- [ ] FIND a slurm script ...and test 
 ```{.bash}
 # ex: /cluster/projects/nn9305k/src/miniconda/envs/kraken2
+source ${EBROOTMINICONDA3}/bin/activate
 
 ```
 
