@@ -22,17 +22,188 @@ editor:
 
 ## Softwares in SAGA:
 
--   Conda
-
 -   Modules
+
+-   Conda
 
 -   Containers
 
 
+# Modules
+
+- Allows coexistence different sofware versions available - without bad interaction
+
+- loading module = making available = findable and therefore usable in your $PATH
+
+- SAGA people have installed those, not us. Possible to ask installation (if benefit also external people)
+
+- All dependencies of each software should have been installed in the software module
+
+
+[Saga documentation on modules](https://documentation.sigma2.no/software/modulescheme.html#module-scheme)
+
+
+## What modules are installed ?
+
+```{.bash}
+module avail 
+module avail | less  # allows searching
+#: /R/4
+```
+
+```{.bash}
+R/4.1.2-foss-2021b
+R/4.2.1-foss-2022a
+R/4.2.2-foss-2022b
+R/4.3.2-gfbf-2023a
+R/4.3.3-gfbf-2023b
+```
+
+## which module to choose ?
+
+`what/version-compiler-when`
+
+@george explanations : 
+<!-- how to choose same software version different compiles 
+seems version and compilers used are more homogenous than before
+--> 
+
+- foss
+- GCCcore
+- gompi
+- gfbf
+- intel-compilers
+
+> "modules created with different toolchains are often incompatible." 
+
+<!-- citat from here 
+https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#
+-->
+
+## Using modules 
+
+<is what you write>
+
+```{.bash}
+# modules currently loaded
+module list
+# modules available
+module avail <module_name> # module name optional if you know
+# making module usables for you
+module load <full_name>
+```
+
+<!-- examples
+module avail java 
+--> 
+
+`sticky` - module that is usually not unloaded
+
+## Avoiding interactions / changing version
+
+Situation: eg. interactive jobs, you are testing different things
+
+- avoid interaction between modules : unload / purge modules before using other one
+
+
+```{.bash}
+module purge 
+module unload <module_name>
+```
+
+> SAGA recomendation: all your slurm scripts should start with `module purge`
+
+You want to try a different version of the module 
+- somethimes a version does not work (dont ask me why!)
+
+```{.bash}
+module switch <current_module> <new_module>
+```
+
+## Usefull tricks
+
+as usuall ...
+```{.bash}
+module -h # all the module commands 
+module keyword bio | less # provide descriptions 
+```
+
+## Recommendations 
+
+[Sigma2 training pages](https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#)
+
+NB: link to [SIGMA2 training material pages](https://documentation.sigma2.no/training/material.html)
+<!-- the rest is sure informative also ! --> 
+
+- understand $PATH 
+
+`$PATH="default_path"` -> module load xx -> $PATH="xx_path:default_path"
+
+<!-- 
+PATH and which <software>
+More detail info & exercises on the training page
+--> 
+
+- Path also what happens when using Conda ...
+
 # Conda
 
+> Check first if the software you need is available in modules ! 
 
-# Modules
+Check: [What is conda and Setup](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html)
+
+
+Available in modules BUT for project nn9305k, we have our own installation 
+and setup. 
+
+**Remember you MUST have setup conda correctly before using it**, see
+[Setting up conda](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html#setting-up-conda-on-your-login-node)
+
+
+## Using Conda - basics summary 
+
+
+```{.bash}
+miniconda # activate conda - base (is the default environment)
+
+
+conda env list # give the list of software installed in conda
+# Note the path of environemnts is provided ! 
+
+conda activate <envname>  # "load" put first into PATH the environement
+conda list # provide the list of software in the activated environment
+
+conda deactivate # "unload" 
+```
+
+##  Sharing environemnts / reproducibility
+
+As mentionned here: 
+
+### HERE 
+ 
+/cluster/projects/nn9305k/src/miniconda/yaml_files
+
+
+## Using Conda in slurm scripts 
+
+- you might need to provide the path of software, in the Conda environment
+
+```{.bash}
+# ex: /cluster/projects/nn9305k/src/miniconda/envs/kraken2
+
+```
+
+
+
+## Installation of software with Conda on SAGA (nn9305k project)
+
+
+See instructions: [Installing software using conda](
+https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html
+)
+
+Recommendations : look at [conda documentation](https://docs.conda.io/en/latest/)
 
 
 # Containers
