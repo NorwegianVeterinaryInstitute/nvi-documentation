@@ -29,10 +29,10 @@ that is not doable from VI usernames.
 * Resource is Saga.
 
 Your account will be approved by Sigma2 within a day or two, and then the
-allocation managers here at NVI are notified. We then approve your access.
-You will then have to set your password. Use the instructions in the link
-below to do that. NOTE: do not reuse either UiO or Vetinst passwords for
-your Saga account!
+allocation managers here at NVI are notified. The allocation manager(s)
+then approve your access. You will then have to set your password. Use the
+instructions in the link below to do that. NOTE: do not reuse either UiO
+or Vetinst passwords for your Saga account!
 
 If you are confused regarding passwords, this link will guide you on that
 
