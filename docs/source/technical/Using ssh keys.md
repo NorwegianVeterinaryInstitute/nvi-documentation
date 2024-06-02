@@ -71,15 +71,21 @@ We need to create a directory and a file in saga:
 
 ## Import the key into PuTTy
 
+Open PuTTY, under "Saved Sessions" select "Default settings", hit load
 
+![image](https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/77984068/a7ed3b2b-d929-4617-85e4-f44a60ed3447)
 
+Select Connection -> SSH -> Auth -> Credentials -> Private key file for authentication -> browse
 
+![image](https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/77984068/d26d241f-d92a-4325-bda5-b16adaeff837)
 
+Open id_ecdsa.
 
+You will be asked for the key you inserted. Type in the key.
 
+Go back to Session on the top of the tree, on the left-hand side. click 'save' under the default session.
 
-
-
+You are now ready to use your ss key
 
 
 
