@@ -1,7 +1,7 @@
 ---
 title: "Saga Software"
 date: today
-author: "Thomas Haverkamp, Eve Fiskebeck, \nKarin Lagesen, Novicha Nakov"
+author: "Eve Fiskebeck, Thomas Haverkamp, \\\nKarin Lagesen, Kaspersen Håkon, \\\n George Marselis, Novicha Nakov"
 institute: "NVI"
 format: 
   revealjs: 
@@ -28,28 +28,33 @@ editor:
 
 -   Containers
 
-
 # Modules
+
+# Why modules
 
 - Allows coexistence different sofware versions available - without bad interaction
 
-- loading module = making available = findable and therefore usable in your $PATH
+- loading module = making available = findable and therefore usable => $PATH
 
-- SAGA people have installed those, not us. Possible to ask installation (if benefit also external people)
+- SAGA people have installed those, not us. 
+Possible to ask installation (if benefit also external people)
 
 - All dependencies of each software should have been installed in the software module
 
 
-[Saga documentation on modules](https://documentation.sigma2.no/software/modulescheme.html#module-scheme)
+[Link: Saga documentation on modules](https://documentation.sigma2.no/software/modulescheme.html#module-scheme)
 
 
 ## What modules are installed ?
+
 
 ```{.bash}
 module avail 
 module avail | less  # allows searching
 #: /R/4
 ```
+
+Result
 
 ```{.bash}
 R/4.1.2-foss-2021b
@@ -59,11 +64,10 @@ R/4.3.2-gfbf-2023a
 R/4.3.3-gfbf-2023b
 ```
 
-## which module to choose ?
+## Which module to choose ?
 
-`what/version-compiler-when`
+module syntax `software/version-compiler-when`
 
-@george explanations : 
 <!-- how to choose same software version different compiles 
 seems version and compilers used are more homogenous than before
 --> 
@@ -78,43 +82,53 @@ seems version and compilers used are more homogenous than before
 
 <!-- citat from here 
 https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#
+
+@george explanations ?
+
 -->
 
 ## Using modules 
 
-<is what you write>
+
 
 ```{.bash}
 # modules currently loaded
 module list
-# modules available
-module avail <module_name> # module name optional if you know
+
+# modules available 
+module avail 
+
+module avail <module_name> 
+
 # making module usables for you
 module load <full_name>
+
 ```
+
 
 <!-- examples
 module avail java 
 --> 
 
-`sticky` - module that is usually not unloaded
+NB: `sticky` - module that is usually not unloaded
 
-## Avoiding interactions / changing version
+## Why using modules? 
 
+- Avoiding interactions / changing version. 
 Situation: eg. interactive jobs, you are testing different things
 
-- avoid interaction between modules : unload / purge modules before using other one
-
+- Unload / purge modules before using other one
 
 ```{.bash}
 module purge 
+
 module unload <module_name>
 ```
 
 > SAGA recomendation: all your slurm scripts should start with `module purge`
 
 You want to try a different version of the module 
-- somethimes a version does not work (dont ask me why!)
+- sometimes a version does not work (eg. bug ... )
 
 ```{.bash}
 module switch <current_module> <new_module>
@@ -122,17 +136,18 @@ module switch <current_module> <new_module>
 
 ## Usefull tricks
 
-as usuall ...
+as usual ...
+
 ```{.bash}
 module -h # all the module commands 
+
 module keyword bio | less # provide descriptions 
 ```
 
 ## Recommendations 
 
-[Sigma2 training pages](https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#)
-
-NB: link to [SIGMA2 training material pages](https://documentation.sigma2.no/training/material.html)
+Look at: [Sigma2 training pages](https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#)
+and [SIGMA2 training material pages](https://documentation.sigma2.no/training/material.html)
 <!-- the rest is sure informative also ! --> 
 
 - understand $PATH 
@@ -152,18 +167,22 @@ More detail info & exercises on the training page
 
 ## Conda setup for nn9305k
 
-Links 
+Our tutorial links: 
+
 - [What is conda and Setup](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html)
 
 Available in modules BUT for project nn9305k, we have our own installation 
 and setup. 
 
+<br> 
+
 **Remember that you MUST have setup conda correctly before using it**
+
 - see [Setting up conda](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html#setting-up-conda-on-your-login-node)
 
 ## Verify your setup for nn9305k
 
-If this has been done, the line bellow line should be in your .bashrc file:
+If this has been done, the line bellow line should be in your `.bashrc` file:
 You can check as such 
 ```{.bash}
 # alias miniconda='source /cluster/projects/nn9305k/bin/set-up_miniconda.sh'
@@ -171,18 +190,20 @@ cd ~
 grep "alias miniconda" .bashrc
 ```
 
+<br> 
 Curious what it does? 
 
 ```{.bash}
 cat /cluster/projects/nn9305k/bin/set-up_miniconda.sh 
 ```
 
-This loads the module `Miniconda3/22.11.1-1` and set up the PATH of where 
+- This loads the module `Miniconda3/22.11.1-1` and set up the PATH of where 
 the software are installed in your environment. So it makes conda usable ! 
 
-Also tracks how often conda is used ! 
+- Also tracks how often conda is used ! 
 
 ## Using Conda - basics summary 
+
 
 ```{.bash}
 miniconda # make conda usable
@@ -198,50 +219,85 @@ conda deactivate # "unload"
 
 ##  Installation, environemnts & reproducibility
 
-- [Installing software using conda](https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html)
+- [Link: Installing software using conda](https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html)
 
 `yalm files` with extension `.yalm ` or `.yml` are often used to describe the configuration of software
 in an human readable form. 
 
+<br>
 In conda: recipe to create environment. Environment can be reproduced and 
 shared by sharing yalm file.
 
-In the project directory, yalm files can be found here (have a look):
+## `yalm` files in nn9305k project 
+
+yalm files for our conda environments can be found here: 
+
 ```{.bash}
-ls /cluster/projects/nn9305k/src/miniconda/yaml_files
+cd /cluster/projects/nn9305k/src/miniconda/yaml_files
 clear
+
+# have a look on how it looks like
 cat /cluster/projects/nn9305k/src/miniconda/yaml_files/checkm_2.yml
 ```
 
-Conda documentation for [yalm files](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)
+
+[link: yalm files language for conda](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)
 
 
+## Export & Sharing of environmnet
 
- 
+[Link: Exporting env](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#exporting-the-environment-yml-file)
 
+
+```{.bash}
+conda activate <myenv>
+
+conda env export > myenv.yml
+```
 
 
 ## Using Conda in slurm scripts 
 
-- you might need to provide the path of software, in the Conda environment
+- You need to provide the env path to activate
 
-- [ ] FIND a slurm script ...and test 
 ```{.bash}
-# ex: /cluster/projects/nn9305k/src/miniconda/envs/kraken2
+# To activate conda 
+module load Miniconda3/22.11.1-1
 source ${EBROOTMINICONDA3}/bin/activate
 
+# activate the env you want
+conda activate /cluster/projects/nn9305k/src/miniconda/envs/<myenv>
 ```
-
 
 
 ## Installation of software with Conda on SAGA (nn9305k project)
 
+> check if its not already installed or available in modules
 
 See instructions: [Installing software using conda](
 https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html
 )
 
 Recommendations : look at [conda documentation](https://docs.conda.io/en/latest/)
+
+
+- find software - version you want to install (eg search "conda install XX" on internet)
+
+## [example](https://anaconda.org/bioconda/kraken)
+
+```bash
+minconda # activate base environment 
+
+# synthax example
+conda create -n <name_env_version> -c <channel> <software=version>  
+
+conda activate <name_env_version>
+# installing software with pip within conda
+pip install name_soft==version
+
+# when you are finished
+conda deactivate 
+```
 
 
 # Containers
@@ -282,7 +338,7 @@ where you can find the recipies for building
 
 # `.bashrc` configuration for easy container usage
 
-## cache / storage location of images
+## Cache / storage location of images
 
 ::: {.notes}
 -  Some configuration to avoid having to specify options every time you run
@@ -292,14 +348,24 @@ a container (makes it much easier to use containers)
 lines to add to  `~/.bashrc`
 
 ```{.bash}
+# apptainer 
 export APPTAINER_CACHEDIR=${USERWORK}/images
+export APPTAINER_LIBRARYDIR=${USERWORK}/images
 
+# apptainer in nextflow
 export NXF_APPTAINER_CACHEDIR=${USERWORK}/images
 export NXF_APPTAINER_LIBRARYDIR=${USERWORK}/images
 ```
 
+If you are going to use nf-core setup - add also
+```{.bashrc}
+export NXF_SINGULARITY_CACHEDIR=${USERWORK}/images
+export NXF_SINGULARITY_LIBRARYDIR=${USERWORK}/images
+
+```
 
 ::: {.notes}
+
 -  Defines where to cache and store containers on SAGA (some variables
    specific for Nextflow container usage: `NFX_`)
 :::
@@ -307,6 +373,7 @@ export NXF_APPTAINER_LIBRARYDIR=${USERWORK}/images
 ## Defines mounting/binding directories  
 
 ::: {.notes}
+
 - Directories you bind/mount become accessible when you use the container    
 
 - You can bind a specific directory on SAGA to a specific directory path
@@ -323,6 +390,8 @@ paths.
 
 ```{.bash}
 export NXF_APPTAINER_HOME_MOUNT=true
+
+# bind several directory separated by comas
 export APPTAINER_BIND="$USERWORK,/cluster/projects/nn9305k/active/<username>,/cluster/projects/nn9305k/db_flatfiles"
 ```
 
@@ -331,7 +400,9 @@ export APPTAINER_BIND="$USERWORK,/cluster/projects/nn9305k/active/<username>,/cl
 
 > Apptainer
 
-## Pull a container (build image)
+## Pull a container 
+
+> build image when pulling a container
 
 Login node (require internet access in this case)
 
@@ -340,21 +411,26 @@ apptainer pull busco.sif docker://ezlabgva/busco:v5.7.1_cv1
 ```
 
 
-## Interactively 
+## Interactive use of containers 
 
   - Ask interactive resources
-  
   - Set an environment variable referring to the path of your image and run.
 
 ```{.bash} 
+# request interactive queue
+srun --account=nn9305k --mem-per-cpu=8G --cpus-per-task=1 --qos=devel --time=0:10:00 --pty bash -i
+
+# set variables incl. path to image
 IMG="/cluster/work/users/evezeyl/images/busco.sif"
+
+# run container
 apptainer shell $IMG
 ```
 
 
 Note the prompt !
 
-- A simple test example of usage:
+## A simple test example of usage example:
 
 ```{.bash}     
 ls
@@ -391,11 +467,13 @@ add `apptainer exec $IMG` before the command you want to run
 ::: 
 
 simple syntax
+
 ``` bash
 apptainer exec $IMG  <command>
 ```
 
 example:
+
 
 ``` bash
 IMG="/cluster/work/users/evezeyl/images/masurca.sif"
@@ -409,7 +487,7 @@ apptainer exec $IMG  masurca -t 4 -i ${R1},${R2} -r ${long_read}  2>&1 | tee mas
 ! can be time consuming (first search if already existing)
 
 ::: aside
-[apptainer documentation](https://apptainer.org/docs/user/main/cli/apptainer_build.html)
+[See: apptainer documentation](https://apptainer.org/docs/user/main/cli/apptainer_build.html)
 ::: 
 
 
@@ -431,7 +509,7 @@ and compatibility transformation to singularity, apptainer osv...
 :::
 
 
-## some Advantages / disadvantages of containers
+## Some Advantages / disadvantages of containers
 
 -   full reproducibility (OS + software and dependencies)
 -   No update (both good and bad ...if you want latest)
