@@ -1,7 +1,7 @@
 ---
 title: "Saga Software"
 date: today
-author: "Eve Fiskebeck, Thomas Haverkamp, \\\nKarin Lagesen, Kaspersen Håkon, \\\n George Marselis, Novicha Nakov"
+author: "Eve Fiskebeck, Karin Lagesen, \\\n Kaspersen Håkon, George Marselis, Novica Nakov, \\\nThomas Haverkamp (see links)"
 institute: "NVI"
 format: 
   revealjs: 
@@ -32,7 +32,7 @@ editor:
 
 # Why modules
 
-- Allows coexistence different sofware versions available - without bad interaction
+- Allows coexistence different software versions available - without bad interaction
 
 - loading module = making available = findable and therefore usable => $PATH
 
@@ -221,14 +221,14 @@ conda deactivate # "unload"
 
 - [Link: Installing software using conda](https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html)
 
-`yalm files` with extension `.yalm ` or `.yml` are often used to describe the configuration of software
+`yaml files` with extension `.yaml ` or `.yml` are often used to describe the configuration of software
 in an human readable form. 
 
 <br>
 In conda: recipe to create environment. Environment can be reproduced and 
 shared by sharing yalm file.
 
-## `yalm` files in nn9305k project 
+## `yaml` files in nn9305k project 
 
 yalm files for our conda environments can be found here: 
 
