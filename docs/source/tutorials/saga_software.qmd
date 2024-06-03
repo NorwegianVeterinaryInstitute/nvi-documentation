@@ -226,11 +226,11 @@ in an human readable form.
 
 <br>
 In conda: recipe to create environment. Environment can be reproduced and 
-shared by sharing yalm file.
+shared by sharing yaml file.
 
 ## `yaml` files in nn9305k project 
 
-yalm files for our conda environments can be found here: 
+yaml files for our conda environments can be found here: 
 
 ```{.bash}
 cd /cluster/projects/nn9305k/src/miniconda/yaml_files
@@ -241,7 +241,7 @@ cat /cluster/projects/nn9305k/src/miniconda/yaml_files/checkm_2.yml
 ```
 
 
-[link: yalm files language for conda](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)
+[link: yaml files language for conda](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)
 
 
 ## Export & Sharing of environmnet
