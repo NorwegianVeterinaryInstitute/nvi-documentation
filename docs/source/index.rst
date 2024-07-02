@@ -18,6 +18,7 @@ work with data analysis in various forms at the NVI.
    :caption: Technical overview
 
    technical/index
+   technical/VIGASP/index
 
 .. toctree::
    :hidden:
