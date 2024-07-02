@@ -164,8 +164,7 @@ blastn -db /cluster/shared/databases/blast/latest/16SMicrobial -query 16S_rRNA_s
 ```
 
 
-
-### a final tip
+### A final tip
 
 When using a different database, say the NCBI-NR or NT databases, than you need much more memory to run a blast job. Ask for a minimum of 10 cpus for your job.
 Since the loading of the databases costs a lot of time, it is better to use a slurm script to blast many sequences against such large databases.
