@@ -85,7 +85,7 @@ including whether to remove possible recombination (ie. with
 
 ## Possible workflow overview
 
-<center> <img src="iqtree_workflow.png" width= 500 hight = 500 />
+<center> <img src="./img/iqtree_workflow.png" width= 500 hight = 500 />
 </center>
 
 ## How to create a tree with iqtree?

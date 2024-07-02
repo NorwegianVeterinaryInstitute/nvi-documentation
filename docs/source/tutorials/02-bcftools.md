@@ -1,4 +1,4 @@
-# Using bcftools : utilities for variant calling and VCF files manipulation
+# Using bcftools: utilities for variant calling and VCF files manipulation
 
 ## Table of contents
 1. [Introduction](#introduction")
@@ -149,7 +149,7 @@ The raw data and results from galaxy processing with [Snippy] for this tutorial 
 `/cluster/projects/nn9305k/tutorial/20240226_bcftools/data`
 
 And as you can see, we recovered the same variant position as in the galaxy tutorial:
-![This is reproducible !](./bcftools_image1.png)
+![This is reproducible !](./img/bcftools_image1.png)
 
 ---
 
@@ -348,7 +348,7 @@ conda deactivate
 #### Variant filtering
 
 Why filter variants, an example of variants being filtered out because of lack of depth in the pileup.
-![3 variants, one filtered out because lack depth](./bcftools_image2.png)
+![3 variants, one filtered out because lack depth](./img/bcftools_image2.png)
 
 The unfiltered variants called with [FreeBayes] when running [Snippy] can be found here:
 `data/galaxy_snippy/snippy_zip/mutant_R1_fastq/snps.raw.vcf` 
@@ -420,10 +420,10 @@ FORMAT : **read specific to vcf file you have, some abbreviations may change**
 - AO : Alternate allele observation count"
 - GL : genotype likelihod (ref, diploid - 1 for each allele)
 
-![QUAL and probal](./bcftools_image3.png)
+![QUAL and probal](./img/bcftools_image3.png)
 <!-- Given the values are provided correctly by the correct program and in raw given in diploid ? -->
 
-![Relation Phred and accuracy](./bcftools_image4.png)
+![Relation Phred and accuracy](./img/bcftools_image4.png)
 
 **Looking at [Snippy] very long filtering command ...**
 > Note that snippy uses an earlier version of bcftools, this is why the command is sligly different than the command used in our tutorial
@@ -500,7 +500,7 @@ snpEff ann -noLog -noStats -no-downstream -no-upstream -no-utr -c reference/snpe
 ### CNV copy number variation
 
 Possible copy number variation: 
-![maybe](./bcftools_image5.png)
+![maybe](./img/bcftools_image5.png)
 
 -->
 

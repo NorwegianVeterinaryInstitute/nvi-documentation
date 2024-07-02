@@ -13,3 +13,11 @@ Rstudio
     Connecting Rstudio to Github <02-rstudio_github.md>
     RStudio tips and tricks <03-rstudio_tips.md>
 
+R
+--
+
+.. toctree::
+    :maxdepth: 1
+
+    Anatomy of an R package <04-r-packages.md>
+
