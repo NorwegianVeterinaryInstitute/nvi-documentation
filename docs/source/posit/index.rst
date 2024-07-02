@@ -2,6 +2,7 @@ R - RStudio - Posit
 ===================
 
 These guides cover topics about working with R, Rstudio, and Posit professional products.
+
 R
 --
 
