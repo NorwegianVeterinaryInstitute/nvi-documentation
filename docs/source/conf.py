@@ -22,7 +22,7 @@ copyright = '2024, Norwegian Veterinary Institute'
 author = 'Norwegian Veterinary Institute'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.0.9'
+release = 'v0.1.0'
 
 
 # -- General configuration ---------------------------------------------------
