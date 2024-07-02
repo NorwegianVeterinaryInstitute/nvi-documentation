@@ -311,6 +311,6 @@ Lets look at the variant calling files in IGV and compare it with previous mappi
 | ![](./Lab9_st162_murZ_snippy_EGD-e_coverage.png) | ![](./Lab9_st162_lmo2553_snippy_EGD-e_effect_filtering.png) |
 
 
-# Related tutorials
+### Related tutorials
 - [Mapping reads agains a reference/assembly](./mapping_reads_reference_assembly.md)
 - [Visualizing assembly and associated reads pileup with IGV](./Visualisation_assembly_reads_pileup_IGV.md)

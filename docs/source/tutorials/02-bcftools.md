@@ -504,7 +504,6 @@ Possible copy number variation:
 
 -->
 
-# END
 
 <!-- Should add Snippy also has some regions filters I think - I did not look at that yet>
 
