@@ -36,9 +36,9 @@ work with data analysis in various forms at the NVI.
 .. toctree::
   :hidden:
   :titlesonly:
-  :caption: R/Rstudio/Posit 
+  :caption: R/Rstudio/Posit
 
-   posit/index  
+   posit/index
 
 .. toctree::
    :hidden:
