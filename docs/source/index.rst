@@ -15,10 +15,3 @@ work with data analysis in various forms at the NVI.
    tools/index
    tricks/index
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
