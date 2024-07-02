@@ -19,5 +19,6 @@ that should be installed, etc.
     Intro to phylogenetic trees <07-intro_phylogeny.md>
     Nanopore sequence data tutorial <08-nanopore_tutorial.md>
     Variant calling with reads mapping <09-variant_calling_reads_mapping_trusting.md>
-    External tutorials <10-external_tutorials.md>
+    GitHub Workflows <10-github-workflows.md>
+    External tutorials <11-external_tutorials.md>
 
