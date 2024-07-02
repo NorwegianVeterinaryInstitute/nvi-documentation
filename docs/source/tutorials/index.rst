@@ -1,4 +1,4 @@
-What are NVI tutorials
+NVI tutorials
 ======================
 
 This section is for tutorials created by the NVI. These should include enough

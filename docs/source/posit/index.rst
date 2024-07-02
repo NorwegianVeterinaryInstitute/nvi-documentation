@@ -19,5 +19,5 @@ R
 .. toctree::
     :maxdepth: 1
 
-    Anatomy of an R package <04-r-packages.md>
+    Anatomy of an R package <04-r_packages.md>
 

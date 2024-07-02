@@ -1,4 +1,4 @@
-What are tricks and hints
+Tricks and hints
 =========================
 
 This section is for all the small technical tricks and hints that people figure
