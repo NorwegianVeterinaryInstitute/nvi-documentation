@@ -101,4 +101,4 @@ Once you have typed in your password, you will now be on Saga. Anything you type
 in on the command line now will happen on Saga.
 
 ## If you are tired of typing your password
-There are ways to connect to saga without typing a password. You can read about that in the section for the [advanced ssh usage](Advanced_ssh_usage)
+There are ways to connect to saga without typing a password, using ssh-keys. You can read about that in the section for the [Using ssh keys](Using ssh keys)
