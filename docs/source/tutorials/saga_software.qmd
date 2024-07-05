@@ -1,0 +1,543 @@
+---
+title: "Saga Software"
+date: today
+author: "Eve Fiskebeck, Karin Lagesen, \\\n Kaspersen Håkon, George Marselis, Novica Nakov, \\\nThomas Haverkamp (see links)"
+institute: "NVI"
+format: 
+  revealjs: 
+    embed-resources: true
+    logo: "./img/logo.png"
+    slide-number: c/t
+    incremental: false
+    title-slide-attributes: 
+      data-background-image: "./img/front_page.png"
+      data-background-size: "50%"
+      data-background-position: "50% 95%"
+execute: 
+  cache: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Softwares in SAGA:
+
+-   Modules
+
+-   Conda
+
+-   Containers
+
+# Modules
+
+# Why modules
+
+- Allows coexistence different software versions available - without bad interaction
+
+- loading module = making available = findable and therefore usable => $PATH
+
+- SAGA people have installed those, not us. 
+Possible to ask installation (if benefit also external people)
+
+- All dependencies of each software should have been installed in the software module
+
+
+[Link: Saga documentation on modules](https://documentation.sigma2.no/software/modulescheme.html#module-scheme)
+
+
+## What modules are installed ?
+
+
+```{.bash}
+module avail 
+module avail | less  # allows searching
+#: /R/4
+```
+
+Result
+
+```{.bash}
+R/4.1.2-foss-2021b
+R/4.2.1-foss-2022a
+R/4.2.2-foss-2022b
+R/4.3.2-gfbf-2023a
+R/4.3.3-gfbf-2023b
+```
+
+## Which module to choose ?
+
+module syntax `software/version-compiler-when`
+
+<!-- how to choose same software version different compiles 
+seems version and compilers used are more homogenous than before
+--> 
+
+- foss
+- GCCcore
+- gompi
+- gfbf
+- intel-compilers
+
+> "modules created with different toolchains are often incompatible." 
+
+<!-- citat from here 
+https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#
+
+@george explanations ?
+
+-->
+
+## Using modules 
+
+
+
+```{.bash}
+# modules currently loaded
+module list
+
+# modules available 
+module avail 
+
+module avail <module_name> 
+
+# making module usables for you
+module load <full_name>
+
+```
+
+
+<!-- examples
+module avail java 
+--> 
+
+NB: `sticky` - module that is usually not unloaded
+
+## Why using modules? 
+
+- Avoiding interactions / changing version. 
+Situation: eg. interactive jobs, you are testing different things
+
+- Unload / purge modules before using other one
+
+```{.bash}
+module purge 
+
+module unload <module_name>
+```
+
+> SAGA recomendation: all your slurm scripts should start with `module purge`
+
+You want to try a different version of the module 
+- sometimes a version does not work (eg. bug ... )
+
+```{.bash}
+module switch <current_module> <new_module>
+```
+
+## Usefull tricks
+
+as usual ...
+
+```{.bash}
+module -h # all the module commands 
+
+module keyword bio | less # provide descriptions 
+```
+
+## Recommendations 
+
+Look at: [Sigma2 training pages](https://training.pages.sigma2.no/tutorials/hpc-intro/episodes/14-modules.html#)
+and [SIGMA2 training material pages](https://documentation.sigma2.no/training/material.html)
+<!-- the rest is sure informative also ! --> 
+
+- understand $PATH 
+
+`$PATH="default_path"` -> module load xx -> $PATH="xx_path:default_path"
+
+<!-- 
+PATH and which <software>
+More detail info & exercises on the training page
+--> 
+
+- Path also what happens when using Conda ...
+
+# Conda
+
+> Check first if the software you need is available in modules ! 
+
+## Conda setup for nn9305k
+
+Our tutorial links: 
+
+- [What is conda and Setup](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html)
+
+Available in modules BUT for project nn9305k, we have our own installation 
+and setup. 
+
+<br> 
+
+**Remember that you MUST have setup conda correctly before using it**
+
+- see [Setting up conda](https://nvi-documentation.readthedocs.io/en/latest/tools/setting_up_conda.html#setting-up-conda-on-your-login-node)
+
+## Verify your setup for nn9305k
+
+If this has been done, the line bellow line should be in your `.bashrc` file:
+You can check as such 
+```{.bash}
+# alias miniconda='source /cluster/projects/nn9305k/bin/set-up_miniconda.sh'
+cd ~ 
+grep "alias miniconda" .bashrc
+```
+
+<br> 
+Curious what it does? 
+
+```{.bash}
+cat /cluster/projects/nn9305k/bin/set-up_miniconda.sh 
+```
+
+- This loads the module `Miniconda3/22.11.1-1` and set up the PATH of where 
+the software are installed in your environment. So it makes conda usable ! 
+
+- Also tracks how often conda is used ! 
+
+## Using Conda - basics summary 
+
+
+```{.bash}
+miniconda # make conda usable
+
+conda env list # give the list of software installed in conda
+# Note the path of environemnts is provided ! 
+
+conda activate <envname>  # "load" put first into PATH the environement
+conda list # provide the list of software in the activated environment
+
+conda deactivate # "unload" 
+```
+
+##  Installation, environemnts & reproducibility
+
+- [Link: Installing software using conda](https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html)
+
+`yaml files` with extension `.yaml ` or `.yml` are often used to describe the configuration of software
+in an human readable form. 
+
+<br>
+In conda: recipe to create environment. Environment can be reproduced and 
+shared by sharing yaml file.
+
+## `yaml` files in nn9305k project 
+
+yaml files for our conda environments can be found here: 
+
+```{.bash}
+cd /cluster/projects/nn9305k/src/miniconda/yaml_files
+clear
+
+# have a look on how it looks like
+cat /cluster/projects/nn9305k/src/miniconda/yaml_files/checkm_2.yml
+```
+
+
+[link: yaml files language for conda](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)
+
+
+## Export & Sharing of environmnet
+
+[Link: Exporting env](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#exporting-the-environment-yml-file)
+
+
+```{.bash}
+conda activate <myenv>
+
+conda env export > myenv.yml
+```
+
+
+## Using Conda in slurm scripts 
+
+- You need to provide the env path to activate
+
+```{.bash}
+# To activate conda 
+module load Miniconda3/22.11.1-1
+source ${EBROOTMINICONDA3}/bin/activate
+
+# activate the env you want
+conda activate /cluster/projects/nn9305k/src/miniconda/envs/<myenv>
+```
+
+
+## Installation of software with Conda on SAGA (nn9305k project)
+
+> check if its not already installed or available in modules
+
+See instructions: [Installing software using conda](
+https://nvi-documentation.readthedocs.io/en/latest/tools/installing_software_using_conda.html
+)
+
+Recommendations : look at [conda documentation](https://docs.conda.io/en/latest/)
+
+
+- find software - version you want to install (eg search "conda install XX" on internet)
+
+## [example](https://anaconda.org/bioconda/kraken)
+
+```bash
+minconda # activate base environment 
+
+# synthax example
+conda create -n <name_env_version> -c <channel> <software=version>  
+
+conda activate <name_env_version>
+# installing software with pip within conda
+pip install name_soft==version
+
+# when you are finished
+conda deactivate 
+```
+
+
+# Containers
+
+
+## What is a container ?
+
+-   Bundle: software, libraries and dependencies in an OS
+
+-   Different types containers (apptainer, docker, singularity, ...)[^1]
+
+> An introduction on containers 
+> [BioContainers](https://biocontainers-edu.readthedocs.io/en/latest/)
+
+
+[^1]: Some compatibility
+
+
+## Where to find containers
+
+-   Tool own image link, Eg. [BUSCO](https://busco.ezlab.org/) provide
+    Docker containers
+-   [Biocontainers](https://quay.io/repository/biocontainers) - Community[^2]
+-   [Docker Hub](https://hub.docker.com/), Eg. account of "unknown
+    people" [^3]
+
+::: aside
+(By order of preference)
+:::
+
+
+[^2]: Community that builds containers <https://biocontainers.pro/> With
+their [github repository](https://github.com/BioContainers/containers)
+where you can find the recipies for building
+
+[^3]: [Like me](https://hub.docker.com/search?q=evezeyl); Not necessary
+    all functional nor secure...
+
+# `.bashrc` configuration for easy container usage
+
+## Cache / storage location of images
+
+::: {.notes}
+-  Some configuration to avoid having to specify options every time you run
+a container (makes it much easier to use containers)
+:::
+
+lines to add to  `~/.bashrc`
+
+```{.bash}
+# apptainer 
+export APPTAINER_CACHEDIR=${USERWORK}/images
+export APPTAINER_LIBRARYDIR=${USERWORK}/images
+
+# apptainer in nextflow
+export NXF_APPTAINER_CACHEDIR=${USERWORK}/images
+export NXF_APPTAINER_LIBRARYDIR=${USERWORK}/images
+```
+
+If you are going to use nf-core setup - add also
+```{.bashrc}
+export NXF_SINGULARITY_CACHEDIR=${USERWORK}/images
+export NXF_SINGULARITY_LIBRARYDIR=${USERWORK}/images
+
+```
+
+::: {.notes}
+
+-  Defines where to cache and store containers on SAGA (some variables
+   specific for Nextflow container usage: `NFX_`)
+:::
+
+## Defines mounting/binding directories  
+
+::: {.notes}
+
+- Directories you bind/mount become accessible when you use the container    
+
+- You can bind a specific directory on SAGA to a specific directory path
+mounted in on the container. This can be useful if some software require
+a particular organisation of directories and subdirectories (happens
+sometimes).
+
+- The most simple it to use the configuration in `.bashrc` or not
+specifying the path inside the container, in which case the mounting
+path is the same as the one on SAGA, avoiding the need of conversion of
+paths.
+
+::: 
+
+```{.bash}
+export NXF_APPTAINER_HOME_MOUNT=true
+
+# bind several directory separated by comas
+export APPTAINER_BIND="$USERWORK,/cluster/projects/nn9305k/active/<username>,/cluster/projects/nn9305k/db_flatfiles"
+```
+
+
+# How to use containers in SAGA?
+
+> Apptainer
+
+## Pull a container 
+
+> build image when pulling a container
+
+Login node (require internet access in this case)
+
+```{.bash}
+apptainer pull busco.sif docker://ezlabgva/busco:v5.7.1_cv1
+```
+
+
+## Interactive use of containers 
+
+  - Ask interactive resources
+  - Set an environment variable referring to the path of your image and run.
+
+```{.bash} 
+# request interactive queue
+srun --account=nn9305k --mem-per-cpu=8G --cpus-per-task=1 --qos=devel --time=0:10:00 --pty bash -i
+
+# set variables incl. path to image
+IMG="/cluster/work/users/evezeyl/images/busco.sif"
+
+# run container
+apptainer shell $IMG
+```
+
+
+Note the prompt !
+
+## A simple test example of usage example:
+
+```{.bash}     
+ls
+busco --list-datasets > 2024-04-29_list_datasets_busco.txt
+```
+
+## Mounting custom paths
+
+:::: {.columns}
+::: {.column width="60%"}
+
+- full path starting from root
+
+```{.bash}
+apptainer exec --bind </saga_path>:</container_path> my_container.sif <command>
+```
+::: aside
+[Complete info on click!](https://apptainer.org/docs/user/main/bind_paths_and_mounts.html)
+:::
+
+:::
+
+::: {.column width="40%"}
+![bind paths](./img/2024-05-14_10.28.18.excalidraw.png)
+::: 
+:::
+
+
+
+## In a Slurm script 
+
+::: {.notes}
+add `apptainer exec $IMG` before the command you want to run
+::: 
+
+simple syntax
+
+``` bash
+apptainer exec $IMG  <command>
+```
+
+example:
+
+
+``` bash
+IMG="/cluster/work/users/evezeyl/images/masurca.sif"
+apptainer exec $IMG  masurca -t 4 -i ${R1},${R2} -r ${long_read}  2>&1 | tee masurca_test.log
+```
+
+## Build own containers ? 
+
+- A recipe for building is written in a file (def file)
+
+! can be time consuming (first search if already existing)
+
+::: aside
+[See: apptainer documentation](https://apptainer.org/docs/user/main/cli/apptainer_build.html)
+::: 
+
+
+- Recipe "simple" language - compatibility different container systems 
+(docker -> apptainer)
+
+::: {.notes}
+An example of what I do: (on a linux machine not on SAGA) -
+Compatibility - docker (non root) - recipe - push to docker hub - pull
+with apptainer
+
+PS: not advanced but working when nothing is already made
+
+- does not have to be docker but is often build in docker - more examples, 
+and compatibility transformation to singularity, apptainer osv...
+
+- From Saga -> apptainer (cannot build docker)
+- Other systems - your choice ...
+:::
+
+
+## Some Advantages / disadvantages of containers
+
+-   full reproducibility (OS + software and dependencies)
+-   No update (both good and bad ...if you want latest)
+-   Takes storage space
+-   Easy ? ...
+
+# Ressources
+
+## Tutorials
+
+-  Reproducible Computational Environments Using Containers: Introduction to Docker, A [Carpentries Incubator lesson](https://carpentries-incubator.github.io/docker-introduction/)
+
+## Documentation
+
+-   [Apptainer](https://apptainer.org/)
+
+-   [Docker](https://docs.docker.com/)
+
+-   [Singularity](https://docs.sylabs.io/guides/3.5/user-guide/introduction.html)
+
+```{=html}
+<!--  Examples: Based on template 
+Novicha: https://github.com/NorwegianVeterinaryInstitute/slides-nvi-data-eng
+
+Quarto: 
+- https://quarto.org/docs/presentations/
+- https://quarto.org/docs/presentations/revealjs/
+
+! Build did not work when on one-drive synced directory (do not ask me why !)
+-->
+```
