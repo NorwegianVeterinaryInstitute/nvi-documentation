@@ -6,15 +6,14 @@
 
 Some configuration is necessary to make it easier to use containers. To do that, we need to modify the file `.bashrc`, which is located in your home directory.
 
-Copy those lines and put them into your .bashrc
-Replace what is in between `<username>` with your own username
-
 ```bash
 cd ~
 nano .bashrc
 ```
+Copy those lines and put them into your `.bashrc`.
+Replace what is in between `<username>` with your own username.
 
-Add those lines to your .bashrc. Do not forget to change `<username>` with yours 
+Add those lines to your .bashrc. Do not forget to change `<username>` with yours.
 ```bash
 # This is for apptainer itself (for me worked without but do it)
 export APPTAINER_CACHEDIR=${USERWORK}/images
@@ -32,7 +31,7 @@ export APPTAINER_BIND="$USERWORK,/cluster/projects/nn9305k/active/<username>,/cl
 
 ## Getting the container on SAGA
 
-Do that in your $USERWORK  in a subdirectoly called images (`/cluster/work/users/<username>/images`)
+Do that in your $USERWORK  in a subdirectoly called images (`/cluster/work/users/<username>/images`).
 
 ```bash
 # download the container into an image (sif is the singularity format) 
@@ -43,7 +42,7 @@ Now, you need to create a command to make it more easy to use the container when
 Interactive work eg. for testing.
 
 Note: You need to ask ressources before starting the container.
-When the container is started, you see a new promt in your shell: `Apptainer>`
+When the container is started, you see a new promt in your shell: `Apptainer>`.
 Now you can use that exactly as you did with a software that was installed eg. in conda. 
 
 ```bash
@@ -79,7 +78,7 @@ Possible options to add -f --compat for fakeroot and docker compatibility if pro
 
 If you need to run a slurm script, aqua not interactive work,
 you need to create as script that contains the instuctions for the 
-software and then run this script, eg where the command is the command to run your script
+software and then run this script, eg where the command is the command to run your script.
 
 ```bash
 apptainer exec qiime_amplicon.sif <command> 
