@@ -64,7 +64,7 @@ qiime --h
 exit 
 
 # to chancel your job 
-scancel <jobid> 
+scancel <jobid> # OR scancel -u <username> eg. if you only have a job
 ```
 
 <!--
