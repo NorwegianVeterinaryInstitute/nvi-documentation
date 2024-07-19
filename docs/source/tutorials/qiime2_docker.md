@@ -34,7 +34,10 @@ export APPTAINER_BIND="$USERWORK,/cluster/projects/nn9305k/active/<username>,/cl
 Do that in your $USERWORK  in a subdirectoly called images (`/cluster/work/users/<username>/images`).
 
 ```bash
-# download the container into an image (sif is the singularity format) 
+# download the container into an image (sif is the singularity format)
+cd $USERWORK
+mkdir images # if not done previously
+cd images
 apptainer pull qiime_amplicon.sif docker://quay.io/qiime2/amplicon:2024.5
 ```
 
