@@ -4,7 +4,7 @@
 
 [Apptainer](https://apptainer.org/) is the system on SAGA that allows you to use containers.
 
-Some configuration is necessary to make it easier to use containers
+Some configuration is necessary to make it easier to use containers. To do that, we need to modify the file `.bashrc`, which is located in your home directory.
 
 Copy those lines and put them into your .bashrc
 Replace what is in between `<username>` with your own username
