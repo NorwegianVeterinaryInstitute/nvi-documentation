@@ -28,4 +28,5 @@ Posit
     :maxdepth: 1
 
     Git-back deployment <05-git-back-deployment.md>
+    Create Pins on Posit Connect <06-create-pins-on-connect.md>
 
