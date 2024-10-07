@@ -10,6 +10,7 @@ R
     :maxdepth: 1
 
     Anatomy of an R package <01-r_packages.md>
+    Asking for R help <02-r_help.md>
 
 Rstudio
 -------
@@ -17,9 +18,9 @@ Rstudio
 .. toctree::
     :maxdepth: 1
 
-    Projects in RStudio <02-rstudio_projects.md>
-    Connecting Rstudio to Github <03-rstudio_github.md>
-    RStudio tips and tricks <04-rstudio_tips.md>
+    Projects in RStudio <03-rstudio_projects.md>
+    Connecting Rstudio to Github <04-rstudio_github.md>
+    RStudio tips and tricks <05-rstudio_tips.md>
 
 Posit
 -----
@@ -27,6 +28,6 @@ Posit
 .. toctree::
     :maxdepth: 1
 
-    Git-back deployment <05-git-back-deployment.md>
-    Create Pins on Posit Connect <06-create-pins-on-connect.md>
+    Git-back deployment <06-git-back-deployment.md>
+    Create Pins on Posit Connect <07-create-pins-on-connect.md>
 
