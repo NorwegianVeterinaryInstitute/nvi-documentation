@@ -8,10 +8,10 @@ work with data analysis in various forms at the NVI.
    :maxdepth: 2
    :hidden:
 
-
    tutorials/index
    posit/index
    technical/index
+   technical/vigasp/index
    tools/index
    tricks/index
 
