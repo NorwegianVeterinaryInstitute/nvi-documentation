@@ -10,8 +10,8 @@ Conda
 .. toctree::
     :maxdepth: 1
 
-    Setting up Conda <01_setting_up_conda.md>
-    Installing software using Conda <02_installing_software_using_conda.md>
+    Setting up Conda <01-setting_up_conda.md>
+    Installing software using Conda <02-installing_software_using_conda.md>
 
 
 
@@ -22,5 +22,5 @@ SAGA pipelines
 .. toctree::
     :maxdepth: 1
 
-    SAGA Pipelines <03_saga_pipelines.md>
+    SAGA Pipelines <03-saga_pipelines.md>
 
