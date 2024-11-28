@@ -11,7 +11,6 @@ work with data analysis in various forms at the NVI.
    tutorials/index
    posit/index
    technical/index
-   technical/vigasp/index
    tools/index
    tricks/index
 
