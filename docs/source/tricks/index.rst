@@ -8,5 +8,5 @@ how to get linux on your windows computer, and more.
 .. toctree::
     :maxdepth: 1
 
-    Technical tricks and hints <01_techstuff.md>
-    Linux terminal tips <02_terminal.md>
+    Technical tricks and hints <01-techstuff.md>
+    Linux terminal tips <02-terminal.md>
