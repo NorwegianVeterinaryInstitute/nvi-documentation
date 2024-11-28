@@ -5,7 +5,7 @@ work with data analysis in various forms at the NVI.
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :hidden:
 
    tutorials/index
