@@ -1,6 +1,8 @@
-# Overview: 
+# Overview of VIGAS/P: 
+
 VIGAS/P stands for Veteriary Institute Genome Analysis System/Platform. VIGASP uses IRIDA for data management, data access control, analysis and storing the results. IRIDA uses Galaxy to execute the pipelines. 
-### Features of VIGASP:
+
+## Features of VIGASP:
 1. Browser based user friendly platform accessible from VI PC/Laptop or using VI VPN.
 2. All data (fastq files, genome assemblies and metadata) and results are stored in an organized (Genus, sample_id and project) way with proper data access control.
 3. Possible to search by genus, sample_id, file_name and results (F. ex. MLST type, seroptype, amr genes, etc,.)
@@ -9,7 +11,7 @@ VIGAS/P stands for Veteriary Institute Genome Analysis System/Platform. VIGASP u
 6. Formatted results are stored in a table format along with samples (LineList)
 7. Fastq files from VIGASP can be uploaded to NCBI SRA directly.
 
-# Accessing VIGAS and logging in
+## Accessing VIGAS and logging in
 VIGAS is accessible only from official VI stationary computers and Laptops or through VI-VPN.
 
 Those who want to get user names has to send email to Jeevan (bioinf-group@vetinst.no) with following details: 
