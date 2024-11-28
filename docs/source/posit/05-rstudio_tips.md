@@ -70,6 +70,6 @@ A good improvement on that is to have the editor on the right side of the worksp
 
 To set this up go to "Tools" > "Pane Layout". It should look like this:
 
-![Pane Layout](./rstudo_tips_pane_layout.png)
+![Pane Layout](./img/rstudio_tips_pane_layout.png)
 
 This is also focus your vision to the center of the screen as most typing in the code editing panel will happen in the centre of the sceen within the 80 character margin.

@@ -29,10 +29,10 @@ that is not doable from VI usernames.
 * Resource is Saga.
 
 Your account will be approved by Sigma2 within a day or two, and then the
-allocation managers here at NVI are notified. We then approve your access.
-You will then have to set your password. Use the instructions in the link
-below to do that. NOTE: do not reuse either UiO or Vetinst passwords for
-your Saga account!
+allocation managers here at NVI are notified. The allocation manager(s)
+then approve your access. You will then have to set your password. Use the
+instructions in the link below to do that. NOTE: do not reuse either UiO
+or Vetinst passwords for your Saga account!
 
 If you are confused regarding passwords, this link will guide you on that
 
@@ -101,4 +101,4 @@ Once you have typed in your password, you will now be on Saga. Anything you type
 in on the command line now will happen on Saga.
 
 ## If you are tired of typing your password
-There are ways to connect to saga without typing a password. You can read about that in the section for the [advanced ssh usage](Advanced_ssh_usage)
+There are ways to connect to saga without typing a password, using ssh-keys. You can read about that in the section for the [Using ssh keys](Using ssh keys)

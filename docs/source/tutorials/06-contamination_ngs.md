@@ -49,7 +49,7 @@ Now we have the two files ready for this excercise.
 
 Normally we would start with a proper clean-up of the datasets, using trimmomatic or similar tool, to remove bases and reads of bad quality, too short reads ect. But for the purpose of this excercise we skip that for now.
 
-# Kraken 2 classification.
+## Kraken 2 classification
 We will start with the classification of the raw reads that came straight from the sequencing machine. We do this to get an idea of the problems. We will use kraken2 for this and classify the reads against the minikraken database
 
 The commands

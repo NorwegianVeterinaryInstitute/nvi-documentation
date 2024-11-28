@@ -1,4 +1,4 @@
-# Technical tricks and hits
+# Technical tricks and hints
 
 ### Abel cluster command line tricks
 * [Using screen to avoid dropped connections](#Using-screen-to-avoid-dropped-connections)
