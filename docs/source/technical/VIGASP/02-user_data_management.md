@@ -17,4 +17,4 @@ By clicking on the sample name, you can see more information, files (fastq, asse
 Assembly files will be available only after running "Assembly and Annotation" pipeline. Metadata can either be added one by one manually or using a metadata file (csv or excel) with sample_id. Metadata also contains "selected-formatted" results from analyses using VIGASP pipelines. 
 
 <br><br>
-<img width="1654" alt="Sample Details" src="Sample_details.png"><br><br>
+<img width="1654" alt="Sample Details" src="images/Sample_details.png"><br><br>
