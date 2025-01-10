@@ -67,4 +67,4 @@ Then, you can choose the pipeline you want to run by  clicking the "Select" butt
 <br><br>
 
 Make sure to select the "Save Results to Project Line List Metadata" and "Share results with projects" to allow the results to be shared with the project and sample.
-And, click the "Launch Pipeline" button
+And, click the "Launch Pipeline" button to start the pipeline. Then the pipeline be submitted to slurm Queue to be executed. 
