@@ -61,6 +61,6 @@ Once the samples are added, you have to click on the "shopping cart" on the top 
 <br><br>
 
 Then, you can choose the pipeline you want to run by  clicking the "Select" button under the pipeline. 
-<img width="1671" alt="Executing Pipeline" src="images/Executing_pipeline.png">
+<img width="1671" alt="Executing Pipeline" src="images/Execute_pipeline.png">
 <br><br>
 
