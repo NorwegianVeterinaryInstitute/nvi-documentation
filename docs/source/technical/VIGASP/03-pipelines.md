@@ -61,6 +61,10 @@ Once the samples are added, you have to click on the "shopping cart" on the top 
 <br><br>
 
 Then, you can choose the pipeline you want to run by  clicking the "Select" button under the pipeline. 
+<br><br>
+
 <img width="1671" alt="Executing Pipeline" src="images/Execute_pipeline.png">
 <br><br>
 
+Make sure to select the "Save Results to Project Line List Metadata" and "Share results with projects" to allow the results to be shared with the project and sample.
+And, click the "Launch Pipeline" button
