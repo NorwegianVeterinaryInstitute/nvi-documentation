@@ -21,5 +21,4 @@ Those who want to get user names has to send email to Jeevan (bioinf-group@vetin
 <br> <br>
 <img width="1217" alt="Login Page" src="images/Login.png">
 
-<img width="1217" alt="Screenshot 2024-03-11 at 14 37 04" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/7045e614-2b2b-4f14-9bf8-389c3d1f5f36">
 <br> <br> 
