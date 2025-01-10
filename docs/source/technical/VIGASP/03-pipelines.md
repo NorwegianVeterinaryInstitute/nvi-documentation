@@ -2,7 +2,7 @@
 AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at NVI. Project managers can set up automated pipelines with customized parameters for each project. By clicking on the "shopping cart" symbol in top right corner will take you to list of pipelines available.
 <br><br>
 
-<img width="1268" alt="Screenshot 2024-02-26 at 15 51 00" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/705dd6ef-f4f8-4bee-b731-15f625812ea4">
+<img width="1268" alt="Pipeline Overview" src="images/Pipeline_list.png">
 
 <br><br>
 
@@ -53,11 +53,11 @@ AS of January 2024, VIGAS has 12 pipelines. 8 of them are developed in house at 
 # Analyses 
 In order to analyse a sample (or more than one sample), you have to select the samples in the project and click "Add to cart" button to send the fastq files for annalyses. <br> <br>
 
-<img width="918" alt="Screenshot 2024-02-26 at 16 13 55" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/e16a9702-ee26-4b99-9af9-b03873c8d14e"> <br> <br>
+<img width="918" alt="Choosing Samples" src="images/Choosing_samples.png"> <br> <br>
 
 Once the samples are added, you have to click on the "shopping cart" on the top right corner to see all the pipelines available. <br><br>
 
-<img width="1671" alt="Screenshot 2024-02-27 at 12 57 36" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/3772d134-3d04-47f8-9175-5e8b4a330eee">
+<img width="1671" alt="Added Samples" src="images/Added_samples.png">
 <br><br>
 
 Then, you can choose the pipeline you want to run by  clicking the "Select" butto under the pipeline
