@@ -20,6 +20,7 @@ Those who want to get user names has to send email to Jeevan (bioinf-group@vetin
 3. List of species data do you want to have access for. We wil talk to the managers of those projects in VIGAS and give you access to those data/metadata/results.
 4. Also, the person will have to meet one of the bioinformatics team members in person and to show the NVI ID card due to the data confidentiality agreements.
 
-<br> <br> 
-<img width="1217" alt="Screenshot 2024-03-11 at 14 37 04" src="https://github.com/NorwegianVeterinaryInstitute/nvi-documentation/assets/15940041/7045e614-2b2b-4f14-9bf8-389c3d1f5f36">
+<br> <br>
+<img width="1217" alt="Login Page" src="images/Login.png">
+
 <br> <br> 
