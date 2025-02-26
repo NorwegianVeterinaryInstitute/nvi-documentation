@@ -1,0 +1,42 @@
+# directory where the data will be downloaded - note the particular syntax
+OUTPUT_DIR : /path_download_metadata/
+
+# Your identification to NCBI
+EMAIL : <your login in NCBI email>
+
+API_KEY : <paste your api key>
+
+# A little trick so that NCBI does not reject your download because you are trying
+# to fast too many downloads
+FORCE_PAUSE_SECONDS : 0.5
+
+# sqlite Database that will be created where the metadata will be downloaded
+DATABASE : providencia_db.sqlite
+
+# Table that will be created in your sqlite database
+TABLES :
+  - BioSample
+
+# Query definition
+SEARCH_TERMS :
+  # database searched : search syntax
+  - BioSample : Providencia[Orgn]
+
+# Your data will go in the sqlite database in the different tables and columns
+TABLE_COLUMNS :
+  # Table name in sqlite database
+  - BioSample :
+    # Filed name and : content that will be downloaded into the sqllite databse
+    - BioSampleAccession: BioSample, accession
+    - BioSampleTitle: Title
+    - BioSampleName: Id, db_label, Sample name
+    - BioSampleOrganism: Description, OrganismName
+    - BioSampleType: Attribute, harmonized_name, sample_type
+    - BioSampleStrain: Attribute, harmonized_name, strain
+    - BioSampleCollectionDate: Attribute, harmonized_name, collection_date
+    - BioSampleCountry: Attribute, harmonized_name, geo_loc_name
+    - BioSampleLatLon: Attribute, harmonized_name, lat_lon
+    - BioSampleHost: Attribute, harmonized_name, host
+    - BioSampleHostDisease: Attribute, harmonized_name, host_disease
+    - BioSampleIsolationSource: Attribute, harmonized_name, isolation_source
+    - BioSampleComment: Description, Comment
