@@ -40,13 +40,20 @@ The [Version Control with Git from Software Carpentry](https://swcarpentry.githu
 ### 2.2 For SAGA/NIRD
 
 Refer to the [SAGA documentation](https://documentation.sigma2.no/getting_started/ssh.html).
-Remember to copy your public key (ending with `.pub`) to the server (SAGA/NIRD).
+Remember to copy your public key (ending with `.pub`) to the server (SAGA/NIRD). This copies the autorization to SAGA / NIRD
+
+```bash
+# Windows (in gitbash)
+ssh-copy-id -i /c/Users/<VIuser>/.ssh/id_ed25519 myusername@saga.sigma2.no
+# Linux 
+ssh-copy-id -i ~/.ssh/id_ed25519 myusername@saga.sigma2.no
+```
 
 > **Note:** To differentiate between keys, enable file extensions in Windows File Explorer. 
 Go to preferences and activate "show file extensions." 
 It is also recommended to show hidden files, as Git repositories contain a `.git` directory, which is hidden by default.
 
-Add the keys to the SSH key agent:
+Add the keys to the SSH key agent (on the computer you are using):
 
 ```bash
 # Example using Git Bash
