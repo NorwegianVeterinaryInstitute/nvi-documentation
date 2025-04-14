@@ -1,0 +1,921 @@
+---
+title: "ML trees to time trees with Bactdating"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: "`r params$author`"
+params:
+  tree_file: "/home/vi2067/Documents/onedrive_sync/NEW_WORK/2_Projects/2023/1_ISAV_Bjorn/Diverse_ISAV/bactdating/data/salaks_tree_ALL_muscle.contree" 
+  outgroup_name: "glesvaerAllSeg2.fasta.ref"
+  metadata_file: "/home/vi2067/Documents/onedrive_sync/NEW_WORK/2_Projects/2023/1_ISAV_Bjorn/Diverse_ISAV/bactdating/data/metadata_muscle.csv"
+                  
+  author: "Eve Fiskebeck"
+  
+output: 
+  prettydoc::html_pretty:
+  theme: cayman
+  highlight: github
+  author: params$author
+---
+
+This tutorial will: 
+- give you the tools to do tip-dating of ML trees posterior phylogenetic inference
+eg. with IQTREE/ALPACCA 
+- show you how to can prepare and convert dates data and phylogenetic trees in
+different formats (incl. tables)
+- give you example of tree rooting and taxon droping from the tree. 
+
+- show you how you can save graphs that are displayed automatically at object creation 
+- show you how you can save results stored in an object to a file (sink)
+
+- show you some tricks to how methods are implemented, and view underlying code
+- serve a little introduction how to use Rmarkdown as analysis template 
+so you can rerun by calling it with different parameters easily
+
+## Introduction 
+
+[Didelot et al. 2018](https://pubmed.ncbi.nlm.nih.gov/30184106/) introduced the 
+R package [Bactdating](https://github.com/xavierdidelot/BactDating) that implements 
+a Bayesian method to infer ancestral dates of splitting events, i.e. estimate the
+date of ancestral nodes. 
+
+
+The advantage of this phylogenetic time-dating method is that it assumes that the
+phylogenetic relationships between genomes is already known. This means that 
+you can use an already existing ML phylogenetic tree (e.g. inferred with 
+ALPACCA) to reconstruct a "time-tree".
+
+Note that the method will benefit that the taxa analyzed are sample over the total
+range of the period (ie, more or less uniformly)
+
+New models have been implemented in BactDating, and are described here: 
+[Didelot et al, 2021](https://academic.oup.com/mbe/article/38/1/307/5877436)
+
+
+## Links and recommendations
+
+[Github](https://github.com/xavierdidelot/BactDating) and its [short start instructions](https://xavierdidelot.github.io/BactDating/)
+
+[Article](https://academic.oup.com/nar/article/46/22/e134/5089898)
+
+The vignettes provide some instructions to start (we build this tutorial on those). 
+Some additional and useful information is to be found in the issues from the repository,
+Should you use this method, I encourage you to go trough those that can help with
+interpretation. 
+
+Much of the information is actually found in the closed Github issues, should 
+you use this method, I encourage you to look at relevant issues if you are stuck. 
+
+## Preliminarty: Configuration and installation`
+
+- setting up the directory (project) where the code is, aka, where this script should run from: 
+```{r}
+my_project_dir = "/home/vi2067/Documents/onedrive_sync/NEW_WORK/2_Projects/2023/1_ISAV_Bjorn/bactdating"
+
+```
+
+> this parts sets your running and knitting options in the "my_project_dir" 
+> and indicates the default options when rendering
+
+```{r, setup, include=FALSE}
+knitr::opts_knit$set(root.dir = my_project_dir)
+knitr::opts_chunk$set(echo = TRUE)
+# knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+- this is strictly to make the markdown notebook work 
+```{r}
+if (!require("prettydoc")) install.packages("prettydoc")
+```
+
+
+- Installation of bactdating
+```{r}
+if (!require("devtools")) install.packages("devtools")
+
+if (!require("BactDating")) 
+  devtools::install_github("xavierdidelot/BactDating",
+                           dependencies = TRUE, 
+                           upgrade = "ask",
+                           build_vignettes = TRUE)
+```
+- installations other dependencies ggtree 
+
+```{r}
+if (!require("ggtree")) 
+  devtools::install_github("YuLab-SMU/ggtree",
+                           dependencies = TRUE, 
+                           upgrade = "ask",
+                           build_vignettes = TRUE)
+```
+
+> note for some reason, sometimes vignettes refuse to be built .... 
+
+
+- Install packages listed bellow if you do not already have installed them  
+```{r Do not run example, eval=FALSE, include=FALSE}
+install.packages("package", dependencies = TRUE)
+```
+
+
+- loading packages
+```{r}
+# part of tidyverse - can install tidiverse
+library(dplyr)
+library(lubridate) 
+library(ggtree)
+library(BactDating)
+library(ape)
+library(Cairo) # hum can be tricky to install  
+# install.packages("cairoDevice")
+library(coda)
+library(treedata.table)
+library(ggplot2)
+```
+
+You see that the functions of some package mask the functions of other packages,
+because, well they have the same name.
+
+So if you need to use one function from a package while its functionnality is 
+masked, you can use `packagename::function` 
+<!--
+install.packages(c("textshaping", "downlit", "ragg"),  dependencies = T)
+
+p_load(here, , ape, lubridate, Cairo, ggplot2, ggnewscale,
+       ggforce, lubridate, , stringr, coda)
+--> 
+
+## Bactdating 
+
+There is a tutorial in the vignettes, but sometimes the vignettes refuse to 
+create. So you can look at the content here: 
+- looking at [vignettes](https://github.com/xavierdidelot/BactDating/tree/master/vignettes) 
+If vignettes were created, you can look at those like that: 
+```{r}
+browseVignettes("BactDating")
+```
+
+
+Backdating allow to adjust the branches length of a phylogeny tree, and
+estimate the dates of ancestral nodes (confidence interval), of an already 
+produced ML tree (eg. with IQTREE), when you have dates of for the leaves/tips.
+
+I can also find the root, or use a root you defined yourself (eg. using an outgroup)
+to do so. 
+
+However, all this will only work provided that you have a **temporal signal**, 
+~ meaning that the accumulated evolutionary changes over time are correlated 
+with branch length (eg. linear correlation), aka, a molecular clock exists.
+
+Here we will look how to run BactDating both with rooted and unrooted trees.
+
+## 1. Prepare metadata and tree 
+
+### 1.1 Dates 
+- metadata for dates have to be in 'years.fraction' and in intervals of years: 
+`col: start, col: stop` if there is some unpression. If you have a unknown lower 
+or upper bound, use `NA` in one side. 
+
+- The easiest is to format your dates as standard format eg `dd-mm-yyyy` and 
+convert the dates in fraction of years in R. 
+
+Example: 
+> for a metadata file, csv format with `;` as delimiters
+
+```{r}
+my_metadata <- read.csv(params$metadata_file, 
+                        header = TRUE,
+                        sep = ";")
+
+my_dates <- my_metadata %>%
+  select(file, lower_date, upper_date)
+
+str(my_dates)
+head(my_dates)
+```
+Here, dates are imported as `characters`
+
+### 1.2. Tree reading and preparation  
+
+```{r}
+my_tree <- read.tree(params$tree_file)
+is.rooted(my_tree)
+```
+
+The tree from ML inference with IQTREE is per default unrooted. 
+
+
+Here we have one thing we need to now. 
+BactDating need the `branch lenghts` in **number of substitutions**, not in number
+of substitutions per site (which is often provided by IQTREE, Note that IQTREE 
+however provide the number of sites, in most cases - see FAQ in IQTREE). 
+
+So here we need to re-scale the branch lengths ... 
+
+```{r}
+number_sites = 1200
+
+# rescalling the tree branch lenghts 
+my_tree$edge.length <- my_tree$edge.length * number_sites
+
+```
+
+
+### 1.3. Rooted vs unrooted tree
+
+You can do analyses both with rooted and unrooted tree. 
+
+#### 1.3.1 For unrooted tree
+
+If you do not want to use a specific root, then you can find an optimal root. 
+But this does not work with dates ranges. 
+
+A solution is to use the mean of the dates intervals, or the lower/upper bound 
+and see if it provides the same root ... 
+
+Here we give it a try using the mean date of the intervall. 
+We use the function `rowMeans` to calculate the average tipdate at each tip.
+```{r}
+BD_rooted <- initRoot(my_tree, rowMeans(ok_dates))
+is.rooted(BD_rooted)
+
+ggtree(BD_rooted, layout = "rectangular") + 
+  geom_tiplab(size = 1.5)
+```
+
+> We will see after, we can thus decide to keep this root, or decide to update...
+
+#### 1.3.2. For a rooted tree 
+If you have an opinion of where your root should be, eg. have a taxon you want
+to use as outgroup, you can root the tree as such: 
+
+```{r}
+my_outgroup <- "glesvaerAllSeg2.fasta.ref"
+my_rooted_tree <- ape::root(my_tree, outgroup = my_outgroup, resolve.root = T)
+```
+
+<!-- https://github.com/xavierdidelot/BactDating/issues/56 --> 
+Now you need to remove the out-group (the root position will be kept)
+```{r}
+my_rooted_tree <- ape::drop.tip(my_rooted_tree, my_outgroup)
+```
+
+> NB: When you do so, you do not need to update the root when running BactDating
+
+
+
+### 1.4 Transforming dates in correct format 
+
+Creating the date object 
+Here we have an uncertainty. This is represented as a range of dates. 
+For BactDating, the dates must be in `year.fraction`: (decimal dates) format. 
+
+> Note if you only have exact dates you can then use only one date column
+> Missing data (also in the range) are represented by NA
+
+AND the order of the ranges must be organized in the same order as the tree 
+tip.labels.  
+
+
+(1) First we transform the dates that were read as character to a date format. 
+Here we use the library lubridate. 
+In this examples the format of the character dates are formated as `dd-mm-yy`
+
+(2) Then we transform the dates in `year.fraction` with decimal_date function
+```{r}
+my_dates <- 
+  my_dates %>%
+  # transform columns in date format
+  mutate_at(.vars = vars(ends_with("date")), 
+            .funs = ~lubridate::dmy(.)) %>%
+  # transforms to decimal dates 
+  mutate_at(.vars = vars(ends_with("date")), 
+            .funs = ~lubridate::decimal_date(.)) 
+head(my_dates)
+```
+
+
+(3) Now we need to order the ranges of dates following the order of the tree 
+tip.labels. A solution to do that is to create a data frame with the tree labels, 
+and join this data frame with the table `my_dates`
+
+> Here we provide an example on how to match the order to the unrooted tree. 
+Do this with the tree you choose to analyze afterwards
+
+```{r}
+# joining allow to get the order correct
+my_dates <- 
+  data.frame("label" = my_tree$tip.label) %>%
+  left_join(my_dates, by = c("label"= "file"))
+```
+
+(4) Now we create the matrix that will serve as input for BactDating
+```{r}
+# creating the matrix, where dates organized in the same order of the tree
+ok_dates = cbind(my_dates$lower_date, my_dates$upper_date) 
+str(ok_dates)
+```
+
+---
+
+> Note that rooting might then change the order of the labels on the rooted tree
+compared to the order of labels of the un-rooted tree. 
+
+A way to check is: 
+```{r}
+sum(my_rooted_tree$tip.label != my_tree$tip.label)
+```
+If the sum is different than 0 or that there is an error message mentioning
+that the length are different. 
+
+> Consequently if you already did order your labels on an unrooted tree, you 
+need to redo this ordering ! 
+
+```{r}
+# all at once
+my_dates_rooted <- read.csv(params$metadata_file, 
+                        header = TRUE,
+                        sep = ";") %>%
+  select(file, lower_date, upper_date) %>%
+  mutate_at(.vars = vars(ends_with("date")), 
+            .funs = ~lubridate::dmy(.)) %>%
+  mutate_at(.vars = vars(ends_with("date")), 
+            .funs = ~lubridate::decimal_date(.)) 
+
+my_dates_rooted <- 
+  data.frame("label" = my_rooted_tree$tip.label) %>%
+  left_join(my_dates_rooted, by = c("label"= "file"))
+
+ok_dates_rooted = cbind(my_dates_rooted$lower_date, my_dates_rooted$upper_date) 
+```
+
+---
+
+### 1.5 Do we have a temporal signal ?. 
+
+When we aim at inferring the dates of the nodes of the phylogenetic tree, we 
+hypothesize that evolutionary distances are correlated with evolutionary time. 
+While this makes sense theoretically, some mechanisms such as eg. reversal can 
+mask this signal. 
+
+This signal might failed to be apparent, inherent to your sampling design. 
+**Thus it is good practice to test that you actually have an temporal signal**. 
+If not, then do not expect BactDating to provide meaningful results.
+
+Again, it does not takes interval, we use the mean dates for each tips
+
+This is a regression test (r). The R^2 value is your correlation coefficient,
+it indicate the strength of the correlation, while the p value indicates
+the significance of the correlation.
+
+### 1.5.1 with "optimal root" tree
+
+I created the tip label on the unrooted tree - checking if the tiplabels 
+had the same order 
+```{r}
+sum(BD_rooted$tip.label != my_tree$tip.label)
+```
+
+Great, the order is the same (this is because the first taxon was supposed to be the root)
+
+```{r}
+r_DB_rooted <- roottotip(BD_rooted, 
+               rowMeans(ok_dates), 
+               permTest = 10000, # defaults
+               showPredInt = "gamma") # you can also use poisson for IC
+
+```
+
+
+### 1.5.2 rooted tree
+
+```{r}
+r_rooted <- roottotip(my_rooted_tree, 
+               rowMeans(ok_dates_rooted), 
+               permTest = 10000, # defaults
+               showPredInt = "gamma") # you can also use poisson for IC
+```
+### 1.5.3 Interpretation
+
+Example:
+The statistics are stored in the roototip regression object. 
+```{r}
+r_rooted
+```
+
+- The $rate - is estimated clock-rate (the number of substitutions per year)
+The intercept is the estimated origin (MRCA) of the clade, and the p value
+<!-- if I understand well -->
+
+<!--
+issue 32 
+Neither a high values of R2 nor a significant p-value are really strong evidence, because the root-to-tip approach is very rough due to the fact that root-to-tip distances are not independent of one another.
+
+The best test in my opinion is to make sure you get a larger clock rate in your analysis than in any analysis where the dates are permuted. Or even better, make sure that the 95% credible interval with correct dates does not overlap with any of the 95% credible intervals with permuted dates. For more information see:
+
+Duchêne, S., Duchêne, D., Holmes, E. C., and Ho, S. Y. W. 2015. The performance of the date-randomization test in phylogenetic analyses of time-structured virus data. Molecular Biology and Evolution 32:1895–1906.
+--> 
+
+### 1.5.4 A little trick
+
+The graph is created automatically, but does not go into an r object.
+Here is a trick you can use to save it: 
+
+<!-- - [ ] need to find a fix to install cairo on this ff... --> 
+
+```{r}
+png("temporal_signal_test.png", 
+    type = "cairo", 
+    width = 600)
+r_rooted <- roottotip(my_rooted_tree, rowMeans(ok_dates_rooted))
+dev.off()
+```
+
+### 1.5.5 Temporal signal with permutation test
+
+A permutation test can be used to measure the strength of the temporal signal.
+We your "sampling design" is has a certain distribution, it can induce a false
+impression of temporal trend. Ie non uniform sampling over time or lineages, or
+due to the population structure of the organism under study. 
+
+<!-- says its the same idea but does not exacly the same - and that is implemented
+in roottotip p value ... so might not be necessary REMOVE ?--> 
+
+The permutation test is a Mantel test between pairwise temporal and genetic distances.
+Dates are permuted between clusters (monophyletic groups with similar dates)
+
+> example with my rooted tree 
+
+```{r}
+# clustered permutation test
+ctot <- clusteredTest(my_rooted_tree, ok_dates_rooted)
+```
+```{r}
+print(ctot)
+```
+
+It is also possible to put dummy dates on all the taxa, and see if the model
+of BactDating VS model with dummy dates is better (but here we need to be 
+careful not to have a weird effect due to dummy dates selection). 
+See vignette: `BactDating_exampleTest.pdf`
+
+## 1.6 Running BactDating
+
+The simple way. if you want to adjust other parameters: check `?bactdate`
+
+## 1.6.1 Unrooted tree 
+```{r}
+res <- bactdate(my_tree, ok_dates, 
+                nbIts = 1e6,
+                updateRoot = T,
+                showProgress = T)
+```
+When we choose updating the root, it means that it will try at each subsequent 
+iteration to update the position of the root. I suggest to choose this option 
+when you do not know where the root should be, or if you are working with
+closely related isolates. 
+
+Assumption of this method: 
+- coalescent model with constant population size (eg. ~Wright Fisher model)
+
+
+
+## 1.6.2 Rooted tree 
+Here I do not want to update the root, as I have rooted myself
+```{r}
+res <- bactdate(my_rooted_tree, ok_dates_rooted, 
+                nbIts = 1e6,
+                updateRoot = F,
+                showProgress = T)
+```
+
+> NB: after that, analysis from rooted / unrooted trees is equivalent 
+
+
+## 1.6.3 Adjustment of parameters and model
+
+You can adjust parameters if you have some specific assumptions of additional 
+knowledge you want to account for. 
+
+Models are somewhat poorly described in the vignettes, they are discussed more 
+in depth in the paper, and you can gain some information in those issues: 
+
+- [issue 23](https://github.com/xavierdidelot/BactDating/issues/23)
+- [issue 39](https://github.com/xavierdidelot/BactDating/issues/39)
+- [issue 40](https://github.com/xavierdidelot/BactDating/issues/40)
+
+
+```{r}
+?bactdate 
+```
+
+
+<!-- Hum what is what is not soo clear ... I assume I got it right ---> 
+You can use different models. BactDating implement discrete (dis) and continuous 
+models (cont). Continuous models may be more precise (absence of rounding of 
+branch lengths, while discrete models are expected more stable) 
+<!-- effect on convergence then -->
+
+- strict clock without recombination (dis: "poisson", cont: "strictgamma"): 
+assumes constant rate of mutation on all the branches
+
+- relaxed clock without recombination (dist: "negbin", cont: "relaxedgamma"): 
+each branch has its own mutation rate, independently of each other. Branch rates are
+drawn from a specific distribution (here: Gamma)
+<!-- equivalent lognormal relaxed clock model from BEAST -->
+
+- "mixed" combined the strict and relaxed clock into a single model "mixedgamma"), 
+the best model is guessed depending on the data. 
+<!-- test with Bayesian Factor underlying --> 
+To know what model was used type: `res$pstrict`: if 0, a relaxed clock model was
+used exclusively, if closer to 1, then its a relaxed clock model was used.  
+
+- additive relaxed clock models: "..arc". Those model are hypothesized to be 
+better for studying pathogen outbreak and more rapid. (disc: "arc", cont: "arc" and the do it
+all "mixedcarc").
+
+
+If you are unsure, which model to use, you can use some you assume would be best
+you can run several models and compare those models (2 by 2) using 
+the difference in DIC with the function:
+
+```{r}
+?modelcompare
+```
+
+To account for recombination, you must use load output for Gubbins or Clonal frame,
+which includes the tree file ! and tell BactDating that it need to adjust for 
+the effect of recombination. 
+
+To load the trees and read results from ClonalFrame ML or Gubbins: 
+```{r}
+? loadCFML
+? loadGubbins
+```
+
+<!-- I assume ---> 
+Then when using BactDating, modify the option : `useRec = T`
+
+## 1.6.4 Evaluation of MCMC convergence 
+
+It is important to evaluate if the MCMC converged. If not, you will need
+to increase the number of iterations in the previous steps. 
+In some cases, it is possible that the temporal signal is too noisy, or that 
+you have too few clusters/data points (levels over the time-clusters over timespan, 
+in which case, convergence might be difficult or impossible to achieve. 
+
+
+In cases of failure of convergence, then only an alternative method might 
+be able to estimate timing of ancestor, which is Bayesian phylogenetic inference
+using tip dates, which uses the date information while searching for the best tree.
+Eg, with BEAST (version 1) or BEAST (version 2) which are two different BEAST 
+software. 
+
+### 1.6.4.1 plotting 
+A plotting method specific to bactdating has been added to the plot function. 
+
+We can evaluate convergence as such: 
+
+```{r}
+plot(res, "trace")
+```
+
+The less the variation between sampled iterations, the more indication the
+chain might have converged. Large variation, are indicative of lack of convergence.
+
+[An example that is not "too bad"](https://github.com/xavierdidelot/BactDating/issues/48)
+
+### 1.6.4.2 Effective Sample size of the MCMC chains
+
+What are effective sample sizes ? 
+(eg. read [here](https://www.johndcook.com/blog/2017/06/27/effective-sample-size-for-mcmc/)) 
+They represent an "equivalent representation of the number independent samples of the MCMC chain (so not real number sampled, but independent equivalent sampled).  
+
+Testing convergence with coda 
+```{r}
+# reformating mcmc results for coda
+mcmc = as.mcmc.resBactDating(res)
+# effective sample size 
+coda::effectiveSize(mcmc)
+```
+
+The results are (sampling size - should best be > 200) :
+- mu: The mean substitution rate 
+- sigma: The standard deviation of the per-.branch substitution rates
+- alpha : the coalescent unit <!-- hum --> 
+
+
+If the effective sample size is < 100 for any parameters, then the mcmc did not 
+converge at this number of iterations. 
+
+Defaults: 
+- mbIts : number of iterations : 10e5 (first half discarded as burning)
+- sampling rate : every 100 iterations
+
+
+### 1.6.4.3 Results exploration 
+
+The result object contains different types of information.
+
+```{r}
+print(res_unrooted)
+```
+
+exploration `res`
+```{r}
+str(res_unrooted)
+```
+
+You see
+- `res$tree`contains the point estimate of each node date, while `res$inputtree` 
+represent the tree that was used as input
+- `res$record` the MCMC chain sample
+- estimated root date `res$rootdate` and probability `res$rootprob`
+- `res$CI` is a matrix containing the 95% credible intervals on dating of all nodes in the tree. The rows of this matrix correspond to the nodes indexes. 
+
+Note the date can be different in `res$tree$root.time` : the mean when the root 
+is on the branch shown in `res$tree` than in `print(res)` where the root date is
+the mean when the root could be on any branch. 
+See [issue 17](https://github.com/xavierdidelot/BactDating/issues/17)
+
+The posterior probability of the **location of the root** is given by `res$rootprob`.
+See [issue 26](https://github.com/xavierdidelot/BactDating/issues/26)
+
+Getting detail information of the different results components :
+
+Example: 
+
+- Information in the result tree :
+```{r}
+str(res$tree)
+```
+  - subs : number of substitutions on a branch
+  - edge.length : estimated duration of the branch 
+Possible to caculate the local rate of evolution of branch = subs/edge.lenght
+See [issue 38](https://github.com/xavierdidelot/BactDating/issues/38)
+
+<!-- 
+ res$CI The rows of this matrix correspond to the indexes of the res$tree which is a phylo object (from the ape package) representing the best estimate of the dated phylogeny. To use this you need a bit of familiarity with the way phylo objects work, but this is easier than making sense of the ggplot of FigTree outputs.
+
+The mu estimated by BactDating will then be in units of substitutions per genome, or more precisely per core genome in your case, ie it will represent how many sbustitutions happen per year throughout the core genome. You should not try to extrapolate for the non-core, since the rates could be different there than in the core.
+
+--> 
+
+
+A plotting method implemented in plot function, allows to easily plot the results
+in a tree form ... 
+> but it might not be as nice as you want to display. We will see later how to
+transform the data to improve those plots with ggtree
+
+The result object contains also information about the Confidence Interval of the
+nodes dates 
+```{r}
+plot(res, 'treeCI')
+```
+
+#### Apparte: How the heck did this plot appear with the normal plot function? 
+> This is a little apparte to help find out how the author does its plots
+He implemented a new method, for the results object of bactdating 
+
+- find the class of the object
+
+```{r}
+class(res) # "resBactDating"
+```
+
+```{r}
+methods("plot")
+```
+We see that there is a method specific for objects of this class: `plot.resBactDating*`
+
+- we can access the function definition as such : 
+```{r}
+BactDating:::plot.resBactDating
+# or if you do not know exactly from which package it has been imported and the call
+getAnywhere(plot.resBactDating)
+```
+> This can allow us to find out how he did the plots, so we can reproduce them in another plotting system
+eg. ggplot2/ggtree
+
+<!-- 
+plot.phylo(x$tree, ...) # is the plot function correspondence for the tree
+See: 
+https://github.com/xavierdidelot/BactDating/blob/master/R/dualScale.R
+--> 
+
+### 1.6.4 Matching the tree and the data associated in the results from BactDating...
+
+A phylogenetic tree can be represented as a table. If you wonder why you should
+use labels to represent tip labels and labels when you represent points at internal
+nodes, this is because the tree represented as a table look like that ...
+```{r}
+View(as_tibble(res$tree))
+```
+and because you use the variable names in the aesthetic mapping for ggtree ...
+
+### 1.6.4.1 Extracting the ancestral dates at the nodes as table 
+Lets reconstruct the table with the confidence intervals associated to the nodes
+
+
+```{r}
+# includes tip label and node labels
+taxa_nodes <- c(res$tree$tip.label,res$tree$node.label)
+# give us the node numbers 
+nodes_nb <- seq(1, length(taxa_nodes), 1)
+# low date of IC 
+CI_df <- tibble(
+  node =  nodes_nb,  
+  label = taxa_nodes,
+  low_IC = res$CI[,1],
+  high_IC = res$CI[,2]
+  )
+```
+
+Now we can covert to dates that we are better at reading, as its in fraction
+```{r}
+CI_df <- 
+  CI_df %>%
+  mutate(across(ends_with("IC"), ~ date_decimal(.)))
+```
+
+
+### 1.6.4.2 Transforming BactDating results to treedata object that can be used
+for plotting with ggtree 
+
+When plotting a phylogenetic tree, the data might be represented differently 
+depending on the plotting packages... 
+
+There is a function to convert the data from BactDating to treedata object, 
+a class of object that can be used to plot trees with ggtree. 
+
+
+Example of transformation adapted from [Issue 9](https://github.com/xavierdidelot/BactDating/issues/9)
+
+```{r}
+res_data  <- as.treedata.resBactDating(res) 
+# a list of 2 results - tree + intervals
+str(res_data)
+```
+
+```{r}
+# the tree 
+res_data[[1]] 
+# the associated data 
+head(res_data[[2]] )
+# The intervals for dating from node position
+res_data[[2]]$length_0.95_HPD 
+# divergence times (node heights)  --- .
+res_data[[2]]$height_0.95_HPD 
+```
+
+Note now the intervals are presented differently than in years, but rely on the
+node positions. 
+
+> Note: We can see the code of the function with `as.treedata.resBactDating`, or 
+[here](https://github.com/xavierdidelot/BactDating/blob/master/R/methods.R) 
+Line 173. 
+
+So now we can create the treedata object that we will use with ggtree
+
+```{r}
+# create the combined dataframe
+res_treedata_df <- 
+  # the phylo object (tree)
+  tibble::as_tibble(res_data[[1]]) %>%
+  # the intervals corrected as it should be
+  full_join(
+    tibble::as_tibble(res_data[[2]]) %>%
+      mutate_at(.vars = "node", as.numeric)
+    ) %>%
+  # we add the intervals as date, in case we want to label some nodes or tips ..
+  full_join(
+    CI_df
+  )
+
+View(res_treedata_df)
+```
+
+
+```{r}
+# create the treedata object
+res_treedata <-  treeio::as.treedata(res_treedata_df)
+```
+
+## 1.7 Plotting with ggtree
+### 1.7.1 BeAware !! 
+
+You might encounter problem displaying correctly the IC around the nodes. 
+see [here](https://groups.google.com/g/bioc-ggtree/c/wuAlY9phL9Q)
+
+```{r}
+ggtree(res_treedata) +
+  geom_range(range='length_0.95_HPD', color='red', alpha=.3, size=2)
+```
+
+<!--
+Height is the time from node to root.
+--> 
+
+Which seems to be possible to also plot as is: 
+```{r}
+ggtree(res_treedata) + 
+  geom_range(range='height_0.95_HPD', color='blue', alpha=.3, size=2, 
+             branch.length="height") 
+```
+because it depends on the way the tree is scaled. The latest (using height) appear to be equivalent to what is done in FigTree, because it does use the other scaling per
+default. <!-- though I do not understand that well yet ! -->
+See [here](http://bioconductor.riken.jp/packages/3.4/bioc/vignettes/ggtree/inst/doc/treeImport.html)
+
+>THIS require to perform a carrefull SANITY Check: check the ranges are matching 
+those  plotted with `plot(res, 'treeCI')` and choose the appropriate one.
+
+- [ ] Illustrate with the example I had done with yersinia !! I had that
+
+
+### 1.7.2 ggtree 
+Adding a time based tree scale can help visualize the IC for the nodes time: 
+```{r}
+tree_plot <- 
+  ggtree(res_treedata,  
+                  layout = "rectangular", 
+                  ladderize = T , 
+                  root.position = res$rootdate, 
+                  as.Date = F)  +
+  # still a little problem ? 
+  geom_range(range='length_0.95_HPD', 
+             center = "auto",
+             color='blue', alpha=.3, size=2) +
+  scale_x_continuous(breaks = seq(1860, 2025, 10), 
+                     minor_breaks = seq(1860, 2025, 1)) +
+  theme_tree2() +
+  # helps us to see better 
+  theme(axis.text.x=element_text(angle=-90),
+        panel.grid.major.x = element_line(color = "pink", size = .25, linetype = 1),
+        panel.grid.minor.x = element_line(color = "pink", size = .25, linetype = 2))
+
+tree_plot
+```
+
+### 1.7.2 additional annotation
+
+Finding the node number I am interesting in annotating. 
+Note here I cannot use `geom_nodelab` because the bootstrap values are contained
+in the nodelabs, I need the index of the nodes
+```{r}
+tree_plot + 
+  geom_text(aes(label = node), color = "red", size = 2)
+```
+
+or 
+```{r}
+tree_plot +
+  geom_label(aes(label = node), color = "red", size = 2)
+```
+
+I am interested in annotating the node 121:
+
+```{r}
+node_interest <- 121
+tree_plot +
+  # Highlighting descendant group I am intersted
+  geom_balance(node_interest, fill = "yellow" )
+```
+
+Viewing selected clade of the tree
+```{r}
+my_text <- paste(
+  date(res_treedata_df$low_IC[node_interest]), 
+  date(res_treedata_df$high_IC[node_interest]),
+  sep = " - "
+  )
+
+
+viewClade(tree_plot, 120,
+          xmax_adjust = -10) +
+  # This does not adjust so well with ranges - we could extract
+  geom_balance(node_interest, fill = "yellow", alpha = .1) +
+  #geom_text2(aes(label = paste(low_IC, high_IC), 
+  #               subset = node == 121))
+  geom_text2(aes(label = my_text, 
+                 subset = node == node_interest,
+                 vjust = -1))
+```
+
+## 1.8 Trick to parse your results to output file
+
+```{r}
+outfile <- "Bactdating_results.txt"
+#open the connection to an output file for writting
+sink(file = outfile) 
+
+# Write what you need in the output file 
+cat("Temporal signal test - on median date (cannot be done accounting for uncertainty) \n")
+print(res) # or whatever you want
+
+cat("=======================================\n")
+
+# When you have finished writing your results: close the output file
+sink()
+```
+
+
+
+
