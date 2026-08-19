@@ -5,7 +5,7 @@
 
 ## What is the NIRD archive?
 
-The NIRD Research Data Archive is a place to store datasets — for example old project data — that are no longer actively needed at the institute but should be preserved and made findable.
+The NIRD Research Data Archive is a place to store analysis datasets — for example old project results and script, but not raw sequencing data (that should go into ENA) — that are no longer actively needed at the institute but should be preserved and made findable.
 
 - Archive: <https://archive.sigma2.no/>
 - User guide: <https://documentation.sigma2.no/nird_archive/user-guide.html>
@@ -19,7 +19,7 @@ The NIRD Research Data Archive is a place to store datasets — for example old 
 
 - **Identify the dataset** you want to archive, and note where it is stored (e.g. on NIRD `datalake`/`datapeak`) and its size. 
 - **Ask permission from the data owner(s)/original project members** before archiving their data, especially if you are not the sole owner. Also check with them whether the data should also be submitted to a public repository such as NCBI/ENA (for sequence data), since this may be a separate step.
-- **Clean up the dataset**. Remove any intermediate analysis files that you could recreate by using your analysis / pipelines scripts. These files should not be archived. Archive your final datasets. And don't forget to create a file with the md5sum or sha256sum for the datasets to the folder where your data is. File corruption can be tracked by using these values. 
+- **Clean up the dataset**. Remove any intermediate analysis files that you could recreate by using your analysis / pipelines scripts. These files should not be archived. Archive your final datasetsin the following way. First compress all files with gzip to reduce the overall dataset size.  And don't forget to create a file with the md5sum or sha256sum for the datasets in the folder where your data is. File corruption can be tracked by using these values. Then combine all the files of your project into a single tar archive. Also create a md5sum or sha256sum for the entire archive and store that output as a textfile. The tar file and the text file with the md5/sha256 sum will be uploaded to the archive
 
 ## Step 1: Start a new dataset entry
 
@@ -91,7 +91,7 @@ Uploading data via the **NIRD Project** option works through a **manifest file**
    .import-archive_12ade14d-9b39-4995-a44f-e63ab59eb730
    ```
 
-3. **List the files to upload** inside the manifest file, one full path per line. Add an extra `/` in the path right before the part you actually want copied — this ensures only the dataset itself (not the entire directory structure above it) is copied to NIRD. For example:
+3. **List the files to upload** inside the manifest file, one full path per line. Add an extra `//` in the path right before the part you actually want copied — this ensures only the dataset itself (not the entire directory structure above it) is copied to NIRD. For example:
 
    ```
    /nird/datapeak/NS9305K/datasets/metagenomics///Koksfri_kylling_rawdata_2017.tar.gz
