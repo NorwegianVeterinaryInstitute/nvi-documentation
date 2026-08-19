@@ -19,7 +19,7 @@ The NIRD Research Data Archive is a place to store datasets — for example old 
 
 - **Identify the dataset** you want to archive, and note where it is stored (e.g. on NIRD `datalake`/`datapeak`) and its size. 
 - **Ask permission from the data owner(s)/original project members** before archiving their data, especially if you are not the sole owner. Also check with them whether the data should also be submitted to a public repository such as NCBI/ENA (for sequence data), since this may be a separate step.
-- **Clean up the dataset**. Remove any intermediate analysis files that you could recreate by using your analysis / pipelines scripts. These files should not be archived. Archive your final datasets. And don't forget to create a file with the md5sum or sha256sum for the datasets to the folder where your data is. In that we corruption of files can be tracked. 
+- **Clean up the dataset**. Remove any intermediate analysis files that you could recreate by using your analysis / pipelines scripts. These files should not be archived. Archive your final datasets. And don't forget to create a file with the md5sum or sha256sum for the datasets to the folder where your data is. File corruption can be tracked by using these values. 
 
 ## Step 1: Start a new dataset entry
 
