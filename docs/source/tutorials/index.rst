@@ -25,6 +25,7 @@ that should be installed, etc.
     Using BCF Tools <02-bcftools.md>
     
     Getting Qiime 2024.5 via container <12-qiime2_docker.md>
+    How to archive data on the NIRD research archive <13-nra_tutorial>
 
     External tutorials <11-external_tutorials.md>
     
